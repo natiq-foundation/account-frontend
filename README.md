@@ -1,1 +1,1 @@
-# nq-account
+# natiq-account
