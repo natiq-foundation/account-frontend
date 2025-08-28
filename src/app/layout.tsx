@@ -1,4 +1,4 @@
-import { Main } from "@yakad/ui";
+import { Main, Screen } from "@yakad/ui";
 import { StorageProvider } from "@/contexts/storageContext";
 import ThemeWrapper from "./ThemeWrapper";
 import AppBarWrapper from "./AppBarWrapper";
@@ -12,9 +12,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <body>
                 <StorageProvider>
                     <ThemeWrapper>
-                        <AppBarWrapper />
-                        <Main>{children}</Main>
-                        <FooterWrapper />
+                        <Screen>
+                            <AppBarWrapper />
+                            <Main>{children}</Main>
+                            <FooterWrapper />
+                        </Screen>
                     </ThemeWrapper>
                 </StorageProvider>
             </body>

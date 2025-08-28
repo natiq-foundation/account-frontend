@@ -27,9 +27,16 @@ export default function AppBarWrapper({ ...restProps }: AppBarProps) {
                 Natiq
             </h1>
             <Spacer />
-            <Link href="/discover/search" passHref>
-                <Button variant="outlined" icon={<Symbol icon="search" />}>
-                    <Display minWidth="xs">Search</Display>
+            <Link href="/login" passHref>
+                <Button
+                    variant="outlined"
+                    icon={
+                        <Display minWidth="xs">
+                            <Symbol icon="login" />
+                        </Display>
+                    }
+                >
+                    Login
                 </Button>
             </Link>
         </AppBar>
