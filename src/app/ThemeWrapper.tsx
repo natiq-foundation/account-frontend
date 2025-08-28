@@ -3,10 +3,10 @@
 import { Theme, ThemeProps } from "@yakad/ui";
 import { useStorage } from "@/contexts/storageContext";
 
-const ThemeWrapper = ({
+export default function ThemeWrapper({
     children,
     ...restProps
-}: Omit<ThemeProps, "mode" | "color" | "zoom">) => {
+}: Omit<ThemeProps, "mode" | "color" | "zoom">) {
     const { storage } = useStorage();
 
     return (
@@ -19,6 +19,4 @@ const ThemeWrapper = ({
             {children}
         </Theme>
     );
-};
-
-export default ThemeWrapper;
+}

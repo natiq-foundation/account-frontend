@@ -1,28 +1,23 @@
-import type { Metadata } from "next";
+import { Main } from "@yakad/ui";
 import { StorageProvider } from "@/contexts/storageContext";
 import ThemeWrapper from "./ThemeWrapper";
+import AppBarWrapper from "./AppBarWrapper";
+import FooterWrapper from "./FooterWrapper";
 
 export const runtime = "edge";
 
-export const metadata: Metadata = {
-    title: "Natiq",
-    description: "Natiq main app",
-};
-
-const Layout = ({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) => {
+export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <body>
                 <StorageProvider>
-                    <ThemeWrapper>{children}</ThemeWrapper>
+                    <ThemeWrapper>
+                        <AppBarWrapper />
+                        <Main>{children}</Main>
+                        <FooterWrapper />
+                    </ThemeWrapper>
                 </StorageProvider>
             </body>
         </html>
     );
-};
-
-export default Layout;
+}

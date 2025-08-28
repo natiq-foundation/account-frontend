@@ -1,6 +1,8 @@
-function Head() {
+export default function Head() {
     return (
         <>
+            <title>Natiq Account Center</title>
+            <meta name="description" content="Natiq account center" />
             <meta charSet="utf-8" />
             <meta
                 name="viewport"
@@ -13,5 +15,3 @@ function Head() {
         </>
     );
 }
-
-export default Head;
