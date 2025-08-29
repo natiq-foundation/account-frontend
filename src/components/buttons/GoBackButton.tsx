@@ -6,7 +6,10 @@ import { Button, ButtonProps } from "@yakad/ui";
 import { Symbol } from "@yakad/symbols";
 
 export const GoBackButton = forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ title, icon, onClick, children, ...restProps }, ref) => {
+    function GoBackButton(
+        { title, icon, onClick, children, ...restProps },
+        ref
+    ) {
         const router = useRouter();
 
         const handleGoBack = () => {
@@ -29,4 +32,3 @@ export const GoBackButton = forwardRef<HTMLButtonElement, ButtonProps>(
         );
     }
 );
-GoBackButton.displayName = "GoBackButton";

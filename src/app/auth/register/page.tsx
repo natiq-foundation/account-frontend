@@ -1,14 +1,5 @@
 import Link from "next/link";
-import {
-    Button,
-    Form,
-    H1,
-    Hr,
-    InputField,
-    Row,
-    Spacer,
-    Stack,
-} from "@yakad/ui";
+import { Button, Form, H1, Hr, InputField, Row, Stack } from "@yakad/ui";
 
 export default function Page() {
     return (

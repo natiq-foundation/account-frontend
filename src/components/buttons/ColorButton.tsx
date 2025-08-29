@@ -31,7 +31,10 @@ const optionsMap: Record<ThemeColor, { name: string; title: string }> = {
 };
 
 export const ColorButton = forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ title, icon, onClick, children, ...restProps }, ref) => {
+    function ColorButton(
+        { title, icon, onClick, children, ...restProps },
+        ref
+    ) {
         const { storage, setStorage } = useStorage();
 
         const currentOption: ThemeColor =
@@ -67,4 +70,3 @@ export const ColorButton = forwardRef<HTMLButtonElement, ButtonProps>(
         );
     }
 );
-ColorButton.displayName = "ColorButton";

@@ -29,7 +29,10 @@ const optionsMap: Record<
 };
 
 export const DarkStyleButton = forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ title, icon, onClick, children, ...restProps }, ref) => {
+    function DarkStyleButton(
+        { title, icon, onClick, children, ...restProps },
+        ref
+    ) {
         const { storage, setStorage } = useStorage();
 
         const currentOption: DarkStyle =
@@ -65,4 +68,3 @@ export const DarkStyleButton = forwardRef<HTMLButtonElement, ButtonProps>(
         );
     }
 );
-DarkStyleButton.displayName = "DarkStyleButton";
