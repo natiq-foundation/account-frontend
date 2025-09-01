@@ -1,5 +1,5 @@
 import { H1, Screen } from "@yakad/ui";
-import { GoBackButton } from "@/components";
+import { GoBackButton } from "@/components/buttons/GoBackButton";
 
 export default function NotFound() {
     return (

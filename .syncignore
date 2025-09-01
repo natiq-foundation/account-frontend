@@ -1,0 +1,6 @@
+.syncignore
+/public
+metadata.json
+package.json
+package-lock.json
+example*.*

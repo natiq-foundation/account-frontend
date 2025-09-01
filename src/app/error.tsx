@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { Button, H1, P, Screen } from "@yakad/ui";
 import { Symbol } from "@yakad/symbols";
-import { GoBackButton } from "@/components";
+import { GoBackButton } from "@/components/buttons/GoBackButton";
 
 type ErrorProps = {
     error: Error & { digest?: string };

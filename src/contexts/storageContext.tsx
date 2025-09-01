@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeColor, DarkStyle } from "@yakad/ui";
 import {
     createContext,
     useContext,
@@ -9,7 +10,6 @@ import {
     Dispatch,
     SetStateAction,
 } from "react";
-import { ThemeColor, DarkStyle } from "@yakad/ui";
 
 // ----- 1. Types for each storage section -----
 interface Settings {

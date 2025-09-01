@@ -1,23 +1,20 @@
-import { Main, Screen } from "@yakad/ui";
 import { StorageProvider } from "@/contexts/storageContext";
 import ThemeWrapper from "./ThemeWrapper";
-import AppBarWrapper from "./AppBarWrapper";
-import FooterWrapper from "./FooterWrapper";
+import metadataJson from "./metadata.json";
 
 export const runtime = "edge";
+
+export const metadata = {
+    title: metadataJson.title,
+    description: metadataJson.description,
+};
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <body>
                 <StorageProvider>
-                    <ThemeWrapper>
-                        <Screen>
-                            <AppBarWrapper />
-                            <Main>{children}</Main>
-                            <FooterWrapper />
-                        </Screen>
-                    </ThemeWrapper>
+                    <ThemeWrapper>{children}</ThemeWrapper>
                 </StorageProvider>
             </body>
         </html>
