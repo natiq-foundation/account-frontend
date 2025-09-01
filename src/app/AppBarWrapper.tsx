@@ -8,13 +8,13 @@ import {
     AppBarProps,
 } from "@yakad/ui";
 import { Symbol } from "@yakad/symbols";
-import LogoIcon from "@/assets/svg/natiqLogoIcon";
+import { NatiqLogoIcon } from "@/assets/svg/NatiqLogoIcon";
 
 export default function AppBarWrapper({ ...restProps }: AppBarProps) {
     return (
         <AppBar {...restProps}>
             <SvgIcon size={5}>
-                <LogoIcon />
+                <NatiqLogoIcon />
             </SvgIcon>
             <h1
                 style={{
