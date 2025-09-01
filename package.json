@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": false,
     "scripts": {
-        "sync": "yakad sync -r https://github.com/NatiqQuran/yakad-template.git -v",
+        "sync": "yakad-sync -r https://github.com/NatiqQuran/yakad-template.git -v",
         "dev": "next dev --turbopack",
         "build": "next build --turbopack",
         "start": "next start",
