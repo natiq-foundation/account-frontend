@@ -117,7 +117,7 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
                         ...prev.options,
                         ...parsed.options,
                         playing: false, // force playing to false on load
-                        playBoxShow: storage.selected.ayahUUID !== undefined,
+                        playBoxShow: storage.selected.ayahUUID !== undefined, //we don't need rerun this on storage change
                     },
                 }));
             } catch (error) {
@@ -127,7 +127,7 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
                 );
             }
         }
-    }, []);
+    }, []); //eslint-disable-line
 
     // Save to localStorage on storage change
     useEffect(() => {

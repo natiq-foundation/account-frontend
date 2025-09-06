@@ -5,7 +5,7 @@
     "scripts": {
         "sync": "yakad-sync -r https://github.com/NatiqQuran/yakad-template.git -v",
         "dev": "next dev --turbopack",
-        "build": "next build --turbopack",
+        "build": "next build",
         "start": "next start",
         "lint": "next lint"
     },
