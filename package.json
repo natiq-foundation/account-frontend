@@ -1,0 +1,32 @@
+{
+    "name": "natiq-account",
+    "version": "0.1.0",
+    "private": false,
+    "scripts": {
+        "sync": "yakad-sync -r https://github.com/NatiqQuran/yakad-template.git -v",
+        "dev": "next dev --turbopack",
+        "build": "next build --turbopack",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "react": "19.1.0",
+        "react-dom": "19.1.0",
+        "next": "15.1.4",
+        "@ntq/sdk": "1.1.70",
+        "@yakad/lib": "^1",
+        "@yakad/symbols": "^1",
+        "@yakad/ui": "^1",
+        "@yakad/x": "^1"
+    },
+    "devDependencies": {
+        "@yakad/sync": "^1",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "@eslint/eslintrc": "^3",
+        "eslint": "^9",
+        "eslint-config-next": "15.1.4",
+        "typescript": "^5"
+    }
+}
