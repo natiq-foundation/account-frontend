@@ -14,13 +14,13 @@
         "react-dom": "19.1.0",
         "next": "15.1.4",
         "@ntq/sdk": "1.1.70",
-        "@yakad/lib": "^1",
-        "@yakad/symbols": "^1",
-        "@yakad/ui": "^1",
-        "@yakad/x": "^1"
+        "@yakad/lib": "latest",
+        "@yakad/symbols": "latest",
+        "@yakad/ui": "latest",
+        "@yakad/x": "latest"
     },
     "devDependencies": {
-        "@yakad/sync": "^1",
+        "@yakad/sync": "latest",
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-dom": "^19",
