@@ -2,42 +2,51 @@
 
 import { forwardRef } from "react";
 import classNames from "classnames";
-import { Button, ButtonProps, DarkStyle } from "@yakad/ui";
+import { Button, ButtonProps } from "@yakad/ui";
 import { IconCode, Symbol } from "@yakad/symbols";
 import { useStorage } from "@/contexts/storageContext";
 
-const order: DarkStyle[] = ["system", "light", "dark"];
+const order: number[] = [75, 90, 100, 110, 125];
 
 const optionsMap: Record<
-    DarkStyle,
+    number,
     { name: string; title: string; icon: IconCode }
 > = {
-    system: {
-        name: "System",
-        title: "Switch to Light Mode",
-        icon: "brightness_6",
+    75: {
+        name: "75%",
+        title: "Switch to 90%",
+        icon: "zoom_in",
     },
-    light: {
-        name: "Light",
-        title: "Switch to Dark Mode",
-        icon: "light_mode",
+    90: {
+        name: "90%",
+        title: "Switch to 100%",
+        icon: "zoom_in",
     },
-    dark: {
-        name: "Dark",
-        title: "Switch to System Mode",
-        icon: "dark_mode",
+    100: {
+        name: "100%",
+        title: "Switch to 110%",
+        icon: "zoom_in",
+    },
+    110: {
+        name: "110%",
+        title: "Switch to 125%",
+        icon: "zoom_in",
+    },
+    125: {
+        name: "125%",
+        title: "Switch to 75%",
+        icon: "zoom_out",
     },
 };
 
-export const DarkStyleButton = forwardRef<HTMLButtonElement, ButtonProps>(
-    function DarkStyleButton(
+export const ZoomButton = forwardRef<HTMLButtonElement, ButtonProps>(
+    function ZoomButton(
         { title, icon, onClick, children, className, ...restProps },
         ref
     ) {
         const { storage, setStorage } = useStorage();
 
-        const currentOption: DarkStyle =
-            storage?.settings?.darkStyle || "system";
+        const currentOption: number = storage?.settings?.zoom || 100;
 
         const toggleOption = () => {
             const currentIndex = order.indexOf(currentOption);
@@ -48,7 +57,7 @@ export const DarkStyleButton = forwardRef<HTMLButtonElement, ButtonProps>(
                 ...prev,
                 settings: {
                     ...prev.settings,
-                    darkStyle: nextOption,
+                    zoom: nextOption,
                 },
             }));
         };
