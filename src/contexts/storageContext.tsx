@@ -60,7 +60,7 @@ interface Storage {
 const defaultStorage: Storage = {
     settings: {
         darkStyle: "system",
-        themeColor: "green",
+        themeColor: (process.env.THEME_COLOR as ThemeColor) || "blue",
         zoom: 100,
         language: "en",
     },
@@ -116,8 +116,6 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
                     options: {
                         ...prev.options,
                         ...parsed.options,
-                        playing: false, // force playing to false on load
-                        playBoxShow: storage.selected.ayahUUID !== undefined, //we don't need rerun this on storage change
                     },
                 }));
             } catch (error) {
@@ -127,7 +125,7 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
                 );
             }
         }
-    }, []); //eslint-disable-line
+    }, []);
 
     // Save to localStorage on storage change
     useEffect(() => {
