@@ -16,8 +16,8 @@
         "@ntq/sdk": "1.1.70",
         "@yakad/lib": "1.0.21",
         "@yakad/symbols": "latest",
-        "@yakad/ui": "latest",
-        "@yakad/x": "latest"
+        "@yakad/ui": "1.3.103",
+        "@yakad/x": "1.1.22"
     },
     "devDependencies": {
         "@yakad/sync": "latest",
