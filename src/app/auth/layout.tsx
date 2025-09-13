@@ -1,18 +1,18 @@
 "use client"; //remove this in future
 
 import { XloginBox } from "@yakad/x";
-import { StorageProvider } from "@/contexts/storageContext";
 import ThemeWrapper from "../ThemeWrapper";
+import Providers from "../Providers";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <html>
             <body>
-                <StorageProvider>
+                <Providers>
                     <ThemeWrapper>
                         <XloginBox>{children}</XloginBox>
                     </ThemeWrapper>
-                </StorageProvider>
+                </Providers>
             </body>
         </html>
     );

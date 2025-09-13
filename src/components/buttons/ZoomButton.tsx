@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 import classNames from "classnames";
 import { Button, ButtonProps } from "@yakad/ui";
 import { IconCode, Symbol } from "@yakad/symbols";
-import { useStorage } from "@/contexts/storageContext";
+import { usePreferences } from "@/contexts/preferencesContext";
 
 const order: number[] = [75, 90, 100, 110, 125];
 
@@ -44,21 +44,18 @@ export const ZoomButton = forwardRef<HTMLButtonElement, ButtonProps>(
         { title, icon, onClick, children, className, ...restProps },
         ref
     ) {
-        const { storage, setStorage } = useStorage();
+        const [preferences, setPreferences] = usePreferences();
 
-        const currentOption: number = storage?.settings?.zoom || 100;
+        const currentOption: number = preferences.zoom || 100;
 
         const toggleOption = () => {
             const currentIndex = order.indexOf(currentOption);
             const nextIndex = (currentIndex + 1) % order.length;
             const nextOption = order[nextIndex];
 
-            setStorage((prev) => ({
+            setPreferences((prev) => ({
                 ...prev,
-                settings: {
-                    ...prev.settings,
-                    zoom: nextOption,
-                },
+                zoom: nextOption,
             }));
         };
 
