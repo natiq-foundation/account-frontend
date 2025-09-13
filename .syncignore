@@ -13,3 +13,5 @@ example*.*
 !/src/app/head.tsx
 !/src/app/loading.tsx
 !/src/app/not-found.tsx
+
+/src/contexts/settingsContext.tsx
