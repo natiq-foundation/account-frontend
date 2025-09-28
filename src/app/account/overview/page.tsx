@@ -30,18 +30,18 @@ export default function Page() {
                 </Stack>
             </Row>
 
-            {sections.map(({ title, items }) => (
-                <Container key={title} size="sm" align="start">
-                    <H5>{title}</H5>
+            {sections.map((section) => (
+                <Container key={section.title} size="sm" align="start">
+                    <H5>{section.title}</H5>
                     <Card>
-                        {items.map((item, index) => (
+                        {section.items.map((item, index) => (
                             <>
                                 <Row key={item.label}>
                                     <H6>{item.label}</H6>
                                     <Spacer />
                                     <H6>{item.value}</H6>
                                 </Row>
-                                {index < items.length - 1 && (
+                                {index < section.items.length - 1 && (
                                     <Hr style={{ borderTop: ".1rem solid rgb(138 135 140)" }} />
                                 )}
                             </>
@@ -50,7 +50,7 @@ export default function Page() {
                 </Container>
             ))}
 
-            <Container size="sm" align="center">
+            <Container size="sm" align="center" style={{ marginTop: "1rem" }}>
                 <Button>Delete Account</Button>
             </Container>
         </Container>
