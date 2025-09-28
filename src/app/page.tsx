@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Button, List, ListItem, Screen, } from "@yakad/ui";
-import { Xpanel } from "@yakad/x";
+import { Screen, } from "@yakad/ui";
 
 
 
