@@ -1,140 +1,99 @@
 import { Symbol, type IconCode } from "@yakad/symbols";
 import {
-  Card,
-  Container,
-  Hr,
-  H5,
-  H6,
-  Row,
-  Spacer,
-  Button,
-  Stack,
-  Span,
+    Card,
+    Container,
+    Row,
+    Spacer,
+    Button,
+    Stack,
+    Span,
+    H3,
+    Text,
 } from "@yakad/ui";
+import ButtonGroup, { ListItem } from "./ButtonGroup";
 
 export default function Page() {
-  // Email & Phone
-  const contactItems: { label: string; icon: IconCode }[] = [
-    { label: "example@example.com", icon: "chevron_right" },
-    { label: "+123456789", icon: "chevron_right" },
-  ];
-
-  // Security
-  const securityItems: { label: string; icon: IconCode }[] = [
-    { label: "Change Password", icon: "chevron_right" },
-    { label: "two-step Verify Code", icon: "chevron_right" },
-    { label: "two-factor Verify Authenticator Code", icon: "chevron_right" },
-    { label: "Recovery Code", icon: "chevron_right" },
-  ];
-
-  // Security Notifications
-  const securityNotifs: { label: string; icon: IconCode }[] = [
-    { label: "Active Security Notifications", icon: "notifications_active" },
-  ];
-
-  // Sessions
-  const sessions: { label: string; value: string }[] = [
-    { label: "Active Sessions", value: "2" },
-  ];
-
-  // Last Activate
-  const lastActivates: {
-    icon: IconCode;
-    title: string;
-    subtitle: string;
-  }[] = [
-      {
-        icon: "phone_android",
-        title: "Security Login",
-        subtitle: "Aug 15, 2024, from IP 123,45,678,9",
-      },
-      {
-        icon: "report_gmailerrorred",
-        title: "Security Login",
-        subtitle: "Aug 16, 2024, from IP 123,45,678,9",
-      },
-      {
-        icon: "password",
-        title: "Password Changed",
-        subtitle: "Aug 17, 2024, from IP 123,45,678,9",
-      },
+    // Email & Phone
+    const contactItems: ListItem[] = [
+        { label: "example@example.com", icon: "chevron_right" },
+        { label: "+123456789", icon: "chevron_right" },
     ];
 
-  return (
-    <Container size="sm" align="start">
-      {/* Email & Phone */}
-      <H5>Email & Phone Numbers</H5>
-      <Card>
-        {contactItems.map((item, index) => (
-          <div key={index}>
-            <Row>
-              <H6>{item.label}</H6>
-              <Spacer />
-              <Button icon={<Symbol icon={item.icon} />} />
-            </Row>
-            {index < contactItems.length - 1 && (
-              <Hr style={{ borderTop: ".1rem solid rgb(138 135 140)" }} />
-            )}
-          </div>
-        ))}
-      </Card>
+    // Security
+    const securityItems: ListItem[] = [
+        { label: "Change Password", icon: "chevron_right" },
+        { label: "two-step Verify Code", icon: "chevron_right" },
+        {
+            label: "two-factor Verify Authenticator Code",
+            icon: "chevron_right",
+        },
+        { label: "Recovery Code", icon: "chevron_right" },
+    ];
 
-      {/* Security */}
-      <H5>Security</H5>
-      <Card>
-        {securityItems.map((item, index) => (
-          <div key={index}>
-            <Row>
-              <H6>{item.label}</H6>
-              <Spacer />
-              <Button icon={<Symbol icon={item.icon} />} />
-            </Row>
-            {index < securityItems.length - 1 && (
-              <Hr style={{ borderTop: ".1rem solid rgb(138 135 140)" }} />
-            )}
-          </div>
-        ))}
-      </Card>
+    // Security Notifications
+    const securityNotifs: ListItem[] = [
+        {
+            label: "Active Security Notifications",
+            icon: "notifications_active",
+        },
+    ];
 
-      {/* Security Notifications */}
-      <H5>Security Notifications</H5>
-      <Card>
-        {securityNotifs.map((item, index) => (
-          <Row key={index}>
-            <H6>{item.label}</H6>
-            <Spacer />
-            <Button icon={<Symbol icon={item.icon} />} />
-          </Row>
-        ))}
-      </Card>
+    // Sessions
+    const sessions: ListItem[] = [{ label: "Active Sessions", value: 2 }];
 
-      {/* Sessions */}
-      <H5>Sessions</H5>
-      <Card>
-        {sessions.map((item, index) => (
-          <Row key={index}>
-            <H6>{item.label}</H6>
-            <Spacer />
-            <Button>{item.value}</Button>
-          </Row>
-        ))}
-      </Card>
+    // Last Activate
+    const lastActivates: {
+        icon: IconCode;
+        title: string;
+        subtitle: string;
+    }[] = [
+        {
+            icon: "phone_android",
+            title: "Security Login",
+            subtitle: "Aug 15, 2024, from IP 123,45,678,9",
+        },
+        {
+            icon: "report_gmailerrorred",
+            title: "Security Login",
+            subtitle: "Aug 16, 2024, from IP 123,45,678,9",
+        },
+        {
+            icon: "password",
+            title: "Password Changed",
+            subtitle: "Aug 17, 2024, from IP 123,45,678,9",
+        },
+    ];
 
-      {/* Last Activate */}
-      <H5>Last Activate</H5>
-      <Card style={{ gap: "1rem" }}>
-        {lastActivates.map((item, index) => (
-          <Row key={index}>
-            <Button icon={<Symbol icon={item.icon} />} />
-            <Stack style={{ gap: "0" }}>
-              <H6>{item.title}</H6>
-              <Span variant="caption">{item.subtitle}</Span>
-            </Stack>
-            <Spacer />
-            <Button icon={<Symbol icon={"chevron_right" as IconCode} />} />
-          </Row>
-        ))}
-      </Card>
-    </Container>
-  );
+    return (
+        <Container size="sm" align="start">
+            <H3 variant="heading5">Email & Phone Numbers</H3>
+            <ButtonGroup list={contactItems} />
+
+            <H3 variant="heading5">Security</H3>
+            <ButtonGroup list={securityItems} />
+
+            <H3 variant="heading5">Security Notifications</H3>
+            <ButtonGroup list={securityNotifs} />
+
+            <H3 variant="heading5">Sessions</H3>
+            <ButtonGroup list={sessions} />
+
+            <H3 variant="heading5">Last Activate</H3>
+            <Card style={{ gap: "1rem" }}>
+                {lastActivates.map((item, index) => (
+                    <Row key={index}>
+                        <Button icon={<Symbol icon={item.icon} />} />
+                        <Stack style={{ gap: "0" }}>
+                            <Text variant="heading6">{item.title}</Text>
+                            <Span variant="caption">{item.subtitle}</Span>
+                        </Stack>
+                        <Spacer />
+                        <Button
+                            icon={<Symbol icon={"chevron_right" as IconCode} />}
+                        />
+                    </Row>
+                ))}
+            </Card>
+        </Container>
+    );
 }
