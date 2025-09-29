@@ -1,4 +1,14 @@
-import { Button, Card, Container, H5, H6, Hr, Row, Spacer, Stack } from "@yakad/ui";
+import {
+    Button,
+    Card,
+    Container,
+    H5,
+    H6,
+    Hr,
+    Row,
+    Spacer,
+    Stack,
+} from "@yakad/ui";
 import { Symbol } from "@yakad/symbols";
 
 export default function Page() {
@@ -30,21 +40,26 @@ export default function Page() {
                 </Stack>
             </Row>
 
-            {sections.map((section) => (
-                <Container key={section.title} size="sm" align="start">
+            {sections.map((section, index) => (
+                <Container key={index} size="sm" align="start">
                     <H5>{section.title}</H5>
                     <Card>
                         {section.items.map((item, index) => (
-                            <>
-                                <Row key={item.label}>
+                            <div key={index}>
+                                <Row>
                                     <H6>{item.label}</H6>
                                     <Spacer />
                                     <H6>{item.value}</H6>
                                 </Row>
                                 {index < section.items.length - 1 && (
-                                    <Hr style={{ borderTop: ".1rem solid rgb(138 135 140)" }} />
+                                    <Hr
+                                        style={{
+                                            borderTop:
+                                                ".1rem solid rgb(138 135 140)",
+                                        }}
+                                    />
                                 )}
-                            </>
+                            </div>
                         ))}
                     </Card>
                 </Container>

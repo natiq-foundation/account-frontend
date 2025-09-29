@@ -6,23 +6,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <Xpanel
             name="Natiq Quran"
-            navigationchildren={<NavList />}
-            appbarchildren={
-                <Button >Sing out</Button>
-            }
+            navigationChildren={<NavList />}
+            appbarChildren={<Button>Sing out</Button>}
         >
             {children}
         </Xpanel>
     );
 }
 
-const NavList = () =>
-    <List direction="column">
+const NavList = () => (
+    <List direction="column" style={{ paddingInlineEnd: "2rem" }}>
         <ListItem>
             <Link href="/account/overview">
                 <Button
                     variant="text"
-                    borderstyle="semi"
+                    borderStyle="semi"
+                    style={{ width: "100%" }}
                 >
                     Overview
                 </Button>
@@ -32,7 +31,8 @@ const NavList = () =>
             <Link href="/account/security">
                 <Button
                     variant="text"
-                    borderstyle="semi"
+                    borderStyle="semi"
+                    style={{ width: "100%" }}
                 >
                     Security
                 </Button>
@@ -42,10 +42,12 @@ const NavList = () =>
             <Link href="/account/settings">
                 <Button
                     variant="text"
-                    borderstyle="semi"
+                    borderStyle="semi"
+                    style={{ width: "100%" }}
                 >
                     Settings
                 </Button>
             </Link>
         </ListItem>
     </List>
+);

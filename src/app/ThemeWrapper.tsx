@@ -11,7 +11,7 @@ export default function ThemeWrapper({
 
     return (
         <Theme
-            darkstyle={preferences.darkStyle}
+            darkStyle={preferences.darkStyle}
             color={preferences.themeColor}
             zoom={preferences.zoom}
             {...restProps}

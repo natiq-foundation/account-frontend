@@ -16,7 +16,7 @@ export default function Error({ error, reset }: ErrorProps) {
     }, [error]);
 
     return (
-        <Screen align="center">
+        <Screen align="space">
             <H1 variant="heading3">Something went wrong.</H1>
             <P variant="body3">{error.message}</P>
             <Button
