@@ -3,7 +3,7 @@
 import { forwardRef } from "react";
 import { LangCodeType, langName } from "@yakad/lib";
 import { Select, SelectProps } from "@yakad/ui";
-import { useStorage } from "@/contexts/storageContext";
+import { usePreferences } from "@/contexts/preferencesContext";
 
 const acceptedLangCodes: LangCodeType[] = ["en", "ar", "fa", "tr"];
 
@@ -11,16 +11,13 @@ export const LanguageSelect = forwardRef<
     HTMLSelectElement,
     Omit<SelectProps, "name" | "value">
 >(function LanguageSelect({ placeholder, onChange, ...restProps }, ref) {
-    const { storage, setStorage } = useStorage();
+    const [preferences, setPreferences] = usePreferences();
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setStorage((prev) => ({
+        setPreferences((prev) => ({
             ...prev,
-            settings: {
-                ...prev.settings,
-                [name]: value,
-            },
+            [name]: value,
         }));
     };
 
@@ -29,7 +26,7 @@ export const LanguageSelect = forwardRef<
             ref={ref}
             name="language"
             placeholder={placeholder || "Language"}
-            value={storage.settings.language}
+            value={preferences.language}
             onChange={(e) => {
                 handleChange(e);
                 onChange?.(e);
