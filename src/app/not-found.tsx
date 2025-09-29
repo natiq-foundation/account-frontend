@@ -3,7 +3,7 @@ import { GoBackButton } from "@/components/buttons/GoBackButton";
 
 export default function NotFound() {
     return (
-        <Screen align="center">
+        <Screen align="space">
             <H1>404 Not Found</H1>
             <GoBackButton variant="outlined">Go Back</GoBackButton>
         </Screen>

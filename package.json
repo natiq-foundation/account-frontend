@@ -13,8 +13,8 @@
         "@ntq/sdk": "1.1.70",
         "@yakad/lib": "1.0.21",
         "@yakad/symbols": "latest",
-        "@yakad/ui": "1.3.103",
-        "@yakad/x": "1.1.23",
+        "@yakad/ui": "1.3.130",
+        "@yakad/x": "1.1.30",
         "next": "15.1.4",
         "react": "19.1.0",
         "react-dom": "19.1.0"
