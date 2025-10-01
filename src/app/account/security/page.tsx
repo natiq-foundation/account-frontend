@@ -1,16 +1,11 @@
 import { Symbol, type IconCode } from "@yakad/symbols";
 import {
-  Card,
   Container,
-  Row,
-  Spacer,
-  Button,
-  Stack,
-  Span,
   H3,
-  Text,
 } from "@yakad/ui";
 import ButtonGroup, { ListItem } from "./ButtonGroup";
+import ActivityGroup from "./ActivityGroup";
+
 
 export default function Page() {
   // Email & Phone
@@ -79,21 +74,7 @@ export default function Page() {
       <ButtonGroup list={sessions} />
 
       <H3 variant="heading5">Last Activate</H3>
-      <Card style={{ gap: "1rem" }}>
-        {lastActivates.map((item, index) => (
-          <Row key={index}>
-            <Button icon={<Symbol icon={item.icon} />} />
-            <Stack style={{ gap: "0" }}>
-              <Text variant="heading6">{item.title}</Text>
-              <Span variant="caption">{item.subtitle}</Span>
-            </Stack>
-            <Spacer />
-            <Button
-              icon={<Symbol icon={"chevron_right" as IconCode} />}
-            />
-          </Row>
-        ))}
-      </Card>
+      <ActivityGroup list={lastActivates} />
     </Container>
   );
 }
