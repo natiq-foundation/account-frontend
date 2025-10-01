@@ -2,6 +2,7 @@ import {
     Button,
     Card,
     Container,
+    H3,
     H5,
     H6,
     Hr,
@@ -10,24 +11,18 @@ import {
     Stack,
 } from "@yakad/ui";
 import { Symbol } from "@yakad/symbols";
+import InfoGroup, { ListItem } from "./InfoGroup";
 
 export default function Page() {
-    const sections = [
-        {
-            title: "Basic Info",
-            items: [
-                { label: "Name", value: "example Name" },
-                { label: "Birth Day", value: "1234" },
-                { label: "Gender", value: "Male" },
-            ],
-        },
-        {
-            title: "Contact Info",
-            items: [
-                { label: "Email", value: "example@example.com" },
-                { label: "Phone", value: "+98123456789" },
-            ],
-        },
+    const basicItems: ListItem[] = [
+        { label: "Name", value: "example Name" },
+        { label: "Birth Day", value: 1998 },
+        { label: "Gender", value: "Male" },
+    ]
+        ;
+    const contactItems: ListItem[] = [
+        { label: "Email", value: "example@example.com" },
+        { label: "Phone", value: 98123456789 },
     ];
 
     return (
@@ -40,30 +35,15 @@ export default function Page() {
                 </Stack>
             </Row>
 
-            {sections.map((section, index) => (
-                <Container key={index} size="sm" align="start">
-                    <H5>{section.title}</H5>
-                    <Card>
-                        {section.items.map((item, index) => (
-                            <div key={index}>
-                                <Row>
-                                    <H6>{item.label}</H6>
-                                    <Spacer />
-                                    <H6>{item.value}</H6>
-                                </Row>
-                                {index < section.items.length - 1 && (
-                                    <Hr
-                                        style={{
-                                            borderTop:
-                                                ".1rem solid rgb(138 135 140)",
-                                        }}
-                                    />
-                                )}
-                            </div>
-                        ))}
-                    </Card>
-                </Container>
-            ))}
+
+            <Container size="sm" align="start">
+                <H3 variant="heading5"> Basic Info</H3>
+                <InfoGroup list={basicItems} />
+
+                <H3 variant="heading5"> Contact Info</H3>
+                <InfoGroup list={contactItems} />
+            </Container>
+
 
             <Container size="sm" align="center" style={{ marginTop: "1rem" }}>
                 <Button>Delete Account</Button>
