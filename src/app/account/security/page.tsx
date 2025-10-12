@@ -1,4 +1,4 @@
-import { Symbol, type IconCode } from "@yakad/symbols";
+import { type IconCode } from "@yakad/symbols";
 import {
   Container,
   H3,

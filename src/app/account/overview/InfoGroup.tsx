@@ -1,5 +1,4 @@
 import { Card, Hr, Row, Spacer, Text } from "@yakad/ui";
-import { IconCode, Symbol } from "@yakad/symbols";
 
 export type ListItem = { label: string; value?: string | number; };
 

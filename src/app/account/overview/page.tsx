@@ -1,17 +1,19 @@
+"use client";
+
 import {
+    Avatar,
     Button,
-    Card,
     Container,
     H3,
     H5,
     H6,
-    Hr,
+    Popup,
     Row,
-    Spacer,
     Stack,
+    WithOverlay,
 } from "@yakad/ui";
-import { Symbol } from "@yakad/symbols";
 import InfoGroup, { ListItem } from "./InfoGroup";
+import PopupItem from "./PopupItem";
 
 export default function Page() {
     const basicItems: ListItem[] = [
@@ -25,10 +27,16 @@ export default function Page() {
         { label: "Phone", value: 98123456789 },
     ];
 
+
     return (
         <Container size="sm" align="start">
             <Row>
-                <Button icon={<Symbol size={10} icon="account_circle" />} />
+                <WithOverlay overlay={<Popup heading="Change Your Profile Picture">
+                    <PopupItem />
+                </Popup>}>
+                    <Avatar />
+                </WithOverlay>
+
                 <Stack>
                     <H5>First Name</H5>
                     <H6>example@example.com</H6>
