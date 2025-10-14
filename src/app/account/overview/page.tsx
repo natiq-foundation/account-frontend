@@ -13,18 +13,41 @@ import {
     WithOverlay,
 } from "@yakad/ui";
 import InfoGroup, { ListItem } from "./InfoGroup";
-import PopupItem from "./PopupItem";
+import AvatarPopup from "./PopupItem/AvatarPopup";
+import NamePopup from "./PopupItem/NamePopup";
+import BirthDayPopup from "./PopupItem/BirthDayPopup";
+import GenderPopup from "./PopupItem/GenderPopup";
 
 export default function Page() {
     const basicItems: ListItem[] = [
-        { label: "Name", value: "example Name" },
-        { label: "Birth Day", value: 1998 },
-        { label: "Gender", value: "Male" },
+        {
+            label: "Name",
+            value: "example Name",
+            icon: "chevron_right",
+            popup: <NamePopup />,
+            popuoHeadin: "Change Your Name"
+        },
+        {
+            label: "Birth Day",
+            value: 1998,
+            icon: "chevron_right",
+            popup: <BirthDayPopup />,
+            popuoHeadin: "Update Your Birth Day"
+
+        },
+        {
+            label: "Gender",
+            value: "Male",
+            icon: "chevron_right",
+            popup: <GenderPopup />,
+            popuoHeadin: "What is Your Gender?"
+
+        },
     ]
         ;
     const contactItems: ListItem[] = [
-        { label: "Email", value: "example@example.com" },
-        { label: "Phone", value: 98123456789 },
+        { label: "Email", value: "example@example.com", icon: "chevron_right" },
+        { label: "Phone", value: 98123456789, icon: "chevron_right" },
     ];
 
 
@@ -32,7 +55,7 @@ export default function Page() {
         <Container size="sm" align="start">
             <Row>
                 <WithOverlay overlay={<Popup heading="Change Your Profile Picture">
-                    <PopupItem />
+                    <AvatarPopup />
                 </Popup>}>
                     <Avatar />
                 </WithOverlay>
