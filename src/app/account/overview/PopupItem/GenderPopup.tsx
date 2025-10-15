@@ -1,4 +1,4 @@
-import { Popup, InputField, Button, Stack, Container, CheckBox, RadioGroup, RadioButton } from "@yakad/ui";
+import { Button, Container, RadioGroup, RadioButton } from "@yakad/ui";
 
 export default function GenderPopup() {
     return (

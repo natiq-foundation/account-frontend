@@ -1,4 +1,4 @@
-import { Popup, InputField, Button, Stack, Container } from "@yakad/ui";
+import { InputField, Button, Container } from "@yakad/ui";
 
 export default function NamePopup() {
     return (

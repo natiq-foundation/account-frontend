@@ -5,7 +5,7 @@ export type ListItem = {
     label: string;
     icon?: IconCode;
     value?: string | number;
-    popup?: React.ReactElement<typeof Popup> // Change to AllowedOverlays from yakad type ;
+    popup?: React.ReactNode// Change to AllowedOverlays from yakad type ;
     popuoHeadin?: string
 };
 
@@ -39,7 +39,7 @@ export default function InfoGroup({ list }: { list: ListItem[] }) {
                 return item.popup ? (
                     <WithOverlay key={index} overlay={
                         <Popup heading={item.popuoHeadin}>
-                            {item.popup as any}
+                            {item.popup}
                         </Popup>}>
                         <div style={{ width: "100%" }}>{content}</div>
                     </WithOverlay>
