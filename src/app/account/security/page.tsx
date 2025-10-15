@@ -43,12 +43,12 @@ export default function Page() {
     subtitle: string;
   }[] = [
       {
-        icon: "phone_android",
+        icon: "mobile",
         title: "Security Login",
         subtitle: "Aug 15, 2024, from IP 123,45,678,9",
       },
       {
-        icon: "report_gmailerrorred",
+        icon: "report",
         title: "Security Login",
         subtitle: "Aug 16, 2024, from IP 123,45,678,9",
       },
