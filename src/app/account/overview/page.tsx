@@ -45,10 +45,6 @@ export default function Page() {
         },
     ]
         ;
-    const contactItems: ListItem[] = [
-        { label: "Email", value: "example@example.com", icon: "chevron_right" },
-        { label: "Phone", value: 98123456789, icon: "chevron_right" },
-    ];
 
 
     return (
@@ -70,15 +66,8 @@ export default function Page() {
             <Container size="sm" align="start">
                 <H3 variant="heading5"> Basic Info</H3>
                 <InfoGroup list={basicItems} />
-
-                <H3 variant="heading5"> Contact Info</H3>
-                <InfoGroup list={contactItems} />
             </Container>
 
-
-            <Container size="sm" align="center" style={{ marginTop: "1rem" }}>
-                <Button>Delete Account</Button>
-            </Container>
         </Container>
     );
 }
