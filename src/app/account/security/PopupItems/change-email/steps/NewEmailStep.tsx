@@ -1,6 +1,6 @@
 "use client";
 
-import { Stack, Text, InputField, Button, Container } from "@yakad/ui";
+import { Text, InputField, Button, Container } from "@yakad/ui";
 import { useRef, useState } from "react";
 
 export default function NewEmailStep({ onNext }: { onNext: (newEmail: string) => void }) {

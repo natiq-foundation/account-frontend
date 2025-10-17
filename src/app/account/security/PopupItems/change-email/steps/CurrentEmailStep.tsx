@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Row, Text } from "@yakad/ui";
+import { Button, Container, Text } from "@yakad/ui";
 
 export default function CurrentEmailStep({ email, onNext }: { email: string; onNext: () => void }) {
     return (

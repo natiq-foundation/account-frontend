@@ -1,7 +1,7 @@
 "use client";
 
 import { Symbol } from "@yakad/symbols";
-import { Stack, Text, Button, Container } from "@yakad/ui";
+import { Text, Button, Container } from "@yakad/ui";
 
 import { useRouter } from "next/navigation";
 

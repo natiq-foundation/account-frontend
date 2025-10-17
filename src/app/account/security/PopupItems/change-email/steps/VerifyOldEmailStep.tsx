@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, InputField, Container, Text, Stack, CodeField } from "@yakad/ui";
+import { Button, Container, Text, CodeField } from "@yakad/ui";
 import { useRef, useState } from "react";
 
 export default function VerifyOldEmailStep({ email, onNext }: { email: string; onNext: () => void }) {
