@@ -5,12 +5,13 @@ import {
 } from "@yakad/ui";
 import ButtonGroup, { ListItem } from "./ButtonGroup";
 import ActivityGroup from "./ActivityGroup";
+import ChangeEmailPopup from "./PopupItems/change-email/ChangeEmailPopup";
 
 
 export default function Page() {
   // Email & Phone
   const contactItems: ListItem[] = [
-    { label: "example@example.com", icon: "chevron_right" },
+    { label: "example@example.com", icon: "chevron_right", popup: <ChangeEmailPopup />, popuoHeadin: "Your Emails" },
     { label: "+123456789", icon: "chevron_right" },
   ];
 
