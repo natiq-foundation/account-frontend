@@ -1,9 +1,9 @@
 "use client";
 
-import { Button, Container, Text, CodeField } from "@yakad/ui";
+import { Text, Button, Container, CodeField } from "@yakad/ui";
 import { useRef, useState } from "react";
 
-export default function VerifyOldEmailStep({ email, onNext }: { email: string; onNext: () => void }) {
+export default function VerifyNewPhoneStep({ phone, onNext }: { phone: string; onNext: () => void }) {
     const codeRef = useRef<HTMLInputElement>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -17,7 +17,7 @@ export default function VerifyOldEmailStep({ email, onNext }: { email: string; o
         }
 
         if (code.length < 4) {
-            setError("Verification code must be at least 4 digits");
+            setError("Code must be at least 4 digits");
             return;
         }
 
@@ -32,18 +32,12 @@ export default function VerifyOldEmailStep({ email, onNext }: { email: string; o
     };
 
     return (
-        <Container align="center" >
-            <Text>Verify your current email</Text>
-            <Text>{email}</Text>
-            <CodeField
-                ref={codeRef}
-            />
+        <Container align="center">
+            <Text>Verify Your New Phone Number</Text>
+            <Text>We sent a code to {phone}</Text>
+            <CodeField ref={codeRef} />
             {error && <Text style={{ color: "red", fontSize: "0.875rem" }}>{error}</Text>}
-            <Button
-                variant="filled"
-                onClick={handleVerify}
-                disabled={isLoading}
-            >
+            <Button variant="filled" onClick={handleVerify} disabled={isLoading}>
                 {isLoading ? "Verifying..." : "Verify"}
             </Button>
         </Container>

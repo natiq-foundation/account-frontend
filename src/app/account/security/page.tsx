@@ -5,19 +5,21 @@ import {
 } from "@yakad/ui";
 import ButtonGroup, { ListItem } from "./ButtonGroup";
 import ActivityGroup from "./ActivityGroup";
-import ChangeEmailPopup from "./PopupItems/change-email/ChangeEmailPopup";
+import ChangeEmailPopup from "./PopupItems/ChangeEmail/ChangeEmailPopup";
+import ChangePhonePopup from "./PopupItems/ChangePhoneNumber/ChangePhonePopup";
+import ChangePasswordPopup from "./PopupItems/ChangePassword/ChangePasswordPopup";
 
 
 export default function Page() {
   // Email & Phone
   const contactItems: ListItem[] = [
     { label: "example@example.com", icon: "chevron_right", popup: <ChangeEmailPopup />, popuoHeadin: "Your Emails" },
-    { label: "+123456789", icon: "chevron_right" },
+    { label: "+123456789", icon: "chevron_right", popup: <ChangePhonePopup /> },
   ];
 
   // Security
   const securityItems: ListItem[] = [
-    { label: "Change Password", icon: "chevron_right" },
+    { label: "Change Password", icon: "chevron_right", popup: <ChangePasswordPopup />, },
     { label: "two-step Verify Code", icon: "chevron_right" },
     {
       label: "two-factor Verify Authenticator Code",
