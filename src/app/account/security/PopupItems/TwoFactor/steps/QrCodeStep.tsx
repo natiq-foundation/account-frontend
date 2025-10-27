@@ -1,6 +1,7 @@
 "use client";
 
 import { Container, Text, Button, Stack } from "@yakad/ui";
+import Image from "next/image";
 
 export default function QrCodeStep({ onNext }: { onNext: () => void }) {
     const demoSecret = "JBSWY3DPEHPK3PXP"; // fake demo secret key
@@ -16,11 +17,11 @@ export default function QrCodeStep({ onNext }: { onNext: () => void }) {
                     <Text>3. Choose “Scan QR code”</Text>
                 </Stack>
 
-                /* eslint-disable @next/next/no-img-element */
-                <img
-                    src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=otpauth://totp/Example:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=DemoApp"
-                    alt="Authenticator QR Code"
-                    style={{ borderRadius: 8, marginTop: 10 }}
+                <Image
+                    src="/path/to/qr.png"
+                    alt="QR code"
+                    width={200}
+                    height={200}
                 />
 
                 <Stack align="center" >
