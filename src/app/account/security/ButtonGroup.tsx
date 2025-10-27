@@ -6,7 +6,8 @@ export type ListItem = {
     icon?: IconCode;
     value?: string | number;
     popup?: React.ReactNode// Change to AllowedOverlays from yakad type ;
-    popuoHeadin?: string
+    popuoHeadin?: string;
+    onClick?: () => void;
 };
 
 export default function ButtonGroup({ list }: { list: ListItem[] }) {
@@ -19,6 +20,7 @@ export default function ButtonGroup({ list }: { list: ListItem[] }) {
                             <Button
                                 icon={item.icon && <Symbol icon={item.icon} />}
                                 iconPosition="end"
+                                onClick={item.onClick}
                                 style={{
                                     width: "100%",
                                     justifyContent: "space-between",

@@ -1,3 +1,5 @@
+"use client";
+
 import { type IconCode } from "@yakad/symbols";
 import {
   Container,
@@ -8,8 +10,9 @@ import ActivityGroup from "./ActivityGroup";
 import ChangeEmailPopup from "./PopupItems/ChangeEmail/ChangeEmailPopup";
 import ChangePhonePopup from "./PopupItems/ChangePhoneNumber/ChangePhonePopup";
 import ChangePasswordPopup from "./PopupItems/ChangePassword/ChangePasswordPopup";
-
-
+import TwoStepPopup from "./PopupItems/TwoStep/TwoStepPopup";
+import ChangeTwoFactorPopup from "./PopupItems/TwoFactor/ChangeTwoFactorPopup";
+import ChangeRecoveryPopup from "./PopupItems/ChangeRecovery/ChangeRecoveryPopup";
 export default function Page() {
   // Email & Phone
   const contactItems: ListItem[] = [
@@ -20,12 +23,14 @@ export default function Page() {
   // Security
   const securityItems: ListItem[] = [
     { label: "Change Password", icon: "chevron_right", popup: <ChangePasswordPopup />, },
-    { label: "two-step Verify Code", icon: "chevron_right" },
+    { label: "two-step Verify Code", icon: "chevron_right", popup: <TwoStepPopup />, popuoHeadin: "Two-Step Verification" },
     {
       label: "two-factor Verify Authenticator Code",
       icon: "chevron_right",
+      popup: <ChangeTwoFactorPopup />
+
     },
-    { label: "Recovery Code", icon: "chevron_right" },
+    { label: "Recovery Code", icon: "chevron_right", popup: <ChangeRecoveryPopup /> },
   ];
 
   // Security Notifications

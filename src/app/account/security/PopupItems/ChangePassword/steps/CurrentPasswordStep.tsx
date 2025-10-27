@@ -19,9 +19,7 @@ export default function CurrentPasswordStep({ onNext }: { onNext: () => void }) 
         setError("");
         setIsLoading(true);
 
-        // simulate API verify current password
         setTimeout(() => {
-            // ✅ Normally: check API response before continuing
             setIsLoading(false);
             onNext();
         }, 1000);
