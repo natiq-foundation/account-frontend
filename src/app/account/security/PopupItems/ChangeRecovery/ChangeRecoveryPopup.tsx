@@ -15,7 +15,6 @@ export default function ChangeRecoveryPopup() {
     const router = useRouter();
 
     const step = searchParams.get("step") || "verify-password";
-    const type = searchParams.get("type") || "";
     const value = searchParams.get("value") || "";
 
     const goToStep = (nextStep: string, extra?: Record<string, string>) => {

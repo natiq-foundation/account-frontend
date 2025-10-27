@@ -10,8 +10,9 @@ export default function ManageRecoveryStep({
     onAddEmail: () => void;
     onAddPhone: () => void;
 }) {
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
+    const [email] = useState("user@example.com");
+    const [phone] = useState("");
+
 
     return (
         <Container align="start">

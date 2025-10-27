@@ -16,7 +16,7 @@ export default function QrCodeStep({ onNext }: { onNext: () => void }) {
                     <Text>3. Choose “Scan QR code”</Text>
                 </Stack>
 
-                {/* Demo QR Code */}
+                /* eslint-disable @next/next/no-img-element */
                 <img
                     src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=otpauth://totp/Example:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=DemoApp"
                     alt="Authenticator QR Code"
