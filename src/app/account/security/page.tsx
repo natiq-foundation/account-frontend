@@ -36,10 +36,13 @@ export default function Page() {
   // Security Notifications
   const securityNotifs: ListItem[] = [
     {
-      label: "Active Security Notifications",
-      icon: "notifications_active",
+      label: "Security Notifications",
+      toggleable: true,
+      activeIcon: "notifications_active",
+      inactiveIcon: "notifications_off",
     },
   ];
+
 
   // Sessions
   const sessions: ListItem[] = [{ label: "Active Sessions", value: 2 }];
