@@ -13,6 +13,7 @@ import ChangePasswordPopup from "./PopupItems/ChangePassword/ChangePasswordPopup
 import TwoStepPopup from "./PopupItems/TwoStep/TwoStepPopup";
 import ChangeTwoFactorPopup from "./PopupItems/TwoFactor/ChangeTwoFactorPopup";
 import ChangeRecoveryPopup from "./PopupItems/ChangeRecovery/ChangeRecoveryPopup";
+import ActiveSessionsPopup from "./PopupItems/ActiveSessions/ActiveSessionsPopup";
 export default function Page() {
   // Email & Phone
   const contactItems: ListItem[] = [
@@ -45,7 +46,7 @@ export default function Page() {
 
 
   // Sessions
-  const sessions: ListItem[] = [{ label: "Active Sessions", value: 2 }];
+  const sessions: ListItem[] = [{ label: "Active Sessions", value: 2, popup: <ActiveSessionsPopup /> }];
 
   // Last Activate
   const lastActivates: {
