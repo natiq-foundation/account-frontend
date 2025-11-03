@@ -9,7 +9,6 @@ export default function QrCodeStep({ onNext }: { onNext: () => void }) {
     const [secret, setSecret] = useState<string>("");
 
     useEffect(() => {
-        // تولید یه secret تصادفی ساده برای دمو
         const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
         let fakeSecret = "";
         for (let i = 0; i < 16; i++) {
@@ -17,12 +16,10 @@ export default function QrCodeStep({ onNext }: { onNext: () => void }) {
         }
         setSecret(fakeSecret);
 
-        // ساخت otpauth URL
         const appName = "MyDemoApp";
         const account = "demo@example.com";
         const otpauth = `otpauth://totp/${appName}:${account}?secret=${fakeSecret}&issuer=${appName}`;
 
-        // ساخت QR base64
         QRCode.toDataURL(otpauth).then(setQrCodeData);
     }, []);
 
