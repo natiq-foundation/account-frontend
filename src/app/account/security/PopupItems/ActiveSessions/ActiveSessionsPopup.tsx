@@ -49,7 +49,7 @@ export default function ActiveSessionsPopup() {
     return (
         <Container title="Active Sessions">
             <Container style={{ gap: "1.5rem", width: "100%", maxWidth: 480 }}>
-                {/* بخش دستگاه فعلی */}
+
                 <Stack style={{ gap: "0.75rem" }}>
                     <H3>This Device</H3>
                     {sessions
@@ -75,7 +75,6 @@ export default function ActiveSessionsPopup() {
                     </Button>
                 </Stack>
 
-                {/* بخش سشن‌های فعال */}
                 <Stack style={{ gap: "0.75rem" }}>
                     <H3>Active Sessions</H3>
                     {sessions

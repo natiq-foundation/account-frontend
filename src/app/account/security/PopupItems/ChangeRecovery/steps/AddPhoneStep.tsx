@@ -17,7 +17,7 @@ export default function AddPhoneStep({ onNext }: { onNext: (phone: string) => vo
     return (
         <Container align="center">
             <Text>Enter recovery phone (with country code)</Text>
-            <InputField ref={ref} placeholder="+1 234 567 890" />
+            <InputField ref={ref} placeholder="Phone Number " />
             {error && <Text style={{ color: "red", fontSize: 13 }}>{error}</Text>}
             <Button variant="filled" onClick={handleNext}>Next</Button>
         </Container>

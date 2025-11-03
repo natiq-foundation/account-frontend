@@ -18,7 +18,7 @@ export default function QrCodeStep({ onNext }: { onNext: () => void }) {
                 </Stack>
 
                 <Image
-                    src="/path/to/qr.png"
+                    src="/images/Qr-2.png"
                     alt="QR code"
                     width={200}
                     height={200}

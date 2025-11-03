@@ -5,14 +5,37 @@ import { useRouter } from "next/navigation";
 
 export default function CameraPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const streamRef = useRef<MediaStream | null>(null);
     const router = useRouter();
 
-    useEffect(() => {
-        let stream: MediaStream;
+    const stopCamera = async () => {
+        const stream = streamRef.current;
+        if (!stream) return;
 
+        if (videoRef.current) {
+            videoRef.current.srcObject = null;
+        }
+
+        const tracks = stream.getTracks();
+        await Promise.all(
+            tracks.map(
+                (track) =>
+                    new Promise<void>((resolve) => {
+                        track.onended = () => resolve();
+                        track.stop();
+                        setTimeout(() => resolve(), 200);
+                    })
+            )
+        );
+
+        streamRef.current = null;
+    };
+
+    useEffect(() => {
         const startCamera = async () => {
             try {
-                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                streamRef.current = stream;
                 if (videoRef.current) {
                     videoRef.current.srcObject = stream;
                 }
@@ -24,16 +47,26 @@ export default function CameraPage() {
         startCamera();
 
         return () => {
-
-            stream?.getTracks().forEach(track => track.stop());
+            stopCamera();
         };
     }, []);
 
+    const handleBack = async () => {
+        await stopCamera();
+        router.back();
+    };
+
     return (
-        <Stack align="center" >
+        <Stack align="center">
             <h1>Camera Page</h1>
-            <video ref={videoRef} autoPlay playsInline style={{ width: "100%", maxWidth: 400 }} />
-            <Button onClick={() => router.back()}>Back</Button> {/* دکمه برگشت */}
+            <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                style={{ width: "100%", maxWidth: 400, borderRadius: 8 }}
+            />
+            <Button onClick={handleBack}>Back</Button>
         </Stack>
     );
 }
