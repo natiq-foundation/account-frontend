@@ -3,18 +3,26 @@
 import { useEffect, useState } from "react";
 import { Container, Text, Button, Stack } from "@yakad/ui";
 import QRCode from "qrcode";
-import { authenticator } from "otplib";
 
 export default function QrCodeStep({ onNext }: { onNext: () => void }) {
     const [qrCodeData, setQrCodeData] = useState<string | null>(null);
     const [secret, setSecret] = useState<string>("");
 
     useEffect(() => {
-        const newSecret = authenticator.generateSecret();
-        setSecret(newSecret);
+        // تولید یه secret تصادفی ساده برای دمو
+        const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+        let fakeSecret = "";
+        for (let i = 0; i < 16; i++) {
+            fakeSecret += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+        setSecret(fakeSecret);
 
-        const otpauth = authenticator.keyuri("user@example.com", "MyAppName", newSecret);
+        // ساخت otpauth URL
+        const appName = "MyDemoApp";
+        const account = "demo@example.com";
+        const otpauth = `otpauth://totp/${appName}:${account}?secret=${fakeSecret}&issuer=${appName}`;
 
+        // ساخت QR base64
         QRCode.toDataURL(otpauth).then(setQrCodeData);
     }, []);
 
