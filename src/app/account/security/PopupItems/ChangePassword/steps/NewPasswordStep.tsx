@@ -10,7 +10,7 @@ export default function NewPasswordStep({ onNext }: { onNext: () => void }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const isStrongPassword = (password: string) => {
-        // حداقل ۸ کاراکتر، شامل عدد و حرف
+
         return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+=-]{8,}$/.test(password);
     };
 
@@ -36,7 +36,7 @@ export default function NewPasswordStep({ onNext }: { onNext: () => void }) {
         setError("");
         setIsLoading(true);
 
-        // simulate API update
+
         setTimeout(() => {
             setIsLoading(false);
             onNext();
