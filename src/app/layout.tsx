@@ -1,22 +1,24 @@
-import metadataJson from "./metadata.json";
-import ThemeWrapper from "./ThemeWrapper";
-import Providers from "./Providers";
+import "@/src/app/global.css"
+import { cn } from "@/lib/utils"
+import { Inter } from "next/font/google"
 
-export const runtime = "edge";
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-    title: metadataJson.title,
-    description: metadataJson.description,
-};
+    title: "Account Frontend",
+    description: "Manage your account easily with modern UI.",
+}
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode
+}) {
     return (
         <html lang="en">
-            <body>
-                <Providers>
-                    <ThemeWrapper>{children}</ThemeWrapper>
-                </Providers>
+            <body className={cn(inter.className, "bg-background text-foreground min-h-screen")}>
+                {children}
             </body>
         </html>
-    );
+    )
 }
