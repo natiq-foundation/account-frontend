@@ -1,12 +1,13 @@
-import "@/src/app/global.css"
-import { cn } from "@/lib/utils"
+import "./global.css"
 import { Inter } from "next/font/google"
+import { cn } from "@/lib/utils"
+import { ThemeProvider } from "@/components/ui/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-    title: "Account Frontend",
-    description: "Manage your account easily with modern UI.",
+    title: "My App",
+    description: "Built with shadcn/ui",
 }
 
 export default function RootLayout({
@@ -15,9 +16,11 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en">
-            <body className={cn(inter.className, "bg-background text-foreground min-h-screen")}>
-                {children}
+        <html lang="en" suppressHydrationWarning>
+            <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     )

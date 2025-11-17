@@ -1,16 +1,24 @@
+"use client"
+
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 
 export default function HomePage() {
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen gap-8 p-8">
-            <Card className="w-full max-w-md">
-                <CardHeader>
-                    <CardTitle className="text-center text-2xl font-bold">Welcome</CardTitle>
+        <main className="flex min-h-screen flex-col items-center justify-center bg-background p-6">
+            <Card className="w-full max-w-sm shadow-md border-border">
+                <CardHeader className="text-center">
+                    <CardTitle>Welcome</CardTitle>
                 </CardHeader>
-                <CardContent className="text-center">
-                    <p className="mb-4 text-muted-foreground">Your Shadcn UI is working perfectly 🎯</p>
-                    <Button>Let’s Go</Button>
+
+                <Separator className="mb-4" />
+
+                <CardContent className="flex flex-col gap-3">
+                    <Button className="w-full">Account</Button>
+                    <Button variant="outline" className="w-full">
+                        Login
+                    </Button>
                 </CardContent>
             </Card>
         </main>
