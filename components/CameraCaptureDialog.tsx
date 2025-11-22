@@ -13,7 +13,6 @@ export default function CameraCapture({
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [stream, setStream] = useState<MediaStream | null>(null);
 
-    // Start camera
     useEffect(() => {
         let mounted = true;
 
@@ -36,7 +35,6 @@ export default function CameraCapture({
             mounted = false;
             stopCamera();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const stopCamera = () => {
@@ -50,7 +48,6 @@ export default function CameraCapture({
         const video = videoRef.current;
         if (!video || !stream) return;
 
-        // 1️⃣ فوراً UI رو به حالت عکس گرفته شده تغییر بده
         const canvas = document.createElement("canvas");
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
@@ -60,16 +57,13 @@ export default function CameraCapture({
         ctx.drawImage(video, 0, 0);
         const img = canvas.toDataURL("image/png");
 
-        // 2️⃣ فوراً video رو مخفی کن
         if (videoRef.current) {
             videoRef.current.style.display = "none";
         }
 
-        // 3️⃣ Trackها رو بعد از تغییر UI قطع کن
         stream.getTracks().forEach((track) => track.stop());
         setStream(null);
 
-        // 4️⃣ عکس رو برگردون
         onCapture(img);
     };
 
