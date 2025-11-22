@@ -1,8 +1,4 @@
-import {
-    Avatar,
-    AvatarImage,
-    AvatarFallback,
-} from "@/components/ui/avatar"
+import AvatarUploadDialog from "@/components/AvatarUploadDialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 export default function Profile() {
@@ -17,10 +13,8 @@ export default function Profile() {
             <div className="w-full max-w-sm space-y-6">
 
                 <div className="flex items-center gap-4">
-                    <Avatar className="h-16 w-16">
-                        <AvatarImage src="https://github.com/shadcn.png" alt="profile" />
-                        <AvatarFallback>EX</AvatarFallback>
-                    </Avatar>
+
+                    <AvatarUploadDialog />
 
                     <div className="flex flex-col">
                         <p className="text-lg font-semibold">First Name</p>
