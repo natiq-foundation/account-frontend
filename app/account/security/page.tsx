@@ -1,40 +1,78 @@
 "use client";
 
+import { useState } from "react";
 import { SecurityItem } from "@/components/security/SecurityItem";
 import { SecuritySection } from "@/components/security/SecuritySection";
 import { SecurityActivity } from "@/components/security/SecurityActivity";
 import { SecurityNotificationItem } from "@/components/security/SecurityNotification";
+import { EmailManager } from "@/components/security/email/EmailManager";
+import { PhoneManager } from "@/components/security/phone/PhoneManager";
 
-import { Smartphone, Shield, KeyRound, } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
+import { Smartphone, Shield, KeyRound } from "lucide-react";
 
 export default function SecurityPage() {
+    const [openEmailDialog, setOpenEmailDialog] = useState(false);
+    const [openPhoneDialog, setOpenPhoneDialog] = useState(false);
+
     return (
         <div className="w-full max-w-3xl mx-auto space-y-10 px-4 py-6">
 
+            {/* ================= EMAIL & PHONE ================= */}
             <SecuritySection title="Email & Phone Numbers">
+
+                {/* Email */}
                 <SecurityItem
                     label="Email"
                     value="example@example.com"
-                    onClick={() => { }}
+                    onClick={() => setOpenEmailDialog(true)}
                 />
+
+                {/* Phone */}
                 <SecurityItem
                     label="Phone Number"
                     value="+123456789"
-                    onClick={() => { }}
+                    onClick={() => setOpenPhoneDialog(true)}
                 />
+
+                {/* Email Dialog */}
+                <Dialog open={openEmailDialog} onOpenChange={setOpenEmailDialog}>
+                    <DialogContent className="max-w-lg">
+                        <DialogHeader>
+                            <DialogTitle>Email Management</DialogTitle>
+                        </DialogHeader>
+                        <EmailManager />
+                    </DialogContent>
+                </Dialog>
+
+                {/* Phone Dialog */}
+                <Dialog open={openPhoneDialog} onOpenChange={setOpenPhoneDialog}>
+                    <DialogContent className="max-w-lg">
+                        <DialogHeader>
+                            <DialogTitle>Phone Management</DialogTitle>
+                        </DialogHeader>
+                        <PhoneManager onClose={() => setOpenPhoneDialog(false)} />
+                    </DialogContent>
+                </Dialog>
+
+
             </SecuritySection>
 
+            {/* ================= SECURITY SETTINGS ================= */}
             <SecuritySection title="Security">
                 <SecurityItem label="Change Password" onClick={() => { }} />
-                <SecurityItem label="Two-Step Verify Code" onClick={() => { }} />
+                <SecurityItem label="Two-Step Verification" onClick={() => { }} />
                 <SecurityItem label="Authenticator App" onClick={() => { }} />
                 <SecurityItem label="Recovery Codes" onClick={() => { }} />
             </SecuritySection>
 
+            {/* ================= SECURITY NOTIFICATIONS ================= */}
             <SecuritySection title="Security Notifications">
                 <SecurityNotificationItem />
             </SecuritySection>
 
+            {/* ================= ACTIVE SESSIONS ================= */}
             <SecuritySection title="Active Sessions">
                 <SecurityItem
                     label="Active Sessions"
@@ -43,6 +81,7 @@ export default function SecurityPage() {
                 />
             </SecuritySection>
 
+            {/* ================= LAST ACTIVITY ================= */}
             <SecuritySection title="Last Activity">
                 <div className="rounded-lg border">
                     <SecurityActivity
