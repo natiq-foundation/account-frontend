@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { SecurityItem } from "@/components/security/SecurityItem";
-import { SecuritySection } from "@/components/security/SecuritySection";
-import { SecurityActivity } from "@/components/security/SecurityActivity";
-import { SecurityNotificationItem } from "@/components/security/SecurityNotification";
-import { EmailManager } from "@/components/security/email/EmailManager";
-import { PhoneManager } from "@/components/security/phone/PhoneManager";
+import { SecurityItem } from "@/app/account/security/components/SecurityItem";
+import { SecuritySection } from "@/app/account/security/components/SecuritySection";
+import { SecurityActivity } from "@/app/account/security/components/SecurityActivity";
+import { SecurityNotificationItem } from "@/app/account/security/components/SecurityNotification";
+import { EmailManager } from "@/app/account/security/components/email/EmailManager";
+import { PhoneManager } from "@/app/account/security/components/phone/PhoneManager";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
