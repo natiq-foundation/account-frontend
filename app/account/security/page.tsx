@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { SecurityItem } from "@/components/security/SecurityItem";
-import { SecuritySection } from "@/components/security/SecuritySection";
-import { SecurityActivity } from "@/components/security/SecurityActivity";
-import { SecurityNotificationItem } from "@/components/security/SecurityNotification";
-import { EmailManager } from "@/components/security/email/EmailManager";
-import { PhoneManager } from "@/components/security/phone/PhoneManager";
+import { SecurityItem } from "@/app/account/security/components/SecurityItem";
+import { SecuritySection } from "@/app/account/security/components/SecuritySection";
+import { SecurityActivity } from "@/app/account/security/components/SecurityActivity";
+import { SecurityNotificationItem } from "@/app/account/security/components/SecurityNotification";
+import { EmailManager } from "@/app/account/security/components/email/EmailManager";
+import { PhoneManager } from "@/app/account/security/components/phone/PhoneManager";
+import { ChangePasswordDialog } from "@/app/account/security/components/passwords/SecurityChangepassword";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -15,6 +16,7 @@ import { Smartphone, Shield, KeyRound } from "lucide-react";
 export default function SecurityPage() {
     const [openEmailDialog, setOpenEmailDialog] = useState(false);
     const [openPhoneDialog, setOpenPhoneDialog] = useState(false);
+    const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
 
     return (
         <div className="w-full max-w-3xl mx-auto space-y-10 px-4 py-6">
@@ -56,16 +58,27 @@ export default function SecurityPage() {
                     </DialogContent>
                 </Dialog>
 
-
             </SecuritySection>
 
-            {/* ================= SECURITY SETTINGS ================= */}
-            <SecuritySection title="Security">
-                <SecurityItem label="Change Password" onClick={() => { }} />
-                <SecurityItem label="Two-Step Verification" onClick={() => { }} />
-                <SecurityItem label="Authenticator App" onClick={() => { }} />
-                <SecurityItem label="Recovery Codes" onClick={() => { }} />
-            </SecuritySection>
+            const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
+
+            <SecurityItem label="Change Password" onClick={() => setOpenPasswordDialog(true)} />
+
+            <Dialog open={openPasswordDialog} onOpenChange={setOpenPasswordDialog}>
+                <DialogContent className="max-w-lg">
+                    <DialogHeader>
+                        <DialogTitle>Change Password</DialogTitle>
+                    </DialogHeader>
+                    <ChangePasswordDialog
+                        isOpen={openPasswordDialog}
+                        onClose={() => setOpenPasswordDialog(false)}
+                        // verifyCurrentPassword حذف شد چون default همیشه true
+                        changePassword={async (newPass) => {
+                            console.log("New password:", newPass);
+                        }}
+                    />
+                </DialogContent>
+            </Dialog>
 
             {/* ================= SECURITY NOTIFICATIONS ================= */}
             <SecuritySection title="Security Notifications">
