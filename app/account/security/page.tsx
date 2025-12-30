@@ -1,15 +1,23 @@
 "use client";
 
 import { useState } from "react";
+
 import { SecurityItem } from "@/app/account/security/components/SecurityItem";
 import { SecuritySection } from "@/app/account/security/components/SecuritySection";
 import { SecurityActivity } from "@/app/account/security/components/SecurityActivity";
 import { SecurityNotificationItem } from "@/app/account/security/components/SecurityNotification";
+
 import { EmailManager } from "@/app/account/security/components/email/EmailManager";
 import { PhoneManager } from "@/app/account/security/components/phone/PhoneManager";
-import { ChangePasswordDialog } from "@/app/account/security/components/passwords/SecurityChangepassword";
+import { ChangePasswordDialog } from "@/app/account/security/components/passwords/Changepassword";
+import { TwoStepManager } from "@/app/account/security/components/two-step/TwoStepManager";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 
 import { Smartphone, Shield, KeyRound } from "lucide-react";
 
@@ -17,66 +25,84 @@ export default function SecurityPage() {
     const [openEmailDialog, setOpenEmailDialog] = useState(false);
     const [openPhoneDialog, setOpenPhoneDialog] = useState(false);
     const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
+    const [openTwoStepDialog, setOpenTwoStepDialog] = useState(false);
 
     return (
         <div className="w-full max-w-3xl mx-auto space-y-10 px-4 py-6">
 
             {/* ================= EMAIL & PHONE ================= */}
             <SecuritySection title="Email & Phone Numbers">
-
-                {/* Email */}
                 <SecurityItem
                     label="Email"
                     value="example@example.com"
                     onClick={() => setOpenEmailDialog(true)}
                 />
 
-                {/* Phone */}
                 <SecurityItem
                     label="Phone Number"
                     value="+123456789"
                     onClick={() => setOpenPhoneDialog(true)}
                 />
+            </SecuritySection>
 
-                {/* Email Dialog */}
-                <Dialog open={openEmailDialog} onOpenChange={setOpenEmailDialog}>
-                    <DialogContent className="max-w-lg">
-                        <DialogHeader>
-                            <DialogTitle>Email Management</DialogTitle>
-                        </DialogHeader>
-                        <EmailManager />
-                    </DialogContent>
-                </Dialog>
+            {/* Email Dialog */}
+            <Dialog open={openEmailDialog} onOpenChange={setOpenEmailDialog}>
+                <DialogContent className="max-w-lg">
+                    <DialogHeader>
+                        <DialogTitle>Email Management</DialogTitle>
+                    </DialogHeader>
+                    <EmailManager />
+                </DialogContent>
+            </Dialog>
 
-                {/* Phone Dialog */}
-                <Dialog open={openPhoneDialog} onOpenChange={setOpenPhoneDialog}>
-                    <DialogContent className="max-w-lg">
-                        <DialogHeader>
-                            <DialogTitle>Phone Management</DialogTitle>
-                        </DialogHeader>
-                        <PhoneManager onClose={() => setOpenPhoneDialog(false)} />
-                    </DialogContent>
-                </Dialog>
+            {/* Phone Dialog */}
+            <Dialog open={openPhoneDialog} onOpenChange={setOpenPhoneDialog}>
+                <DialogContent className="max-w-lg">
+                    <DialogHeader>
+                        <DialogTitle>Phone Management</DialogTitle>
+                    </DialogHeader>
+                    <PhoneManager onClose={() => setOpenPhoneDialog(false)} />
+                </DialogContent>
+            </Dialog>
+
+            {/* ================= SECURITY SETTINGS ================= */}
+            <SecuritySection title="Security">
+                <SecurityItem
+                    label="Change Password"
+                    onClick={() => setOpenPasswordDialog(true)}
+                />
+
+                <SecurityItem
+                    label="Two-Step Verification"
+                    onClick={() => setOpenTwoStepDialog(true)}
+                />
+
 
             </SecuritySection>
 
-            const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
-
-            <SecurityItem label="Change Password" onClick={() => setOpenPasswordDialog(true)} />
-
-            <Dialog open={openPasswordDialog} onOpenChange={setOpenPasswordDialog}>
-                <DialogContent className="max-w-lg">
+            {/* Change Password Dialog */}
+            <Dialog
+                open={openPasswordDialog}
+                onOpenChange={setOpenPasswordDialog}
+            >
+                <DialogContent className="max-w-md">
                     <DialogHeader>
                         <DialogTitle>Change Password</DialogTitle>
                     </DialogHeader>
-                    <ChangePasswordDialog
-                        isOpen={openPasswordDialog}
-                        onClose={() => setOpenPasswordDialog(false)}
-                        // verifyCurrentPassword حذف شد چون default همیشه true
-                        changePassword={async (newPass) => {
-                            console.log("New password:", newPass);
-                        }}
-                    />
+                    <ChangePasswordDialog onSuccess={() => setOpenPasswordDialog(false)} />
+                </DialogContent>
+            </Dialog>
+
+            {/* Two-Step Verification Dialog */}
+            <Dialog
+                open={openTwoStepDialog}
+                onOpenChange={setOpenTwoStepDialog}
+            >
+                <DialogContent className="max-w-xl">
+                    <DialogHeader>
+                        <DialogTitle>Two-Step Verification</DialogTitle>
+                    </DialogHeader>
+                    <TwoStepManager />
                 </DialogContent>
             </Dialog>
 
@@ -109,11 +135,12 @@ export default function SecurityPage() {
                     />
                     <SecurityActivity
                         icon={KeyRound}
-                        title="Password Changed"
+                        title="Password changed"
                         subtitle="Aug 17, 2024 · IP 54.201.12.4"
                     />
                 </div>
             </SecuritySection>
+
         </div>
     );
 }
