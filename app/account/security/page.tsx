@@ -11,6 +11,7 @@ import { EmailManager } from "@/app/account/security/components/email/EmailManag
 import { PhoneManager } from "@/app/account/security/components/phone/PhoneManager";
 import { ChangePasswordDialog } from "@/app/account/security/components/passwords/Changepassword";
 import { TwoStepManager } from "@/app/account/security/components/two-step/TwoStepManager";
+import { ActiveSessionsManager } from "@/app/account/security/components/sessions/ActiveSessionsManager";
 
 import {
     Dialog,
@@ -22,10 +23,11 @@ import {
 import { Smartphone, Shield, KeyRound } from "lucide-react";
 
 export default function SecurityPage() {
-    const [openEmailDialog, setOpenEmailDialog] = useState(false);
-    const [openPhoneDialog, setOpenPhoneDialog] = useState(false);
-    const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
-    const [openTwoStepDialog, setOpenTwoStepDialog] = useState(false);
+    const [openEmail, setOpenEmail] = useState(false);
+    const [openPhone, setOpenPhone] = useState(false);
+    const [openPassword, setOpenPassword] = useState(false);
+    const [openTwoStep, setOpenTwoStep] = useState(false);
+    const [openSessions, setOpenSessions] = useState(false);
 
     return (
         <div className="w-full max-w-3xl mx-auto space-y-10 px-4 py-6">
@@ -35,18 +37,18 @@ export default function SecurityPage() {
                 <SecurityItem
                     label="Email"
                     value="example@example.com"
-                    onClick={() => setOpenEmailDialog(true)}
+                    onClick={() => setOpenEmail(true)}
                 />
 
                 <SecurityItem
                     label="Phone Number"
                     value="+123456789"
-                    onClick={() => setOpenPhoneDialog(true)}
+                    onClick={() => setOpenPhone(true)}
                 />
             </SecuritySection>
 
             {/* Email Dialog */}
-            <Dialog open={openEmailDialog} onOpenChange={setOpenEmailDialog}>
+            <Dialog open={openEmail} onOpenChange={setOpenEmail}>
                 <DialogContent className="max-w-lg">
                     <DialogHeader>
                         <DialogTitle>Email Management</DialogTitle>
@@ -56,12 +58,12 @@ export default function SecurityPage() {
             </Dialog>
 
             {/* Phone Dialog */}
-            <Dialog open={openPhoneDialog} onOpenChange={setOpenPhoneDialog}>
+            <Dialog open={openPhone} onOpenChange={setOpenPhone}>
                 <DialogContent className="max-w-lg">
                     <DialogHeader>
                         <DialogTitle>Phone Management</DialogTitle>
                     </DialogHeader>
-                    <PhoneManager onClose={() => setOpenPhoneDialog(false)} />
+                    <PhoneManager onClose={() => setOpenPhone(false)} />
                 </DialogContent>
             </Dialog>
 
@@ -69,35 +71,34 @@ export default function SecurityPage() {
             <SecuritySection title="Security">
                 <SecurityItem
                     label="Change Password"
-                    onClick={() => setOpenPasswordDialog(true)}
+                    onClick={() => setOpenPassword(true)}
                 />
 
                 <SecurityItem
                     label="Two-Step Verification"
-                    onClick={() => setOpenTwoStepDialog(true)}
+                    value="Authenticator & backup codes"
+                    onClick={() => setOpenTwoStep(true)}
                 />
 
-
+                <SecurityItem
+                    label="Active Sessions"
+                    value="2 devices"
+                    onClick={() => setOpenSessions(true)}
+                />
             </SecuritySection>
 
             {/* Change Password Dialog */}
-            <Dialog
-                open={openPasswordDialog}
-                onOpenChange={setOpenPasswordDialog}
-            >
+            <Dialog open={openPassword} onOpenChange={setOpenPassword}>
                 <DialogContent className="max-w-md">
                     <DialogHeader>
                         <DialogTitle>Change Password</DialogTitle>
                     </DialogHeader>
-                    <ChangePasswordDialog onSuccess={() => setOpenPasswordDialog(false)} />
+                    <ChangePasswordDialog onSuccess={() => setOpenPassword(false)} />
                 </DialogContent>
             </Dialog>
 
             {/* Two-Step Verification Dialog */}
-            <Dialog
-                open={openTwoStepDialog}
-                onOpenChange={setOpenTwoStepDialog}
-            >
+            <Dialog open={openTwoStep} onOpenChange={setOpenTwoStep}>
                 <DialogContent className="max-w-xl">
                     <DialogHeader>
                         <DialogTitle>Two-Step Verification</DialogTitle>
@@ -106,18 +107,19 @@ export default function SecurityPage() {
                 </DialogContent>
             </Dialog>
 
+            {/* Active Sessions Dialog */}
+            <Dialog open={openSessions} onOpenChange={setOpenSessions}>
+                <DialogContent className="max-w-xl">
+                    <DialogHeader>
+                        <DialogTitle>Active Sessions</DialogTitle>
+                    </DialogHeader>
+                    <ActiveSessionsManager />
+                </DialogContent>
+            </Dialog>
+
             {/* ================= SECURITY NOTIFICATIONS ================= */}
             <SecuritySection title="Security Notifications">
                 <SecurityNotificationItem />
-            </SecuritySection>
-
-            {/* ================= ACTIVE SESSIONS ================= */}
-            <SecuritySection title="Active Sessions">
-                <SecurityItem
-                    label="Active Sessions"
-                    value="2 devices"
-                    onClick={() => { }}
-                />
             </SecuritySection>
 
             {/* ================= LAST ACTIVITY ================= */}
@@ -140,7 +142,6 @@ export default function SecurityPage() {
                     />
                 </div>
             </SecuritySection>
-
         </div>
     );
 }
