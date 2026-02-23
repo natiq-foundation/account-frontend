@@ -8,16 +8,19 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import CameraCapture from "@/components/CameraCaptureDialog";
+import { useProfile } from "@/features/account/profile/hooks/useProfile";
 
 export default function AvatarUploadDialog() {
     const fileRef = useRef<HTMLInputElement | null>(null);
     const [dragging, setDragging] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
-
     const [step, setStep] = useState<"upload" | "camera">("upload");
+
+    const { profile, changeAvatar } = useProfile();
 
     const openFilePicker = () => fileRef.current?.click();
 
@@ -50,16 +53,21 @@ export default function AvatarUploadDialog() {
         if (file) handleSelectedFile(file);
     };
 
+    const handleSave = async () => {
+        if (!preview) return;
+        await changeAvatar(preview); // یا فایل واقعی
+        setPreview(null);
+    };
+
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Avatar className="h-16 w-16 cursor-pointer">
-                    <AvatarImage src={preview || "https://github.com/shadcn.png"} alt="profile" />
+                    <AvatarImage src={preview || profile?.avatar || "https://github.com/shadcn.png"} alt="profile" />
                 </Avatar>
             </DialogTrigger>
 
             <DialogContent className="max-w-sm p-0">
-
                 {/* CAMERA STEP */}
                 {step === "camera" && (
                     <>
@@ -88,7 +96,7 @@ export default function AvatarUploadDialog() {
 
                             {preview && (
                                 <div className="flex justify-center">
-                                    <img
+                                    <Image
                                         src={preview}
                                         alt="preview"
                                         className="w-32 h-32 object-cover rounded-full border"
@@ -102,10 +110,7 @@ export default function AvatarUploadDialog() {
                                     onDragLeave={handleDragLeave}
                                     onDrop={handleDrop}
                                     onClick={openFilePicker}
-                                    className="
-                                        border-2 border-dashed rounded-lg p-10 text-center
-                                        cursor-pointer flex items-center justify-center
-                                    "
+                                    className="border-2 border-dashed rounded-lg p-10 text-center cursor-pointer flex items-center justify-center"
                                     style={{
                                         borderColor: dragging ? "#2563eb" : "#ccc",
                                         background: dragging ? "rgba(37,99,235,0.08)" : "transparent",
@@ -149,7 +154,7 @@ export default function AvatarUploadDialog() {
                                         Cancel
                                     </Button>
 
-                                    <Button onClick={() => alert("Saved!")}>
+                                    <Button onClick={handleSave}>
                                         Save
                                     </Button>
                                 </div>
@@ -158,7 +163,6 @@ export default function AvatarUploadDialog() {
                         </div>
                     </>
                 )}
-
             </DialogContent>
         </Dialog>
     );

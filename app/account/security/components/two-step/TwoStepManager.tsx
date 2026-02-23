@@ -1,85 +1,138 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { AuthenticatorSetup } from "./AuthenticatorSetup";
-import { BackupCodes } from "./BackupCodes";
+import { Button } from "@/components/ui/button"
+import { useTwoStep } from "@/features/security/two-step/hooks/useTwoStep"
+import { AuthenticatorSetup } from "./AuthenticatorSetup"
+import { BackupCodesSetup } from "./BackupCodesSetup"
+import { EmailSetup } from "./EmailSetup"
+import { SmsSetup } from "./SmsSetup"
+import { useState } from "react"
 
-export function TwoStepManager() {
-    const [enabled, setEnabled] = useState(false);
-    const [setupOpen, setSetupOpen] = useState(false);
+type Step = "manage" | "email" | "sms" | "backup" | "app"
+
+export function TwoStepManager({ onClose }: { onClose: () => void }) {
+    const [step, setStep] = useState<Step>("manage")
+
+
+    const {
+        methods,
+        qrCodeUrl,
+        secret,
+        startAuthenticatorSetup,
+        verifyMethod,
+        activate,
+    } = useTwoStep()
+
+    if (step === "email")
+        return (
+            <EmailSetup
+                onSuccess={() => {
+                    verifyMethod("email", "123456")
+                    setStep("manage")
+                }}
+                onBack={() => setStep("manage")}
+            />
+        )
+
+    if (step === "sms")
+        return (
+            <SmsSetup
+                onSuccess={() => {
+                    verifyMethod("sms", "123456")
+                    setStep("manage")
+                }}
+                onBack={() => setStep("manage")}
+            />
+        )
+
+    if (step === "backup")
+        return (
+            <BackupCodesSetup
+                onSuccess={() => {
+                    verifyMethod("backupCodes", "123456")
+                    setStep("manage")
+                }}
+                onBack={() => setStep("manage")}
+            />
+        )
+
+    if (step === "app")
+        return (
+            <AuthenticatorSetup
+                qrUrl={qrCodeUrl}
+                secret={secret}
+                onStart={() => startAuthenticatorSetup("user@example.com")}
+                onVerify={async (code) => {
+                    await verifyMethod("authenticator", code)
+                    setStep("manage")
+                }}
+                onBack={() => setStep("manage")}
+            />
+        )
+
+    const activeCount = Object.values(methods).filter(
+        (v) => v === "verified"
+    ).length
 
     return (
-        <div className="space-y-6">
-            <div>
-                <h2 className="text-lg font-semibold">Two-Step Verification</h2>
-                <p className="text-sm text-muted-foreground">
-                    Add an extra layer of security to your account.
-                </p>
-            </div>
+        <div className="space-y-4">
+            <MethodRow
+                title="Email"
+                enabled={methods.email === "verified"}
+                onClick={() => setStep("email")}
+            />
+            <MethodRow
+                title="SMS"
+                enabled={methods.sms === "verified"}
+                onClick={() => setStep("sms")}
+            />
+            <MethodRow
+                title="Backup Codes"
+                enabled={methods.backupCodes === "verified"}
+                onClick={() => setStep("backup")}
+            />
+            <MethodRow
+                title="Authenticator App"
+                enabled={methods.authenticator === "verified"}
+                onClick={() => setStep("app")}
+            />
 
-            {/* Authenticator */}
-            <div className="flex justify-between items-center border p-4 rounded-lg">
-                <div>
-                    <p className="font-medium">Authenticator App</p>
-                    <p className="text-sm text-muted-foreground">
-                        Use an app like Google Authenticator
-                    </p>
-                </div>
+            <Button
+                disabled={activeCount < 3}
+                className="w-full mt-4"
+                onClick={() => {
+                    activate()
+                    onClose()
+                }}
+            >
+                Activate
+            </Button>
+        </div>
+    )
+}
 
-                {enabled ? (
-                    <Button variant="secondary">Configured</Button>
-                ) : (
-                    <Button onClick={() => setSetupOpen(true)}>Set up</Button>
-                )}
-            </div>
-
-            {/* Backup Codes */}
-            <Dialog>
-                <DialogTrigger asChild>
-                    <div className="flex justify-between items-center border p-4 rounded-lg cursor-pointer">
-                        <div>
-                            <p className="font-medium">Backup verification codes</p>
-                            <p className="text-sm text-muted-foreground">
-                                Use backup codes if you lose access
-                            </p>
-                        </div>
-                        <Button>Set up</Button>
-                    </div>
-                </DialogTrigger>
-                <DialogContent className="max-w-lg">
-                    <DialogHeader>
-                        <DialogTitle>Backup Codes</DialogTitle>
-                    </DialogHeader>
-                    <BackupCodes />
-                </DialogContent>
-            </Dialog>
-
-            {/* Phone (disabled) */}
-            <div className="flex justify-between items-center border p-4 rounded-lg opacity-50">
-                <div>
-                    <p className="font-medium">Phone number</p>
-                    <p className="text-sm text-muted-foreground">
-                        Receive codes via SMS
-                    </p>
-                </div>
-                <Button disabled>Not available</Button>
-            </div>
-
-            {/* Turn off */}
-            <Button variant="destructive">Turn off two-step verification</Button>
-
-            {/* Authenticator Setup */}
-            {setupOpen && (
-                <AuthenticatorSetup
-                    onComplete={() => {
-                        setEnabled(true);
-                        setSetupOpen(false);
-                    }}
-                    onCancel={() => setSetupOpen(false)}
-                />
+function MethodRow({
+    title,
+    enabled,
+    onClick,
+}: {
+    title: string
+    enabled: boolean
+    onClick: () => void
+}) {
+    return (
+        <div className="flex justify-between border p-3 rounded">
+            <span>{title}</span>
+            {!enabled && (
+                <Button size="sm" onClick={onClick}>
+                    Enable
+                </Button>
+            )}
+            {enabled && (
+                <span className="text-green-600 text-sm">
+                    Enabled
+                </span>
             )}
         </div>
-    );
+    )
 }

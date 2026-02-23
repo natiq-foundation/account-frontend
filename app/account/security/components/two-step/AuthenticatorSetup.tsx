@@ -1,86 +1,148 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import QRCode from "qrcode";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import Image from "next/image";
 
-type Props = {
-    onComplete: () => void;
-    onCancel: () => void;
-};
 
-export function AuthenticatorSetup({ onComplete, onCancel }: Props) {
-    const [step, setStep] = useState<1 | 2>(1);
-    const [qrUrl, setQrUrl] = useState<string>("");
-    const [secret] = useState("JBSWY3DPEHPK3PXP");
-    const [code, setCode] = useState("");
+interface Props {
+    qrUrl: string | null
+    secret: string | null
+    onStart: () => Promise<void> | void
+    onVerify: (code: string) => Promise<void> | void
+    onBack: () => void
+}
 
-    useEffect(() => {
-        const otpauthUrl = `otpauth://totp/YourApp:user@example.com?secret=${secret}&issuer=YourApp`;
-        QRCode.toDataURL(otpauthUrl).then(setQrUrl);
-    }, [secret]);
+export function AuthenticatorSetup({
+    qrUrl,
+    secret,
+    onStart,
+    onVerify,
+    onBack,
+}: Props) {
+    const [step, setStep] = useState<"intro" | "qr" | "verify">("intro")
+    const [code, setCode] = useState("")
+    const [showSecret, setShowSecret] = useState(false)
 
-    return (
-        <Dialog open onOpenChange={onCancel}>
-            <DialogContent className="max-w-md">
-                <DialogHeader>
-                    <DialogTitle>Set up authenticator app</DialogTitle>
-                </DialogHeader>
+    // STEP 1 – Intro
+    if (step === "intro")
+        return (
+            <div className="max-w-md mx-auto space-y-6">
+                <div className="space-y-3 text-sm text-muted-foreground">
+                    <p>
+                        Instead of waiting for text messages, get verification codes
+                        from an authenticator app. It works even if your phone is offline.
+                    </p>
+                    <p>
+                        First, download Google Authenticator from the Google Play Store
+                        or the iOS App Store.
+                    </p>
+                </div>
 
-                {step === 1 && (
-                    <div className="space-y-4">
-                        <ol className="list-decimal ml-4 text-sm space-y-1">
-                            <li>Install Google Authenticator or compatible app</li>
-                            <li>Open the app and tap the + button</li>
-                            <li>Choose “Scan a QR code”</li>
-                        </ol>
+                <Button
+                    className="w-full"
+                    onClick={async () => {
+                        await onStart()
+                        setStep("qr")
+                    }}
+                >
+                    Set up
+                </Button>
 
-                        <div className="flex flex-col items-center space-y-3 mt-4">
-                            {qrUrl && <img src={qrUrl} alt="QR Code" className="w-40 h-40" />}
-                            <button
-                                className="text-sm text-blue-500 underline"
-                                onClick={() => alert(`Your secret code: ${secret}`)}
-                            >
-                                Can’t scan the QR code?
-                            </button>
-                        </div>
+                <Button variant="ghost" className="w-full" onClick={onBack}>
+                    Back
+                </Button>
+            </div>
+        )
 
-                        <div className="flex justify-end gap-2 mt-4">
-                            <Button variant="ghost" onClick={onCancel}>
-                                Cancel
-                            </Button>
-                            <Button onClick={() => setStep(2)}>Next</Button>
-                        </div>
-                    </div>
-                )}
+    // STEP 2 – QR
+    if (step === "qr")
+        return (
+            <div className="max-w-md mx-auto space-y-6 text-center">
+                <p className="text-sm">
+                    Scan this QR code with your authenticator app.
+                </p>
 
-                {step === 2 && (
-                    <div className="space-y-4">
-                        <p className="text-sm">Enter the 6-digit code from your authenticator app</p>
-                        <Input
-                            value={code}
-                            onChange={(e) => setCode(e.target.value)}
-                            placeholder="123456"
-                            maxLength={6}
+                {qrUrl && (
+                    <div className="flex justify-center">
+
+                        <Image
+                            src={qrUrl}
+                            alt="Authenticator QR code"
+                            width={128}
+                            height={128}
+                            className="rounded"
                         />
-
-                        <div className="flex justify-end gap-2 mt-2">
-                            <Button variant="ghost" onClick={onCancel}>
-                                Cancel
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    onComplete();
-                                }}
-                            >
-                                Verify
-                            </Button>
-                        </div>
                     </div>
                 )}
-            </DialogContent>
-        </Dialog>
-    );
+
+                {secret && (
+                    <div className="space-y-2">
+                        <button
+                            className="text-sm text-blue-600 hover:underline"
+                            onClick={() => setShowSecret(!showSecret)}
+                        >
+                            Can’t scan it?
+                        </button>
+
+                        {showSecret && (
+                            <div className="bg-muted text-foreground border rounded-md p-4 font-mono text-sm break-all">
+                                {secret}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                <Button
+                    className="w-full"
+                    onClick={() => setStep("verify")}
+                >
+                    Next
+                </Button>
+
+                <Button
+                    variant="ghost"
+                    className="w-full"
+                    onClick={onBack}
+                >
+                    Back
+                </Button>
+            </div>
+        )
+
+    // STEP 3 – Verify
+    return (
+        <div className="max-w-md mx-auto space-y-6">
+            <p className="text-sm text-muted-foreground">
+                Enter the 6-digit code generated by your authenticator app.
+            </p>
+
+            <Input
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="000000"
+                maxLength={6}
+                className="text-center tracking-widest text-lg"
+            />
+
+            <Button
+                className="w-full"
+                onClick={async () => {
+                    await onVerify(code)
+                    setCode("")
+                }}
+            >
+                Verify
+            </Button>
+
+            <Button
+                variant="ghost"
+                className="w-full"
+                onClick={onBack}
+            >
+                Back
+            </Button>
+        </div>
+    )
 }

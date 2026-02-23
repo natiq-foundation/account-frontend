@@ -4,43 +4,31 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AddEmailDialog } from "./AddEmailDialog";
 import { EmailListItem } from "./EmailListItem";
+import { useEmailManager } from "@/features/security/email/hooks/useEmailManager";
 
 export function EmailManager() {
-    const [emails, setEmails] = useState([
-        { email: "user@example.com", primary: true, verified: true },
-    ]);
-
+    const { emails, loading, addNewEmail, removeEmail, setPrimary } = useEmailManager();
     const [openAdd, setOpenAdd] = useState(false);
 
     return (
         <div className="space-y-4">
-
             <div className="flex justify-between items-center">
                 <h2 className="text-lg font-semibold">Email Addresses</h2>
                 <Button
                     onClick={() => setOpenAdd(true)}
-                    disabled={emails.length >= 5}
+                    disabled={emails.length >= 5 || loading}
                 >
                     Add Email
                 </Button>
             </div>
 
             <div className="space-y-2">
-                {emails.map((e, i) => (
+                {emails.map((e) => (
                     <EmailListItem
-                        key={e.email}
+                        key={e.id}
                         data={e}
-                        onDelete={() => {
-                            setEmails(prev => prev.filter(x => x.email !== e.email));
-                        }}
-                        onMakePrimary={() => {
-                            setEmails(prev =>
-                                prev.map(x => ({
-                                    ...x,
-                                    primary: x.email === e.email,
-                                }))
-                            );
-                        }}
+                        onDelete={() => removeEmail(e.id)}
+                        onMakePrimary={() => setPrimary(e.id)}
                     />
                 ))}
             </div>
@@ -48,11 +36,8 @@ export function EmailManager() {
             <AddEmailDialog
                 open={openAdd}
                 onClose={() => setOpenAdd(false)}
-                onSuccess={(newEmail) => {
-                    setEmails(prev => [...prev, newEmail]);
-                }}
+                onSuccess={(newEmail) => addNewEmail(newEmail)}
             />
-
         </div>
     );
 }

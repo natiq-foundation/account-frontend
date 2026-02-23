@@ -1,6 +1,6 @@
-export interface EmailItem {
+export interface Phone {
     id: string;
-    email: string;
+    number: string;
     primary: boolean;
     verified: boolean;
 }

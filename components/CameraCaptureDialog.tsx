@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 
 interface Props {
@@ -10,14 +10,14 @@ interface Props {
 
 export default function CameraCaptureDialog({ onCapture, onCancel }: Props) {
     const videoRef = useRef<HTMLVideoElement | null>(null);
-    const [stream, setStream] = useState<MediaStream | null>(null);
+    const streamRef = useRef<MediaStream | null>(null);
 
-    const stopCamera = useCallback(() => {
-        if (stream) {
-            stream.getTracks().forEach((t) => t.stop());
-            setStream(null);
+    const stopCamera = () => {
+        if (streamRef.current) {
+            streamRef.current.getTracks().forEach((t) => t.stop());
+            streamRef.current = null;
         }
-    }, [stream]);
+    };
 
     const takePhoto = () => {
         const video = videoRef.current;
@@ -33,34 +33,51 @@ export default function CameraCaptureDialog({ onCapture, onCancel }: Props) {
         ctx.drawImage(video, 0, 0);
         const img = canvas.toDataURL("image/png");
 
-        video.style.display = "none";
         stopCamera();
         onCapture(img);
     };
 
     useEffect(() => {
-        let mounted = true;
+        let active = true;
 
         navigator.mediaDevices
-            .getUserMedia({ video: true })
+            .getUserMedia({ video: { facingMode: "user" } })
             .then((mediaStream) => {
-                if (!mounted) return;
-                setStream(mediaStream);
-                if (videoRef.current) videoRef.current.srcObject = mediaStream;
+                if (!active) return;
+
+                streamRef.current = mediaStream;
+
+                if (videoRef.current) {
+                    videoRef.current.srcObject = mediaStream;
+                }
+            })
+            .catch((err) => {
+                console.error("Camera error:", err);
             });
 
         return () => {
-            mounted = false;
+            active = false;
             stopCamera();
         };
-    }, [stopCamera]);
+    }, []);
 
     return (
         <div className="p-4 space-y-4">
-            <video ref={videoRef} autoPlay playsInline className="rounded-lg w-full" />
+            <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                className="rounded-lg w-full"
+            />
 
             <div className="flex justify-end gap-3">
-                <Button variant="ghost" onClick={() => { stopCamera(); onCancel(); }}>
+                <Button
+                    variant="ghost"
+                    onClick={() => {
+                        stopCamera();
+                        onCancel();
+                    }}
+                >
                     Cancel
                 </Button>
                 <Button onClick={takePhoto}>

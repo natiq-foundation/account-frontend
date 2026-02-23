@@ -9,21 +9,13 @@ interface EmailListItemProps {
     onMakePrimary: () => void;
 }
 
-export function EmailListItem({
-    data,
-    onDelete,
-    onMakePrimary,
-}: EmailListItemProps) {
+export function EmailListItem({ data, onDelete, onMakePrimary }: EmailListItemProps) {
     return (
         <div className="border rounded-lg p-3 flex justify-between items-center">
             <div>
                 <p className="font-medium">{data.email}</p>
                 <div className="text-sm text-gray-500">
-                    {data.primary
-                        ? "Primary"
-                        : data.verified
-                            ? "Verified"
-                            : "Pending verification"}
+                    {data.primary ? "Primary" : data.verified ? "Verified" : "Pending verification"}
                 </div>
             </div>
 
@@ -33,7 +25,6 @@ export function EmailListItem({
                         Make Primary
                     </Button>
                 )}
-
                 {!data.primary && (
                     <Button size="sm" variant="destructive" onClick={onDelete}>
                         Remove

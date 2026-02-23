@@ -1,4 +1,4 @@
-export interface EmailItem {
+export interface Email {
     id: string;
     email: string;
     primary: boolean;
