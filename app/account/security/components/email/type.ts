@@ -1,6 +1,0 @@
-export interface EmailItem {
-    id: string;
-    email: string;
-    primary: boolean;
-    verified: boolean;
-}
