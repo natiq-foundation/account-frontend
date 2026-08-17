@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 import LauncherLayout from "@/layouts/LauncherLayout";
-import LauncherApps from "@/routes/launcher/apps/apps";
+import LauncherApps from "@/routes/launcher/profile/profile";
 import LauncherSettings from "@/routes/launcher/settings/settings";
 import IntroPage from "./routes/intro";
 
