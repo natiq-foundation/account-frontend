@@ -8,7 +8,7 @@ export default {
         resetApp: "Reset App",
         darkMode: "Dark Mode",
         lightMode: "Light Mode",
-        back: "Back"
+        back: "Back",
     },
 
     apps: {
@@ -44,7 +44,7 @@ export default {
     },
 
     launcher: {
-        apps: "Apps",
+        profile: "Profile",
         settings: "Settings",
         links: "Links",
 
@@ -55,12 +55,4 @@ export default {
         sponsor: "Sponsor",
         developer: "Developer",
     },
-
-
-
-
-
-
-}
-
-
+};

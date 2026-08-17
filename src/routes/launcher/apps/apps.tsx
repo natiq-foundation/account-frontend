@@ -7,7 +7,7 @@ export default function Apps() {
     return (
         <div className="w-full max-w-xl mt-10 flex flex-col gap-5">
             <h1 className="text-2xl font-semibold text-on-surface">
-                {t("launcher.apps")}
+                {t("launcher.profile")}
             </h1>
 
             <AppsMenu />

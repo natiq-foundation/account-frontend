@@ -1,17 +1,19 @@
-import { Outlet } from "react-router-dom"
-import { useEffect } from "react"
-import { useTranslation } from "react-i18next"
-import { useSettings } from "@/context/settingsContext"
-import ResponsiveMenu, { NavItem } from "@/components/modules/nav/ResponsiveNav"
-import { Material } from "@yakad/symbols"
+import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useSettings } from "@/context/settingsContext";
+import ResponsiveMenu, {
+    NavItem,
+} from "@/components/modules/nav/ResponsiveNav";
+import { Material } from "@yakad/symbols";
 
 export default function LauncherLayout() {
-    const { t } = useTranslation()
-    const [settings, setSettings] = useSettings()
-    const pwaState = settings.pwaInstallPopup
+    const { t } = useTranslation();
+    const [settings, setSettings] = useSettings();
+    const pwaState = settings.pwaInstallPopup;
 
     useEffect(() => {
-        const p = new URLSearchParams(window.location.search)
+        const p = new URLSearchParams(window.location.search);
 
         if (p.get("src") === "pwa_install" && !pwaState.seen) {
             setSettings((prev) => ({
@@ -20,9 +22,9 @@ export default function LauncherLayout() {
                     ...prev.pwaInstallPopup,
                     seen: true,
                 },
-            }))
+            }));
         }
-    }, [pwaState.seen, setSettings])
+    }, [pwaState.seen, setSettings]);
 
     return (
         <div className="min-h-screen flex flex-col bg-surface">
@@ -32,9 +34,9 @@ export default function LauncherLayout() {
 
             <ResponsiveMenu open>
                 <NavItem
-                    label={t("launcher.apps")}
-                    icon={<Material icon="apps" />}
-                    to="/launcher/apps"
+                    label={t("launcher.profile")}
+                    icon={<Material icon="person" />}
+                    to="/launcher/profile"
                 />
                 <NavItem
                     label={t("launcher.settings")}
@@ -43,5 +45,5 @@ export default function LauncherLayout() {
                 />
             </ResponsiveMenu>
         </div>
-    )
+    );
 }

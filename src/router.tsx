@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import LauncherLayout from "@/layouts/LauncherLayout";
 import LauncherApps from "@/routes/launcher/apps/apps";
 import LauncherSettings from "@/routes/launcher/settings/settings";
-import IframePage from "@/routes/IframePage";
 import IntroPage from "./routes/intro";
 
 function PWARedirect() {
@@ -35,8 +34,8 @@ export default function Router() {
                 </Route>
 
                 <Route path="/launcher" element={<LauncherLayout />}>
-                    <Route index element={<Navigate to="apps" replace />} />
-                    <Route path="apps" element={<LauncherApps />} />
+                    <Route index element={<Navigate to="Profile" replace />} />
+                    <Route path="Profile" element={<LauncherApps />} />
                     <Route path="settings" element={<LauncherSettings />} />
                 </Route>
             </Routes>
