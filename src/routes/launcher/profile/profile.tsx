@@ -1,18 +1,17 @@
-import { CalendarDays, MapPin } from "lucide-react";
+import { MapPin, CalendarDays } from "lucide-react";
 
 import { useProfile } from "@/context/profileContext";
 
 import ProfileHeader from "./profileHeader";
 
+import { useState } from "react";
+
+import EditProfileDialog from "./editProfileDialog";
+
 export default function Profile() {
-    const [profile] = useProfile();
+    const [profile, setProfile] = useProfile();
 
-    const birthday = profile.Birthday
-        ? profile.Birthday.toLocaleDateString()
-        : "Not set";
-
-    const region = profile.Region || "Not set";
-
+    const [editOpen, setEditOpen] = useState(false);
     return (
         <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
             <div className="space-y-6">
@@ -20,50 +19,62 @@ export default function Profile() {
                     fullName={profile.fullName}
                     Username={profile.Username}
                     avatar={profile.avatar}
+                    onEdit={() => setEditOpen(true)}
                 />
 
                 <section className="grid gap-4 sm:grid-cols-2">
-                    <InfoCard
-                        icon={<MapPin className="size-5" />}
-                        label="Region"
-                        value={region}
-                    />
+                    <div className="rounded-xl border bg-card p-5">
+                        <div className="flex items-center gap-3">
+                            <div className="flex size-10 items-center justify-center rounded-lg bg-muted">
+                                <MapPin className="size-5 text-muted-foreground" />
+                            </div>
 
-                    <InfoCard
-                        icon={<CalendarDays className="size-5" />}
-                        label="Birthday"
-                        value={birthday}
+                            <div>
+                                <p className="text-sm text-muted-foreground">
+                                    Region
+                                </p>
+
+                                <p className="font-medium">
+                                    {profile.Region || "Not set"}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="rounded-xl border bg-card p-5">
+                        <div className="flex items-center gap-3">
+                            <div className="flex size-10 items-center justify-center rounded-lg bg-muted">
+                                <CalendarDays className="size-5 text-muted-foreground" />
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-muted-foreground">
+                                    Birthday
+                                </p>
+
+                                <p className="font-medium">
+                                    {profile.Birthday
+                                        ? profile.Birthday.toLocaleDateString()
+                                        : "Not set"}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <EditProfileDialog
+                        open={editOpen}
+                        onOpenChange={setEditOpen}
+                        fullName={profile.fullName}
+                        Username={profile.Username}
+                        onSave={(data) => {
+                            setProfile({
+                                ...profile,
+                                fullName: data.fullName,
+                                Username: data.Username,
+                            });
+                        }}
                     />
                 </section>
             </div>
         </main>
-    );
-}
-
-interface InfoCardProps {
-    icon: React.ReactNode;
-    label: string;
-    value: string;
-}
-
-function InfoCard({ icon, label, value }: InfoCardProps) {
-    return (
-        <div className="rounded-xl border bg-card p-5">
-            <div className="flex items-center gap-3">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-                    {icon}
-                </div>
-
-                <div className="min-w-0">
-                    <p className="text-sm text-muted-foreground">
-                        {label}
-                    </p>
-
-                    <p className="truncate font-medium">
-                        {value}
-                    </p>
-                </div>
-            </div>
-        </div>
     );
 }
