@@ -1,11 +1,7 @@
-import { Camera, Pencil } from "lucide-react";
-
+import { Pencil } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface ProfileHeaderProps {
     fullName: string;
@@ -47,16 +43,6 @@ export default function ProfileHeader({
                                     {initials}
                                 </AvatarFallback>
                             </Avatar>
-
-                            <Button
-                                type="button"
-                                size="icon"
-                                variant="secondary"
-                                className="absolute bottom-1 right-1 size-9 rounded-full border shadow-sm"
-                                aria-label="Change avatar"
-                            >
-                                <Camera className="size-4" />
-                            </Button>
                         </div>
 
                         <div className="text-center sm:pb-2 sm:text-left">
@@ -70,11 +56,7 @@ export default function ProfileHeader({
                         </div>
                     </div>
 
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={onEdit}
-                    >
+                    <Button type="button" variant="outline" onClick={onEdit}>
                         <Pencil className="size-4" />
                         Edit Profile
                     </Button>

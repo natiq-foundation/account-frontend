@@ -1,14 +1,17 @@
 import { useRef, type ChangeEvent } from "react";
 
-interface AvatarProps {
+interface AvatarUploaderProps {
     value: string | null;
     onChange: (value: string | null) => void;
 }
 
-export default function Avatar({ value, onChange }: AvatarProps) {
+export default function AvatarUploader({
+    value,
+    onChange,
+}: AvatarUploaderProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
-    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
 
         if (!file) {
@@ -24,7 +27,7 @@ export default function Avatar({ value, onChange }: AvatarProps) {
         <div>
             <div>
                 {value ? (
-                    <img src={value} alt="Profile avatar" />
+                    <img src={value} alt="Avatar" />
                 ) : (
                     <div>No Avatar</div>
                 )}
@@ -38,7 +41,7 @@ export default function Avatar({ value, onChange }: AvatarProps) {
                 ref={inputRef}
                 type="file"
                 accept="image/*"
-                onChange={handleChange}
+                onChange={handleFileChange}
                 hidden
             />
         </div>

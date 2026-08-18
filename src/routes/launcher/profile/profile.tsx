@@ -65,11 +65,13 @@ export default function Profile() {
                         onOpenChange={setEditOpen}
                         fullName={profile.fullName}
                         Username={profile.Username}
+                        avatar={profile.avatar}
                         onSave={(data) => {
                             setProfile({
                                 ...profile,
                                 fullName: data.fullName,
                                 Username: data.Username,
+                                avatar: data.avatar,
                             });
                         }}
                     />

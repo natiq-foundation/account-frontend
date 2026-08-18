@@ -13,14 +13,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import AvatarUploader from "@/components/specified/avatar";
+
 interface EditProfileDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
 
     fullName: string;
     Username: string;
+    avatar: string | null;
 
-    onSave: (data: { fullName: string; Username: string }) => void;
+    onSave: (data: {
+        fullName: string;
+        Username: string;
+        avatar: string | null;
+    }) => void;
 }
 
 export default function EditProfileDialog({
@@ -28,10 +35,14 @@ export default function EditProfileDialog({
     onOpenChange,
     fullName,
     Username,
+    avatar,
     onSave,
 }: EditProfileDialogProps) {
     const [name, setName] = useState(fullName);
+
     const [username, setUsername] = useState(Username);
+
+    const [avatarValue, setAvatarValue] = useState<string | null>(avatar);
 
     const [errors, setErrors] = useState<{
         fullName?: string;
@@ -50,6 +61,7 @@ export default function EditProfileDialog({
         onSave({
             fullName: name.trim(),
             Username: username.trim(),
+            avatar: avatarValue,
         });
 
         onOpenChange(false);
@@ -63,6 +75,17 @@ export default function EditProfileDialog({
                 </DialogHeader>
 
                 <div className="space-y-5">
+                    {/* Avatar */}
+
+                    <div className="flex justify-center">
+                        <AvatarUploader
+                            value={avatarValue}
+                            onChange={setAvatarValue}
+                        />
+                    </div>
+
+                    {/* Full Name */}
+
                     <div className="space-y-2">
                         <Label>Full Name</Label>
 
@@ -85,6 +108,8 @@ export default function EditProfileDialog({
                             </p>
                         )}
                     </div>
+
+                    {/* Username */}
 
                     <div className="space-y-2">
                         <Label>Username</Label>

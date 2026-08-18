@@ -5,5 +5,5 @@ export const links = {
     blog: "https://blog.natiq.org",
     sponsor: "https://sponsor.natiq.org",
     dev: "https://dev.natiq.org",
-    privacyPolicy: "https://blog.natiq.org/privacy-policy/",
+    privacyPolicy: "https://natiq.org/privacy-policy/",
 } as const
