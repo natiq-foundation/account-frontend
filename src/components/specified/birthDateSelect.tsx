@@ -8,7 +8,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 
-import { Calendar } from "@/components/ui/calendar";
+// import { Calendar } from "@/components/ui/calendar";
 
 import { format } from "date-fns";
 
@@ -40,7 +40,7 @@ export default function BirthdayPicker({
             </PopoverTrigger>
 
             <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
+                {/* <Calendar
                     mode="single"
                     selected={value}
                     onSelect={onChange}
@@ -48,7 +48,7 @@ export default function BirthdayPicker({
                     fromYear={1900}
                     toYear={new Date().getFullYear()}
                     disabled={(date) => date > new Date()}
-                />
+                /> */}
             </PopoverContent>
         </Popover>
     );
