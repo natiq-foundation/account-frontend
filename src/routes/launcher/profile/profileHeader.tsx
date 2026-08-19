@@ -2,6 +2,8 @@ import { Pencil } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
+import AvatarPreview from "@/components/specified/avatarPreview";
 
 interface ProfileHeaderProps {
     fullName: string;
@@ -25,6 +27,7 @@ export default function ProfileHeader({
             .map((name) => name[0]?.toUpperCase())
             .join("") || "U";
 
+    const [avatarOpen, setAvatarOpen] = useState(false);
     return (
         <Card className="overflow-hidden">
             <div className="h-32 bg-muted" />
@@ -33,12 +36,15 @@ export default function ProfileHeader({
                 <div className="-mt-16 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
                     <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-end">
                         <div className="relative">
-                            <Avatar className="size-32 border-4 border-background shadow-md">
+                            <Avatar
+                                className="size-32 cursor-pointer border-4 border-background shadow-md"
+                                onClick={() => setAvatarOpen(true)}
+                            >
+                                {" "}
                                 <AvatarImage
                                     src={avatar ?? undefined}
                                     alt={fullName}
                                 />
-
                                 <AvatarFallback className="text-2xl font-semibold">
                                     {initials}
                                 </AvatarFallback>
@@ -62,6 +68,12 @@ export default function ProfileHeader({
                     </Button>
                 </div>
             </CardContent>
+            <AvatarPreview
+                open={avatarOpen}
+                onOpenChange={setAvatarOpen}
+                avatar={avatar}
+                name={fullName}
+            />
         </Card>
     );
 }

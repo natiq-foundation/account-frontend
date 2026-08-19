@@ -9,7 +9,6 @@ export function validateProfile(
 ): ProfileErrors {
     const errors: ProfileErrors = {};
 
-    // Full Name validation
     const cleanName = fullName.trim();
 
     if (!cleanName) {
@@ -20,7 +19,6 @@ export function validateProfile(
         errors.fullName = "Full name cannot exceed 50 characters";
     }
 
-    // Username validation
     const cleanUsername = Username.trim();
 
     if (!cleanUsername) {

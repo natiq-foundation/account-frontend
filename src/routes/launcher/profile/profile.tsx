@@ -1,17 +1,16 @@
 import { MapPin, CalendarDays } from "lucide-react";
+import { useState } from "react";
 
 import { useProfile } from "@/context/profileContext";
 
 import ProfileHeader from "./profileHeader";
-
-import { useState } from "react";
-
 import EditProfileDialog from "./editProfileDialog";
 
 export default function Profile() {
     const [profile, setProfile] = useProfile();
 
     const [editOpen, setEditOpen] = useState(false);
+
     return (
         <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
             <div className="space-y-6">
@@ -60,22 +59,29 @@ export default function Profile() {
                             </div>
                         </div>
                     </div>
-                    <EditProfileDialog
-                        open={editOpen}
-                        onOpenChange={setEditOpen}
-                        fullName={profile.fullName}
-                        Username={profile.Username}
-                        avatar={profile.avatar}
-                        onSave={(data) => {
-                            setProfile({
-                                ...profile,
-                                fullName: data.fullName,
-                                Username: data.Username,
-                                avatar: data.avatar,
-                            });
-                        }}
-                    />
                 </section>
+
+                <EditProfileDialog
+                    open={editOpen}
+                    onOpenChange={setEditOpen}
+                    fullName={profile.fullName}
+                    Username={profile.Username}
+                    avatar={profile.avatar}
+                    Birthday={profile.Birthday}
+                    onSave={(data) => {
+                        setProfile((prev) => ({
+                            ...prev,
+
+                            fullName: data.fullName,
+
+                            Username: data.Username,
+
+                            avatar: data.avatar,
+
+                            Birthday: data.Birthday,
+                        }));
+                    }}
+                />
             </div>
         </main>
     );
