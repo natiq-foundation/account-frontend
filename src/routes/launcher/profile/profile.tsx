@@ -11,6 +11,8 @@ export default function Profile() {
 
     const [editOpen, setEditOpen] = useState(false);
 
+    const birthday = profile.Birthday ? new Date(profile.Birthday) : undefined;
+
     return (
         <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
             <div className="space-y-6">
@@ -52,8 +54,8 @@ export default function Profile() {
                                 </p>
 
                                 <p className="font-medium">
-                                    {profile.Birthday
-                                        ? profile.Birthday.toLocaleDateString()
+                                    {birthday
+                                        ? birthday.toLocaleDateString()
                                         : "Not set"}
                                 </p>
                             </div>
@@ -67,7 +69,7 @@ export default function Profile() {
                     fullName={profile.fullName}
                     Username={profile.Username}
                     avatar={profile.avatar}
-                    Birthday={profile.Birthday}
+                    Birthday={birthday}
                     onSave={(data) => {
                         setProfile((prev) => ({
                             ...prev,

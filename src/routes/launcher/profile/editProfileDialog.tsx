@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { validateProfile } from "@/lib/validation/profile";
 
+import BirthdayPicker from "@/components/specified/birthDateSelect";
+
 import {
     Dialog,
     DialogContent,
@@ -22,11 +24,13 @@ interface EditProfileDialogProps {
     fullName: string;
     Username: string;
     avatar: string | null;
+    Birthday?: Date | undefined;
 
     onSave: (data: {
         fullName: string;
         Username: string;
         avatar: string | null;
+        Birthday: Date | undefined;
     }) => void;
 }
 
@@ -36,6 +40,7 @@ export default function EditProfileDialog({
     fullName,
     Username,
     avatar,
+    Birthday,
     onSave,
 }: EditProfileDialogProps) {
     const [name, setName] = useState(fullName);
@@ -43,6 +48,8 @@ export default function EditProfileDialog({
     const [username, setUsername] = useState(Username);
 
     const [avatarValue, setAvatarValue] = useState<string | null>(avatar);
+
+    const [birthday, setBirthday] = useState<Date | undefined>(Birthday);
 
     const [errors, setErrors] = useState<{
         fullName?: string;
@@ -60,8 +67,12 @@ export default function EditProfileDialog({
 
         onSave({
             fullName: name.trim(),
+
             Username: username.trim(),
+
             avatar: avatarValue,
+
+            Birthday: birthday,
         });
 
         onOpenChange(false);
@@ -132,6 +143,17 @@ export default function EditProfileDialog({
                                 {errors.Username}
                             </p>
                         )}
+                    </div>
+
+                    {/* Birthday */}
+
+                    <div className="space-y-2">
+                        <Label>Birthday</Label>
+
+                        <BirthdayPicker
+                            value={birthday}
+                            onChange={setBirthday}
+                        />
                     </div>
 
                     <Button className="w-full" onClick={handleSave}>

@@ -9,7 +9,7 @@ export interface Profile {
 }
 
 const defaultProfile: Profile = {
-    fullName: "TestName",
+    fullName: "Name",
     Username: "UserName",
     Birthday: undefined,
     Region: undefined,
