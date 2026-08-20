@@ -1,5 +1,6 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { XIcon } from "lucide-react";
+
+import { Material } from "@yakad/symbols";
 
 interface AvatarPreviewProps {
     open: boolean;
@@ -69,7 +70,8 @@ export default function AvatarPreview({
                         focus:ring-white/30
                     "
                 >
-                    <XIcon className="size-5" />
+                    <Material icon="close" className="size-5" />
+
                     <span className="sr-only">بستن</span>
                 </button>
 
@@ -92,15 +94,15 @@ export default function AvatarPreview({
 
                     <p
                         className="
-                        absolute
-                        -bottom-10
-                        left-1/2
-                        -translate-x-1/2
-                        text-white/50
-                        text-sm
-                        font-light
-                        tracking-wide
-                    "
+                            absolute
+                            -bottom-10
+                            left-1/2
+                            -translate-x-1/2
+                            text-white/50
+                            text-sm
+                            font-light
+                            tracking-wide
+                        "
                     >
                         {name}
                     </p>

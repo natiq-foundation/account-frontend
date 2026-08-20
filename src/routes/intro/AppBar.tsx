@@ -1,133 +1,142 @@
-import { useState, useEffect } from "react"
-import { Menu } from "lucide-react"
-import { Material } from "@yakad/symbols"
+import { useState, useEffect } from "react";
+import { Material } from "@yakad/symbols";
 
-import { DropdownButton } from "./DropdownButton"
-import AppsMenu from "@/components/modules/apps/AppsMenu"
-import { SideDrawer } from "./SideDrawer"
-import { SettingsDropdown } from "./SettingsDropdown"
-import OnlineStatus from "@/components/modules/status/OnlineStatus"
+import { DropdownButton } from "./DropdownButton";
+import AppsMenu from "@/components/modules/apps/AppsMenu";
+import { SideDrawer } from "./SideDrawer";
+import { SettingsDropdown } from "./SettingsDropdown";
+import OnlineStatus from "@/components/modules/status/OnlineStatus";
 
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
 
 type Props = {
-  hideApps?: boolean
-}
+    hideApps?: boolean;
+};
 
 export function AppBar({ hideApps }: Props) {
-  const { t } = useTranslation()
+    const { t } = useTranslation();
 
-  const [drawerOpen, setDrawerOpen] = useState(false)
-  const [appsOpen, setAppsOpen] = useState(false)
-  const [settingsOpen, setSettingsOpen] = useState(false)
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [appsOpen, setAppsOpen] = useState(false);
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
-  useEffect(() => {
-    const closeOnScroll = () => {
-      setAppsOpen(false)
-      setSettingsOpen(false)
-    }
+    useEffect(() => {
+        const closeOnScroll = () => {
+            setAppsOpen(false);
+            setSettingsOpen(false);
+        };
 
-    window.addEventListener("scroll", closeOnScroll)
+        window.addEventListener("scroll", closeOnScroll);
 
-    return () => {
-      window.removeEventListener("scroll", closeOnScroll)
-    }
-  }, [])
+        return () => {
+            window.removeEventListener("scroll", closeOnScroll);
+        };
+    }, []);
 
-  return (
-    <>
+    return (
+        <>
+            <div className="sticky top-0 left-0 right-0 z-30 flex flex-col">
+                <OnlineStatus />
 
-      <div className="sticky top-0 left-0 right-0 z-30 flex flex-col">
-        <OnlineStatus />
-
-        <header
-          className="
+                <header
+                    className="
                         flex justify-center px-4 pt-4
                         backdrop-blur-md
                     "
-        >
-          <div
-            className="
+                >
+                    <div
+                        className="
                             w-full max-w-6xl h-16 px-4
                             flex items-center justify-between
                             rounded-2xl
                             bg-surface-container
                             elevation-3
                         "
-          >
-            {/* Left */}
-            <div className="flex items-center">
-              <button
-                onClick={() => {
-                  setDrawerOpen(true)
-                  setAppsOpen(false)
-                  setSettingsOpen(false)
-                }}
-                className="
+                    >
+                        {/* Left */}
+
+                        <div className="flex items-center">
+                            <button
+                                onClick={() => {
+                                    setDrawerOpen(true);
+                                    setAppsOpen(false);
+                                    setSettingsOpen(false);
+                                }}
+                                className="
                                     p-2 rounded-full
                                     hover:bg-surface-container-high
                                     transition
                                 "
-              >
-                <Menu size={22} />
-              </button>
+                            >
+                                <Material
+                                    icon="menu"
+                                    type="round"
+                                    weight={500}
+                                    opticalSize={24}
+                                    className="size-[22px]"
+                                />
+                            </button>
 
-              <span className="ml-3 font-medium text-sm tracking-wide">
-                {t("appBar.title")}
-              </span>
+                            <span className="ml-3 font-medium text-sm tracking-wide">
+                                {t("appBar.title")}
+                            </span>
+                        </div>
+
+                        {/* Right */}
+
+                        <div className="flex items-center gap-1">
+                            {!hideApps && (
+                                <DropdownButton
+                                    open={appsOpen}
+                                    toggle={() => {
+                                        setAppsOpen(!appsOpen);
+                                        setSettingsOpen(false);
+                                    }}
+                                    close={() => setAppsOpen(false)}
+                                    icon={
+                                        <Material
+                                            icon="apps"
+                                            filled={appsOpen}
+                                            type="round"
+                                            weight={500}
+                                            opticalSize={24}
+                                        />
+                                    }
+                                    width="w-[26rem] max-w-[calc(100vw-2rem)]"
+                                >
+                                    <AppsMenu />
+                                </DropdownButton>
+                            )}
+
+                            <DropdownButton
+                                open={settingsOpen}
+                                toggle={() => {
+                                    setSettingsOpen(!settingsOpen);
+                                    setAppsOpen(false);
+                                }}
+                                close={() => setSettingsOpen(false)}
+                                icon={
+                                    <Material
+                                        icon="settings"
+                                        filled={settingsOpen}
+                                        type="round"
+                                        weight={500}
+                                        opticalSize={24}
+                                    />
+                                }
+                                width="w-60"
+                            >
+                                <SettingsDropdown />
+                            </DropdownButton>
+                        </div>
+                    </div>
+                </header>
             </div>
 
-            {/* Right */}
-            <div className="flex items-center gap-1">
-              {!hideApps && (
-                <DropdownButton
-                  open={appsOpen}
-                  toggle={() => {
-                    setAppsOpen(!appsOpen)
-                    setSettingsOpen(false)
-                  }}
-                  close={() => setAppsOpen(false)}
-                  icon={
-                    <Material
-                      icon="apps"
-                      filled={appsOpen}
-                      type="round"
-                      weight={500}
-                      opticalSize={24}
-                    />
-                  }
-                  width="w-[26rem] max-w-[calc(100vw-2rem)]"
-                >
-                  <AppsMenu />
-                </DropdownButton>
-              )}
-
-              <DropdownButton
-                open={settingsOpen}
-                toggle={() => {
-                  setSettingsOpen(!settingsOpen)
-                  setAppsOpen(false)
-                }}
-                close={() => setSettingsOpen(false)}
-                icon={
-                  <Material
-                    icon="settings"
-                    filled={settingsOpen}
-                    type="round"
-                    weight={500}
-                    opticalSize={24}
-                  />
-                }
-                width="w-60"
-              >
-                <SettingsDropdown />
-              </DropdownButton>
-            </div>
-          </div>
-        </header>
-      </div>
-
-      <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-    </>
-  )
+            <SideDrawer
+                open={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+            />
+        </>
+    );
 }

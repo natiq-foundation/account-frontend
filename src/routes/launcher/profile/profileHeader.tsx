@@ -1,8 +1,13 @@
-import { Pencil } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
+
+import { Material } from "@yakad/symbols";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import { Button } from "@/components/ui/button";
+
+import { Card, CardContent } from "@/components/ui/card";
+
 import AvatarPreview from "@/components/specified/avatarPreview";
 
 interface ProfileHeaderProps {
@@ -28,6 +33,7 @@ export default function ProfileHeader({
             .join("") || "U";
 
     const [avatarOpen, setAvatarOpen] = useState(false);
+
     return (
         <Card className="overflow-hidden">
             <div className="h-32 bg-muted" />
@@ -40,11 +46,11 @@ export default function ProfileHeader({
                                 className="size-32 cursor-pointer border-4 border-background shadow-md"
                                 onClick={() => setAvatarOpen(true)}
                             >
-                                {" "}
                                 <AvatarImage
                                     src={avatar ?? undefined}
                                     alt={fullName}
                                 />
+
                                 <AvatarFallback className="text-2xl font-semibold">
                                     {initials}
                                 </AvatarFallback>
@@ -63,11 +69,12 @@ export default function ProfileHeader({
                     </div>
 
                     <Button type="button" variant="outline" onClick={onEdit}>
-                        <Pencil className="size-4" />
+                        <Material icon="edit" className="size-4" />
                         Edit Profile
                     </Button>
                 </div>
             </CardContent>
+
             <AvatarPreview
                 open={avatarOpen}
                 onOpenChange={setAvatarOpen}

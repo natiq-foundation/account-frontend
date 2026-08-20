@@ -1,5 +1,6 @@
 import { useRef, type ChangeEvent } from "react";
-import { Camera, Trash2 } from "lucide-react";
+
+import { Material } from "@yakad/symbols";
 
 import {
     Avatar as UiAvatar,
@@ -33,6 +34,7 @@ export default function AvatarUploader({
 
         if (file.size > 2 * 1024 * 1024) {
             alert("Image size must be less than 2MB");
+
             return;
         }
 
@@ -49,14 +51,7 @@ export default function AvatarUploader({
 
     return (
         <div className="relative">
-            <UiAvatar
-                className="
-                    size-28
-                    border-4
-                    border-background
-                    shadow-lg
-                "
-            >
+            <UiAvatar className="size-28 border-4 border-background shadow-lg">
                 <AvatarImage src={value ?? undefined} alt="Profile avatar" />
 
                 <AvatarFallback>User</AvatarFallback>
@@ -86,9 +81,9 @@ export default function AvatarUploader({
                 }}
             >
                 {value ? (
-                    <Trash2 className="size-4" />
+                    <Material icon="delete" className="size-4" />
                 ) : (
-                    <Camera className="size-4" />
+                    <Material icon="photo_camera" className="size-4" />
                 )}
             </Button>
 

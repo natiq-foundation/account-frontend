@@ -1,5 +1,6 @@
-import { MapPin, CalendarDays } from "lucide-react";
 import { useState } from "react";
+
+import { Material } from "@yakad/symbols";
 
 import { useProfile } from "@/context/profileContext";
 
@@ -24,10 +25,14 @@ export default function Profile() {
                 />
 
                 <section className="grid gap-4 sm:grid-cols-2">
+
                     <div className="rounded-xl border bg-card p-5">
                         <div className="flex items-center gap-3">
                             <div className="flex size-10 items-center justify-center rounded-lg bg-muted">
-                                <MapPin className="size-5 text-muted-foreground" />
+                                <Material
+                                    icon="location_on"
+                                    className="size-5 text-muted-foreground"
+                                />
                             </div>
 
                             <div>
@@ -42,10 +47,15 @@ export default function Profile() {
                         </div>
                     </div>
 
+                    {/* Birthday */}
+
                     <div className="rounded-xl border bg-card p-5">
                         <div className="flex items-center gap-3">
                             <div className="flex size-10 items-center justify-center rounded-lg bg-muted">
-                                <CalendarDays className="size-5 text-muted-foreground" />
+                                <Material
+                                    icon="calendar_today"
+                                    className="size-5 text-muted-foreground"
+                                />
                             </div>
 
                             <div>
