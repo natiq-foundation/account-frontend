@@ -27,8 +27,8 @@ export default function LauncherLayout() {
     }, [pwaState.seen, setSettings]);
 
     return (
-        <div className="min-h-screen flex flex-col bg-surface">
-            <main className="flex-1 flex flex-col items-center px-4 py-10">
+        <div className="flex min-h-screen flex-col bg-surface">
+            <main className="flex flex-1 flex-col items-center px-4 py-10">
                 <Outlet />
             </main>
 

@@ -8,7 +8,7 @@ export default {
         resetApp: "ریست برنامه",
         darkMode: "حالت تاریک",
         lightMode: "حالت روشن",
-        back: "بازگشت"
+        back: "بازگشت",
     },
     apps: {
         quranTitle: "تجربه قرآن",
@@ -53,8 +53,4 @@ export default {
         sponsor: "حمایت مالی",
         developer: "توسعه‌دهنده",
     },
-
-
-
-
-}
+};

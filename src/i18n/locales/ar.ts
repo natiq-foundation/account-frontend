@@ -8,7 +8,7 @@ export default {
         resetApp: "إعادة ضبط التطبيق",
         darkMode: "الوضع الداكن",
         lightMode: "الوضع الفاتح",
-        back: "رجوع"
+        back: "رجوع",
     },
 
     apps: {
@@ -54,8 +54,4 @@ export default {
         sponsor: "الدعم",
         developer: "المطور",
     },
-
-
-
-
-}
+};

@@ -1,5 +1,5 @@
 self.addEventListener("install", () => {
-  console.log("SW installed")
-})
+    console.log("SW installed");
+});
 
-self.addEventListener("fetch", () => {})
+self.addEventListener("fetch", () => {});
