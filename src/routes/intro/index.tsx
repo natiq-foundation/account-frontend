@@ -4,7 +4,7 @@ import Footer from "./Footer";
 
 export default function IntroPage() {
     return (
-        <div className="min-h-screen bg-background flex flex-col">
+        <div className="flex min-h-screen flex-col bg-background">
             <AppBar />
 
             <div className="flex-1">

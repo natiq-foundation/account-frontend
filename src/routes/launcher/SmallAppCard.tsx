@@ -1,13 +1,15 @@
 export default function SmallAppCard() {
     return (
-        <div className="w-full rounded-[24px] bg-surface-container p-4 flex items-center justify-between">
+        <div className="flex w-full items-center justify-between rounded-[24px] bg-surface-container p-4">
             <div className="flex flex-col items-start text-left">
-                <span className="text-sm font-medium text-on-surface">App</span>
-                <span className="text-xs text-on-surface-variant">Coming soon</span>
+                <span className="text-on-surface text-sm font-medium">App</span>
+                <span className="text-on-surface-variant text-xs">
+                    Coming soon
+                </span>
             </div>
 
-            <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center">
-                <div className="w-5 h-5 rounded-md bg-on-surface-variant/30" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface-container-high">
+                <div className="bg-on-surface-variant/30 h-5 w-5 rounded-md" />
             </div>
         </div>
     );

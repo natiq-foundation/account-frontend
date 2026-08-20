@@ -1,21 +1,21 @@
-import { isPWA } from "./isPWA"
-import { links } from "@/links"
+import { isPWA } from "./isPWA";
+import { links } from "@/links";
 
 const apps = {
-  quran: links.quran,
-  blog: links.blog,
-  sponsor: links.sponsor,
-  dev: links.dev,
-} as const
+    quran: links.quran,
+    blog: links.blog,
+    sponsor: links.sponsor,
+    dev: links.dev,
+} as const;
 
 export function openApp(app: keyof typeof apps) {
-  const url = apps[app]
+    const url = apps[app];
 
-  if (!url) return
+    if (!url) return;
 
-  if (isPWA()) {
-    window.location.href = `/iframe?src=${url}`
-  } else {
-    window.open(url, "_blank")
-  }
+    if (isPWA()) {
+        window.location.href = `/iframe?src=${url}`;
+    } else {
+        window.open(url, "_blank");
+    }
 }

@@ -61,17 +61,7 @@ export default function AvatarUploader({
                 type="button"
                 size="icon"
                 variant="secondary"
-                className="
-                    absolute
-                    bottom-0
-                    right-0
-                    size-9
-                    rounded-full
-                    border
-                    shadow-md
-                    transition
-                    hover:scale-110
-                "
+                className="absolute bottom-0 right-0 size-9 rounded-full border shadow-md transition hover:scale-110"
                 onClick={() => {
                     if (value) {
                         onChange(null);

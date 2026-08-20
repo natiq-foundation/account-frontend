@@ -35,24 +35,11 @@ export function AppBar({ hideApps }: Props) {
 
     return (
         <>
-            <div className="sticky top-0 left-0 right-0 z-30 flex flex-col">
+            <div className="sticky left-0 right-0 top-0 z-30 flex flex-col">
                 <OnlineStatus />
 
-                <header
-                    className="
-                        flex justify-center px-4 pt-4
-                        backdrop-blur-md
-                    "
-                >
-                    <div
-                        className="
-                            w-full max-w-6xl h-16 px-4
-                            flex items-center justify-between
-                            rounded-2xl
-                            bg-surface-container
-                            elevation-3
-                        "
-                    >
+                <header className="flex justify-center px-4 pt-4 backdrop-blur-md">
+                    <div className="elevation-3 flex h-16 w-full max-w-6xl items-center justify-between rounded-2xl bg-surface-container px-4">
                         {/* Left */}
 
                         <div className="flex items-center">
@@ -62,11 +49,7 @@ export function AppBar({ hideApps }: Props) {
                                     setAppsOpen(false);
                                     setSettingsOpen(false);
                                 }}
-                                className="
-                                    p-2 rounded-full
-                                    hover:bg-surface-container-high
-                                    transition
-                                "
+                                className="rounded-full p-2 transition hover:bg-surface-container-high"
                             >
                                 <Material
                                     icon="menu"
@@ -77,7 +60,7 @@ export function AppBar({ hideApps }: Props) {
                                 />
                             </button>
 
-                            <span className="ml-3 font-medium text-sm tracking-wide">
+                            <span className="ml-3 text-sm font-medium tracking-wide">
                                 {t("appBar.title")}
                             </span>
                         </div>

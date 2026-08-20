@@ -25,7 +25,6 @@ export default function Profile() {
                 />
 
                 <section className="grid gap-4 sm:grid-cols-2">
-
                     <div className="rounded-xl border bg-card p-5">
                         <div className="flex items-center gap-3">
                             <div className="flex size-10 items-center justify-center rounded-lg bg-muted">

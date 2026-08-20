@@ -8,7 +8,7 @@ export default {
         resetApp: "Proqramı sıfırla",
         darkMode: "Qaranlıq rejim",
         lightMode: "İşıqlı rejim",
-        back: "Geri"
+        back: "Geri",
     },
 
     apps: {
@@ -54,8 +54,4 @@ export default {
         sponsor: "Dəstək",
         developer: "Tərtibatçı",
     },
-
-
-
-
-}
+};

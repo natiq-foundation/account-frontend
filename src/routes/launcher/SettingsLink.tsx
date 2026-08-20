@@ -9,20 +9,9 @@ export function SettingsLink({ label, href }: LinkProps) {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="
-                flex items-center justify-between
-                px-4 py-3 rounded-2xl
-                bg-surface-container-low
-                hover:bg-surface-container-high
-                transition-colors
-                text-on-surface
-            "
+            className="bg-surface-container-low text-on-surface flex items-center justify-between rounded-2xl px-4 py-3 transition-colors hover:bg-surface-container-high"
         >
-            <span className="text-sm font-medium">
-                {label}
-            </span>
-
-
+            <span className="text-sm font-medium">{label}</span>
         </a>
     );
 }
