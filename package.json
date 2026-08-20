@@ -10,7 +10,7 @@
         "preview": "vite preview",
         "generate-pwa-assets": "node generate-pwa-assets.js",
         "sync": "yakad-sync -r https://github.com/natiq-foundation/natiq-frontend.git -v",
-        "formate": "npx prettier . --write",
+        "format": "npx prettier . --write",
         "formate-check": "npx prettier . --check"
     },
     "dependencies": {
