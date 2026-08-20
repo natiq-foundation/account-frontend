@@ -26,6 +26,7 @@ export default function BirthdayPicker({
         <Popover>
             <PopoverTrigger asChild>
                 <Button
+                    type="button"
                     variant="outline"
                     className={cn(
                         "w-full justify-start text-left font-normal",
@@ -82,6 +83,20 @@ export default function BirthdayPicker({
                         day_today: "bg-accent text-accent-foreground",
                     }}
                 />
+
+                {value && (
+                    <div className="border-t p-2">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="hover:bg-destructive/10 w-full justify-center text-destructive hover:text-destructive"
+                            onClick={() => onChange(undefined)}
+                        >
+                            <Material icon="delete" className="mr-2 size-4" />
+                            Remove birthday
+                        </Button>
+                    </div>
+                )}
             </PopoverContent>
         </Popover>
     );

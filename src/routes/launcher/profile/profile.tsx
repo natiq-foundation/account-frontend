@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Material } from "@yakad/symbols";
+import { Material, Flag } from "@yakad/symbols";
 
 import { useProfile } from "@/context/profileContext";
 
@@ -15,7 +15,7 @@ export default function Profile() {
     const birthday = profile.Birthday ? new Date(profile.Birthday) : undefined;
 
     return (
-        <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+        <main className="mx-auto w-full max-w-5xl px-4 pb-20 pt-6 sm:px-6 sm:pb-24 lg:px-8">
             <div className="space-y-6">
                 <ProfileHeader
                     fullName={profile.fullName}
@@ -25,44 +25,67 @@ export default function Profile() {
                 />
 
                 <section className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-xl border bg-card p-5">
-                        <div className="flex items-center gap-3">
-                            <div className="flex size-10 items-center justify-center rounded-lg bg-muted">
+                    {/* Country */}
+
+                    <div className="group relative overflow-hidden rounded-2xl border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                        <div className="flex items-center gap-4">
+                            {/* Country icon */}
+
+                            <div className="bg-muted/50 flex size-14 shrink-0 items-center justify-center rounded-xl border shadow-sm transition-transform duration-200 group-hover:scale-105">
                                 <Material
                                     icon="location_on"
-                                    className="size-5 text-muted-foreground"
+                                    className="size-6 text-muted-foreground"
                                 />
                             </div>
 
-                            <div>
-                                <p className="text-sm text-muted-foreground">
-                                    Region
+                            {/* Country information */}
+
+                            <div className="min-w-0 flex-1">
+                                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                                    Country
                                 </p>
 
-                                <p className="font-medium">
-                                    {profile.Region || "Not set"}
-                                </p>
+                                <div className="mt-1 flex items-center gap-2">
+                                    <p
+                                        className={
+                                            profile.Region
+                                                ? "truncate text-lg font-semibold tracking-tight"
+                                                : "text-lg font-semibold tracking-tight text-muted-foreground"
+                                        }
+                                    >
+                                        {profile.Region || "Not set"}
+                                    </p>
+
+                                    {profile.RegionCode && (
+                                        <div className="flex shrink-0 items-center">
+                                            <Flag
+                                                code={profile.RegionCode}
+                                                className="size-5"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Birthday */}
 
-                    <div className="rounded-xl border bg-card p-5">
-                        <div className="flex items-center gap-3">
-                            <div className="flex size-10 items-center justify-center rounded-lg bg-muted">
+                    <div className="group relative overflow-hidden rounded-2xl border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-muted/50 flex size-14 shrink-0 items-center justify-center rounded-xl border shadow-sm transition-transform duration-200 group-hover:scale-105">
                                 <Material
                                     icon="calendar_today"
-                                    className="size-5 text-muted-foreground"
+                                    className="size-6 text-muted-foreground"
                                 />
                             </div>
 
-                            <div>
-                                <p className="text-sm text-muted-foreground">
+                            <div className="min-w-0 flex-1">
+                                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                                     Birthday
                                 </p>
 
-                                <p className="font-medium">
+                                <p className="mt-1 truncate text-lg font-semibold tracking-tight">
                                     {birthday
                                         ? birthday.toLocaleDateString()
                                         : "Not set"}
@@ -79,17 +102,17 @@ export default function Profile() {
                     Username={profile.Username}
                     avatar={profile.avatar}
                     Birthday={birthday}
+                    Region={profile.Region}
+                    RegionCode={profile.RegionCode}
                     onSave={(data) => {
                         setProfile((prev) => ({
                             ...prev,
-
                             fullName: data.fullName,
-
                             Username: data.Username,
-
                             avatar: data.avatar,
-
                             Birthday: data.Birthday,
+                            Region: data.Region,
+                            RegionCode: data.RegionCode,
                         }));
                     }}
                 />

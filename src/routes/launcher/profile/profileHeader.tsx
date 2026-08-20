@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Material } from "@yakad/symbols";
+import { Material, Flag } from "@yakad/symbols";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 

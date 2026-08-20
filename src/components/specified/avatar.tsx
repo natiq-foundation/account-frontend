@@ -54,7 +54,7 @@ export default function AvatarUploader({
             <UiAvatar className="size-28 border-4 border-background shadow-lg">
                 <AvatarImage src={value ?? undefined} alt="Profile avatar" />
 
-                <AvatarFallback>User</AvatarFallback>
+                <AvatarFallback>U</AvatarFallback>
             </UiAvatar>
 
             <Button
