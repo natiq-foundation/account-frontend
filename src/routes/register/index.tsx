@@ -82,38 +82,34 @@ export default function Register() {
     return (
         <main className="flex min-h-screen w-full items-center justify-center bg-muted/30 px-4 py-8 sm:px-6">
             <section className="w-full max-w-[440px]">
-                <div className="overflow-hidden rounded-3xl border bg-background shadow-sm">
-                    <div className="px-6 pb-6 pt-8 sm:px-8 sm:pt-9">
-                        <div className="flex flex-col items-center text-center">
-                            <div className="mb-5 flex size-14 items-center justify-center">
-                                <img
-                                    src={logo}
-                                    alt="Logo"
-                                    className="max-h-14 max-w-14 object-contain"
-                                />
-                            </div>
-
-                            <h1 className="text-2xl font-semibold tracking-tight">
-                                {content.title}
-                            </h1>
-
-                            <p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
-                                {content.description}
-                            </p>
-
-                            {step === 2 && (
-                                <p className="mt-4 text-sm font-medium">
-                                    {data.email}
-                                </p>
-                            )}
-                        </div>
-
-                        <div className="mt-8">
-                            <RegisterProgress step={step} />
-                        </div>
+                <header className="flex flex-col items-center text-center">
+                    <div className="mb-5 flex size-14 items-center justify-center">
+                        <img
+                            src={logo}
+                            alt="Logo"
+                            className="max-h-14 max-w-14 object-contain"
+                        />
                     </div>
 
-                    <div className="border-t px-6 py-6 sm:px-8 sm:py-8">
+                    <h1 className="text-2xl font-semibold tracking-tight">
+                        {content.title}
+                    </h1>
+
+                    <p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+                        {content.description}
+                    </p>
+
+                    {step === 2 && (
+                        <p className="mt-4 text-sm font-medium">
+                            {data.email}
+                        </p>
+                    )}
+                </header>
+                <div className="mt-8">
+                    <RegisterProgress step={step} />
+                </div>
+                <section className="mt-6 overflow-hidden rounded-3xl border bg-background shadow-sm">
+                    <div className="px-6 py-6 sm:px-8 sm:py-8">
                         {step === 1 && (
                             <RegisterEmailForm
                                 email={data.email}
@@ -155,12 +151,11 @@ export default function Register() {
                             />
                         )}
                     </div>
-                </div>
-
-                <p className="mt-6 text-center text-xs text-muted-foreground">
+                </section>
+                <footer className="mt-6 text-center text-xs text-muted-foreground">
                     By continuing, you agree to our terms and privacy
                     policy.
-                </p>
+                </footer>
             </section>
         </main>
     );
