@@ -25,20 +25,14 @@ export default function Profile() {
                 />
 
                 <section className="grid gap-4 sm:grid-cols-2">
-                    {/* Country */}
-
                     <div className="group relative overflow-hidden rounded-2xl border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
                         <div className="flex items-center gap-4">
-                            {/* Country icon */}
-
                             <div className="bg-muted/50 flex size-14 shrink-0 items-center justify-center rounded-xl border shadow-sm transition-transform duration-200 group-hover:scale-105">
                                 <Material
                                     icon="location_on"
                                     className="size-6 text-muted-foreground"
                                 />
                             </div>
-
-                            {/* Country information */}
 
                             <div className="min-w-0 flex-1">
                                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -68,8 +62,6 @@ export default function Profile() {
                             </div>
                         </div>
                     </div>
-
-                    {/* Birthday */}
 
                     <div className="group relative overflow-hidden rounded-2xl border bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
                         <div className="flex items-center gap-4">
