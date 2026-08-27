@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { getCountries } from "@yakad/lib";
-import { Flag } from "@yakad/symbols";
+// import { Flag } from "@yakad/symbols";
 import { Link } from "react-router-dom";
 export function IntroSection() {
     return (
