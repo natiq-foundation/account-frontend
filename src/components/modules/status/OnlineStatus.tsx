@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type Status = "online" | "offline" | "connecting" | "disconnected";
 
@@ -6,109 +6,147 @@ type Props = {
     onVisibleChange?: (visible: boolean) => void;
 };
 
-const apiUrls = (import.meta.env.VITE_API_URLS as string)
+const apiUrls: string[] = String(import.meta.env.VITE_API_URLS ?? "")
     .split(",")
-    .map((url: string) => url.trim());
+    .map((url: string) => url.trim())
+    .filter((url: string) => url.length > 0);
+
+const colors: Record<Status, string> = {
+    online: "bg-green-500",
+    offline: "bg-red-500",
+    connecting: "bg-gray-500",
+    disconnected: "bg-orange-500",
+};
+
+const labels: Record<Status, string> = {
+    online: "Online",
+    offline: "You're offline",
+    connecting: "Connecting…",
+    disconnected: "Can't Connect to Server",
+};
 
 export default function OnlineStatus({ onVisibleChange }: Props) {
     const [status, setStatus] = useState<Status>("connecting");
     const [visible, setVisible] = useState(false);
 
     const firstCheck = useRef(true);
+    const mountedRef = useRef(true);
 
-    const colors: Record<Status, string> = {
-        offline: "bg-red-500",
-        disconnected: "bg-orange-500",
-        connecting: "bg-gray-500",
-        online: "bg-green-500",
-    };
+    const updateVisible = useCallback(
+        (value: boolean) => {
+            if (!mountedRef.current) return;
 
-    const labels: Record<Status, string> = {
-        offline: "You're offline",
-        disconnected: "Can't Connect to Server",
-        connecting: "Connecting…",
-        online: "Online",
-    };
+            setVisible(value);
+            onVisibleChange?.(value);
+        },
+        [onVisibleChange],
+    );
 
-    useEffect(() => {
-        onVisibleChange?.(visible);
-    }, [visible, onVisibleChange]);
+    const checkConnection = useCallback(
+        async (showConnecting = true) => {
+            if (!mountedRef.current) return;
 
-    async function checkConnection(showConnecting = true) {
-        if (showConnecting) {
-            setStatus("connecting");
-            setVisible(true);
-        }
-
-        if (!navigator.onLine) {
-            setStatus("offline");
-            setVisible(true);
-            return;
-        }
-
-        for (const url of apiUrls) {
-            const controller = new AbortController();
-
-            const timeout = window.setTimeout(() => {
-                controller.abort();
-            }, 3000);
-
-            try {
-                await fetch(`${url}?v=${Date.now()}`, {
-                    method: "HEAD",
-                    mode: "no-cors",
-                    signal: controller.signal,
-                });
-
-                clearTimeout(timeout);
-
-                setStatus("online");
-
-                window.setTimeout(() => {
-                    setVisible(false);
-                }, 1500);
-
-                return;
-            } catch {
-                clearTimeout(timeout);
+            if (showConnecting) {
+                setStatus("connecting");
+                updateVisible(true);
             }
-        }
 
-        setStatus("disconnected");
-        setVisible(true);
-    }
+            if (!navigator.onLine) {
+                setStatus("offline");
+                updateVisible(true);
+                return;
+            }
+
+            if (apiUrls.length === 0) {
+                setStatus("disconnected");
+                updateVisible(true);
+                return;
+            }
+
+            for (const url of apiUrls) {
+                if (!mountedRef.current) return;
+
+                const controller = new AbortController();
+
+                const timeout = window.setTimeout(() => {
+                    controller.abort();
+                }, 3000);
+
+                try {
+                    await fetch(`${url}?v=${Date.now()}`, {
+                        method: "HEAD",
+                        mode: "no-cors",
+                        signal: controller.signal,
+                    });
+
+                    window.clearTimeout(timeout);
+
+                    if (!mountedRef.current) return;
+
+                    setStatus("online");
+                    updateVisible(true);
+
+                    window.setTimeout(() => {
+                        if (mountedRef.current) {
+                            updateVisible(false);
+                        }
+                    }, 1500);
+
+                    return;
+                } catch {
+                    window.clearTimeout(timeout);
+                }
+            }
+
+            if (!mountedRef.current) return;
+
+            setStatus("disconnected");
+            updateVisible(true);
+        },
+        [updateVisible],
+    );
 
     useEffect(() => {
+        mountedRef.current = true;
+
         const timer = window.setTimeout(() => {
-            checkConnection(!firstCheck.current);
+            void checkConnection(firstCheck.current === false);
             firstCheck.current = false;
         }, 0);
 
-        const goOffline = () => {
+        const handleOffline = () => {
+            if (!mountedRef.current) return;
+
             setStatus("offline");
-            setVisible(true);
+            updateVisible(true);
         };
 
-        const goOnline = () => {
-            checkConnection();
+        const handleOnline = () => {
+            void checkConnection(true);
         };
 
-        window.addEventListener("offline", goOffline);
-        window.addEventListener("online", goOnline);
+        window.addEventListener("offline", handleOffline);
+        window.addEventListener("online", handleOnline);
 
         return () => {
-            clearTimeout(timer);
+            mountedRef.current = false;
 
-            window.removeEventListener("offline", goOffline);
-            window.removeEventListener("online", goOnline);
+            window.clearTimeout(timer);
+
+            window.removeEventListener("offline", handleOffline);
+            window.removeEventListener("online", handleOnline);
         };
-    }, []);
+    }, [checkConnection, updateVisible]);
 
-    if (!visible) return null;
+    if (!visible) {
+        return null;
+    }
 
     return (
         <div
-            className={`flex h-5 w-full items-center justify-center text-xs text-white transition-all duration-300 ${colors[status]} `}
+            role="status"
+            aria-live="polite"
+            className={`flex h-5 w-full items-center justify-center text-xs text-white transition-all duration-300 ${colors[status]}`}
         >
             {labels[status]}
         </div>

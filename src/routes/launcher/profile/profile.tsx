@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ComponentProps } from "react";
 
 import { Material, Flag } from "@yakad/symbols";
 
@@ -6,6 +7,8 @@ import { useProfile } from "@/context/profileContext";
 
 import ProfileHeader from "./profileHeader";
 import EditProfileDialog from "./editProfileDialog";
+
+type FlagCode = ComponentProps<typeof Flag>["code"];
 
 export default function Profile() {
     const [profile, setProfile] = useProfile();
@@ -53,7 +56,9 @@ export default function Profile() {
                                     {profile.RegionCode && (
                                         <div className="flex shrink-0 items-center">
                                             <Flag
-                                                code={profile.RegionCode}
+                                                code={
+                                                    profile.RegionCode as FlagCode
+                                                }
                                                 className="size-5"
                                             />
                                         </div>
