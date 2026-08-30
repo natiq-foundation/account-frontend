@@ -39,7 +39,6 @@ export const PhoneManagementDialog = ({
         setSuccessMessage("");
 
         const trimmed = newPhone.trim();
-        // چک فرمت شماره موبایل (ساده یا بین‌المللی)
         const phoneRegex = /^(\+?[0-9]{10,14})$/;
 
         if (!trimmed) {
@@ -74,7 +73,6 @@ export const PhoneManagementDialog = ({
                 role="dialog"
                 aria-modal="true"
             >
-                {/* Header */}
                 <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
                     <div>
                         <h2 className="text-lg font-semibold text-zinc-100">
@@ -94,7 +92,6 @@ export const PhoneManagementDialog = ({
                 </div>
 
                 <div className="max-h-[75vh] space-y-6 overflow-y-auto px-6 py-5">
-                    {/* Add Phone Form */}
                     <form onSubmit={handleSubmit} className="space-y-3">
                         <label className="block text-xs font-medium text-zinc-300">
                             Add new phone number
@@ -129,7 +126,6 @@ export const PhoneManagementDialog = ({
                         )}
                     </form>
 
-                    {/* Phone List */}
                     <div className="space-y-3">
                         <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
                             Connected Numbers ({phones.length})
@@ -172,7 +168,6 @@ export const PhoneManagementDialog = ({
                                                 </div>
                                             </div>
 
-                                            {/* Actions */}
                                             <div className="flex shrink-0 items-center gap-2">
                                                 {!phone.isVerified && (
                                                     <button
@@ -238,7 +233,6 @@ export const PhoneManagementDialog = ({
                     </div>
                 </div>
 
-                {/* Footer */}
                 <div className="flex justify-end border-t border-zinc-800 bg-zinc-900/50 px-6 py-3.5">
                     <button
                         type="button"

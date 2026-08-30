@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
 
 export type EmailItem = {
@@ -33,6 +33,12 @@ export const EmailManagementDialog = ({
     const [newEmail, setNewEmail] = useState("");
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
+
+    const sortedEmails = useMemo(() => {
+        return [...emails].sort(
+            (a, b) => (b.isPrimary ? 1 : 0) - (a.isPrimary ? 1 : 0),
+        );
+    }, [emails]);
 
     if (!isOpen) return null;
 
@@ -95,7 +101,6 @@ export const EmailManagementDialog = ({
                 </div>
 
                 <div className="max-h-[75vh] space-y-6 overflow-y-auto px-6 py-5">
-                    {/* Add Email Form */}
                     <form onSubmit={handleSubmit} className="space-y-3">
                         <label className="block text-xs font-medium text-zinc-300">
                             Add new email address
@@ -131,11 +136,11 @@ export const EmailManagementDialog = ({
 
                     <div className="space-y-3">
                         <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                            Connected Emails ({emails.length})
+                            Connected Emails ({sortedEmails.length})
                         </h3>
 
                         <div className="space-y-2.5">
-                            {emails.map((email) => (
+                            {sortedEmails.map((email) => (
                                 <div
                                     key={email.id}
                                     className="rounded-xl border border-zinc-800/80 bg-zinc-950/50 p-3.5 transition hover:border-zinc-700"

@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 
-type SecuritySectionProps = {
+interface SecuritySectionProps {
     title: string;
     description?: string;
     children: ReactNode;
-};
+}
 
 export const SecuritySection = ({
     title,
@@ -12,20 +12,19 @@ export const SecuritySection = ({
     children,
 }: SecuritySectionProps) => {
     return (
-        <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/60">
-            <div className="border-b border-zinc-800 px-4 py-4 sm:px-6">
-                <h2 className="text-base font-semibold text-zinc-100 sm:text-lg">
-                    {title}
-                </h2>
-
-                {description ? (
-                    <p className="mt-1 text-sm leading-6 text-zinc-400">
+        <div className="space-y-2">
+            <div>
+                <h3 className="text-base font-semibold text-white">{title}</h3>
+                {description && (
+                    <p className="mt-0.5 text-sm text-neutral-400">
                         {description}
                     </p>
-                ) : null}
+                )}
             </div>
 
-            <div className="px-4 sm:px-6">{children}</div>
-        </section>
+            <div className="space-y-4 rounded-2xl border border-neutral-800 bg-[#16171a]/80 p-4">
+                {children}
+            </div>
+        </div>
     );
 };

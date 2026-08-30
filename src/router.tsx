@@ -15,6 +15,8 @@ import RegisterPage from "@/routes/auth";
 
 import IntroPage from "./routes/intro";
 
+import SecurityPage from "@/routes/launcher/security/index";
+
 function PWARedirect() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -46,6 +48,8 @@ export default function Router() {
                     <Route path="Profile" element={<LauncherApps />} />
 
                     <Route path="settings" element={<LauncherSettings />} />
+
+                    <Route path="security" element={<SecurityPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

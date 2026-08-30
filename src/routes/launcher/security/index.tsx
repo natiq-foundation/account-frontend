@@ -1,14 +1,24 @@
 import { useState } from "react";
 
 import { LastActivityList } from "@/components/modules/security/LastActivityList";
+import { PhoneManagementDialog } from "@/components/modules/security/PhoneManagementDialog";
+import type { PhoneItem } from "@/components/modules/security/PhoneManagementDialog";
 import { SecurityRow } from "@/components/modules/security/SecurityRow";
 import { SecuritySection } from "@/components/modules/security/SecuritySection";
 
+import { ActiveSessionsDialog } from "@/components/features/security/ActiveSessionsDialog";
+import { AuthenticatorAppDialog } from "@/components/features/security/AuthenticatorAppDialog";
+import { ChangePasswordDialog } from "@/components/features/security/ChangePasswordDialog";
 import { EmailManagementDialog } from "@/components/features/security/emailManagementDialog";
 import type { EmailItem } from "@/components/features/security/emailManagementDialog";
+import { RecoveryCodesDialog } from "@/components/features/security/RecoveryCodesDialog";
 
-import { PhoneManagementDialog } from "@/components/modules/security/PhoneManagementDialog";
-import type { PhoneItem } from "@/components/modules/security/PhoneManagementDialog";
+interface ActivityItem {
+    id: string;
+    title: string;
+    description: string;
+    date: string;
+}
 
 const initialEmails: EmailItem[] = [
     {
@@ -29,7 +39,7 @@ const initialEmails: EmailItem[] = [
 
 const initialPhones: PhoneItem[] = [];
 
-const initialActivities = [
+const initialActivities: ActivityItem[] = [
     {
         id: "activity-1",
         title: "Security settings viewed",
@@ -54,19 +64,31 @@ const initialActivities = [
 const SecurityPage = () => {
     const [emails, setEmails] = useState<EmailItem[]>(initialEmails);
     const [phones, setPhones] = useState<PhoneItem[]>(initialPhones);
-    const [activities, setActivities] = useState(initialActivities);
+    const [activities, setActivities] =
+        useState<ActivityItem[]>(initialActivities);
+    const [passwordLastChanged, setPasswordLastChanged] =
+        useState<string>("Aug 24, 2026");
 
-    const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
-    const [isPhoneDialogOpen, setIsPhoneDialogOpen] = useState(false);
+    const [isEmailDialogOpen, setIsEmailDialogOpen] = useState<boolean>(false);
+    const [isPhoneDialogOpen, setIsPhoneDialogOpen] = useState<boolean>(false);
+    const [isPasswordDialogOpen, setIsPasswordDialogOpen] =
+        useState<boolean>(false);
+    const [isActiveSessionsDialogOpen, setIsActiveSessionsDialogOpen] =
+        useState<boolean>(false);
+    const [isTwoFactorEnabled, setIsTwoFactorEnabled] =
+        useState<boolean>(false);
+    const [isAuthenticatorDialogOpen, setIsAuthenticatorDialogOpen] =
+        useState<boolean>(false);
+    const [isRecoveryCodesDialogOpen, setIsRecoveryCodesDialogOpen] =
+        useState<boolean>(false);
 
-    // وضعیت ایمیل اصلی
+    const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
+    const isRecoveryConfigured = recoveryCodes.length > 0;
+
     const primaryEmail =
         emails.find((e) => e.isPrimary)?.address || "No primary email";
-
-    // وضعیت شماره اصلی
     const primaryPhone = phones.find((p) => p.isPrimary);
 
-    // --- Handlers: Email ---
     const handleAddEmail = (newAddress: string) => {
         const newEntry: EmailItem = {
             id: `email-${Date.now()}`,
@@ -127,10 +149,9 @@ const SecurityPage = () => {
             setEmails((prev) =>
                 prev.map((e) => (e.id === id ? { ...e, isVerified: true } : e)),
             );
-        }, 1500);
+        }, 1200);
     };
 
-    // --- Handlers: Phone ---
     const handleAddPhone = (newNumber: string) => {
         const newEntry: PhoneItem = {
             id: `phone-${Date.now()}`,
@@ -180,7 +201,71 @@ const SecurityPage = () => {
             setPhones((prev) =>
                 prev.map((p) => (p.id === id ? { ...p, isVerified: true } : p)),
             );
-        }, 1500);
+            setActivities((prev) => [
+                {
+                    id: `activity-${Date.now()}`,
+                    title: "Phone verified",
+                    description: "Phone number was successfully verified.",
+                    date: "Just now",
+                },
+                ...prev,
+            ]);
+        }, 1200);
+    };
+
+    const handlePasswordChangeSuccess = () => {
+        setPasswordLastChanged("Just now");
+        setActivities((prev) => [
+            {
+                id: `activity-${Date.now()}`,
+                title: "Password changed",
+                description: "Your account password was changed successfully.",
+                date: "Just now",
+            },
+            ...prev,
+        ]);
+    };
+
+    const handleEnable2FA = () => {
+        setIsTwoFactorEnabled(true);
+        setActivities((prev) => [
+            {
+                id: `activity-${Date.now()}`,
+                title: "Two-step verification enabled",
+                description: "Authenticator app was linked to your account.",
+                date: "Just now",
+            },
+            ...prev,
+        ]);
+    };
+
+    const handleGenerateRecoveryCodes = (codes: string[]) => {
+        setRecoveryCodes(codes);
+        setActivities((prev) => [
+            {
+                id: `activity-${Date.now()}`,
+                title: isRecoveryConfigured
+                    ? "Recovery codes regenerated"
+                    : "Recovery codes configured",
+                description: "New backup recovery codes were generated.",
+                date: "Just now",
+            },
+            ...prev,
+        ]);
+    };
+
+    const handleDisableRecoveryCodes = () => {
+        setRecoveryCodes([]);
+        setActivities((prev) => [
+            {
+                id: `activity-${Date.now()}`,
+                title: "Recovery codes disabled",
+                description:
+                    "Backup recovery codes were turned off and invalidated.",
+                date: "Just now",
+            },
+            ...prev,
+        ]);
     };
 
     return (
@@ -259,10 +344,11 @@ const SecurityPage = () => {
                 >
                     <SecurityRow
                         title="Password"
-                        description="Last changed on Aug 24, 2026."
+                        description={`Last changed on ${passwordLastChanged}.`}
                         action={
                             <button
                                 type="button"
+                                onClick={() => setIsPasswordDialogOpen(true)}
                                 className="w-full rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-medium text-zinc-100 transition-colors hover:border-zinc-500 hover:bg-zinc-800 sm:w-auto"
                             >
                                 Change password
@@ -271,19 +357,57 @@ const SecurityPage = () => {
                     />
 
                     <SecurityRow
-                        title="Two-step verification"
-                        description="Add an additional verification step when signing in."
+                        title="Authenticator app"
+                        description="Use an authentication app (like Google Authenticator or 1Password) to generate 2FA codes."
                         status={
-                            <span className="rounded-full border border-amber-900/70 bg-amber-950/50 px-2 py-0.5 text-xs font-medium text-amber-300">
-                                Not enabled
-                            </span>
+                            isTwoFactorEnabled ? (
+                                <span className="rounded-full border border-emerald-900/70 bg-emerald-950/50 px-2 py-0.5 text-xs font-medium text-emerald-300">
+                                    Enabled
+                                </span>
+                            ) : (
+                                <span className="rounded-full border border-amber-900/70 bg-amber-950/50 px-2 py-0.5 text-xs font-medium text-amber-300">
+                                    Not enabled
+                                </span>
+                            )
                         }
                         action={
                             <button
                                 type="button"
+                                onClick={() =>
+                                    setIsAuthenticatorDialogOpen(true)
+                                }
                                 className="w-full rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-medium text-zinc-100 transition-colors hover:border-zinc-500 hover:bg-zinc-800 sm:w-auto"
                             >
-                                Set up
+                                {isTwoFactorEnabled ? "Manage" : "Set up"}
+                            </button>
+                        }
+                    />
+
+                    <SecurityRow
+                        title="Recovery codes"
+                        description="Backup codes allow you to regain access to your account if you lose your authenticator device."
+                        status={
+                            isRecoveryConfigured ? (
+                                <span className="rounded-full border border-emerald-900/70 bg-emerald-950/50 px-2 py-0.5 text-xs font-medium text-emerald-300">
+                                    {recoveryCodes.length} codes active
+                                </span>
+                            ) : (
+                                <span className="rounded-full border border-zinc-800 bg-zinc-900 px-2 py-0.5 text-xs font-medium text-zinc-500">
+                                    Not configured
+                                </span>
+                            )
+                        }
+                        action={
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    setIsRecoveryCodesDialogOpen(true)
+                                }
+                                className="w-full rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-medium text-zinc-100 transition-colors hover:border-zinc-500 hover:bg-zinc-800 sm:w-auto"
+                            >
+                                {isRecoveryConfigured
+                                    ? "View / Manage"
+                                    : "Set up codes"}
                             </button>
                         }
                     />
@@ -294,6 +418,9 @@ const SecurityPage = () => {
                         action={
                             <button
                                 type="button"
+                                onClick={() =>
+                                    setIsActiveSessionsDialogOpen(true)
+                                }
                                 className="w-full rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-medium text-zinc-100 transition-colors hover:border-zinc-500 hover:bg-zinc-800 sm:w-auto"
                             >
                                 View sessions
@@ -339,7 +466,6 @@ const SecurityPage = () => {
                 </SecuritySection>
             </div>
 
-            {/* Feature Dialogs */}
             <EmailManagementDialog
                 isOpen={isEmailDialogOpen}
                 onClose={() => setIsEmailDialogOpen(false)}
@@ -359,6 +485,31 @@ const SecurityPage = () => {
                 onRemovePhone={handleRemovePhone}
                 onSetPrimary={handleSetPrimaryPhone}
                 onVerifyPhone={handleVerifyPhone}
+            />
+
+            <ChangePasswordDialog
+                isOpen={isPasswordDialogOpen}
+                onClose={() => setIsPasswordDialogOpen(false)}
+                onSuccess={handlePasswordChangeSuccess}
+            />
+
+            <ActiveSessionsDialog
+                isOpen={isActiveSessionsDialogOpen}
+                onClose={() => setIsActiveSessionsDialogOpen(false)}
+            />
+
+            <AuthenticatorAppDialog
+                isOpen={isAuthenticatorDialogOpen}
+                onClose={() => setIsAuthenticatorDialogOpen(false)}
+                onSuccess={handleEnable2FA}
+            />
+
+            <RecoveryCodesDialog
+                isOpen={isRecoveryCodesDialogOpen}
+                onClose={() => setIsRecoveryCodesDialogOpen(false)}
+                isConfigured={isRecoveryConfigured}
+                onGenerate={handleGenerateRecoveryCodes}
+                onDisable={handleDisableRecoveryCodes}
             />
         </main>
     );
