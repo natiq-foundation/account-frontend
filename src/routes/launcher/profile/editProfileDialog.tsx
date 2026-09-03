@@ -96,7 +96,11 @@ function CountryPicker({
                     <>
                         <div className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
                             <Flag
-                                code={selectedCountry.alpha2Code.toLowerCase()}
+                                code={
+                                    selectedCountry.alpha2Code.toLowerCase() as Parameters<
+                                        typeof Flag
+                                    >[0]["code"]
+                                }
                                 className="size-6"
                             />
                         </div>

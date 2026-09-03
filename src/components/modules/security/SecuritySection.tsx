@@ -1,0 +1,30 @@
+import * as React from "react";
+
+interface SecuritySectionProps {
+    readonly title: string;
+    readonly description?: string;
+    readonly children: React.ReactNode;
+}
+
+export const SecuritySection: React.FC<SecuritySectionProps> = ({
+    title,
+    description,
+    children,
+}) => {
+    return (
+        <div className="space-y-2">
+            <div>
+                <h3 className="text-base font-semibold text-white">{title}</h3>
+                {description && (
+                    <p className="mt-0.5 text-sm text-neutral-400">
+                        {description}
+                    </p>
+                )}
+            </div>
+
+            <div className="space-y-4 rounded-2xl border border-neutral-800 bg-[#16171a]/80 p-4">
+                {children}
+            </div>
+        </div>
+    );
+};

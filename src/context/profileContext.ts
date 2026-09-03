@@ -5,6 +5,7 @@ export interface Profile {
     Username: string;
     Birthday: Date | undefined;
     Region: string | undefined;
+    RegionCode: string | undefined;
     avatar: string | null;
 }
 
@@ -13,6 +14,7 @@ const defaultProfile: Profile = {
     Username: "UserName",
     Birthday: undefined,
     Region: undefined,
+    RegionCode: undefined,
     avatar: null,
 };
 

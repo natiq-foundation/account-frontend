@@ -1,11 +1,15 @@
 import { useState } from "react";
 
-import logo from "@/assets/Logo.png";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 import AuthEmailForm from "@/components/modules/auth/AuthEmailForm";
 import AuthPasswordForm from "@/components/modules/auth/AuthPasswordForm";
 import AuthPhoneForm from "@/components/modules/auth/AuthPhoneForm";
 import AuthVerificationForm from "@/components/modules/auth/AuthVerificationForm";
+
+import logo from "@/assets/Logo.png";
 
 type AuthTab = "email" | "phone" | "password";
 type VerificationMethod = "email" | "phone";
@@ -28,13 +32,12 @@ const tabIcons: Record<AuthTab, string> = {
     password: "lock",
 };
 
-const MaterialIcon = ({
-    icon,
-    className,
-}: {
-    icon: string;
-    className?: string;
-}) => {
+interface MaterialIconProps {
+    readonly icon: string;
+    readonly className?: string;
+}
+
+const MaterialIcon = ({ icon, className }: MaterialIconProps) => {
     return (
         <span className={`material-symbols-outlined ${className || ""}`}>
             {icon}
@@ -56,9 +59,10 @@ export default function AuthPage() {
         ? activeTab
         : (enabledTabs[0] ?? null);
 
-    function handleTabChange(tab: AuthTab) {
-        if (!tabs[tab]) return;
-        setActiveTab(tab);
+    function handleTabChange(tab: string) {
+        const targetTab = tab as AuthTab;
+        if (!tabs[targetTab]) return;
+        setActiveTab(targetTab);
         setVerificationMethod(null);
         setVerificationValue("");
     }
@@ -98,14 +102,16 @@ export default function AuthPage() {
             <section className="w-full max-w-[420px]">
                 <header className="mb-8 text-center">
                     <div className="mb-6 flex justify-center">
-                        <img
-                            src={logo}
-                            alt="Logo"
-                            className="size-12 object-contain"
-                        />
+                        <div className="border-border/50 flex size-14 items-center justify-center rounded-2xl border bg-card p-2.5 shadow-sm">
+                            <img
+                                src={logo}
+                                alt="Logo"
+                                className="size-full object-contain"
+                            />
+                        </div>
                     </div>
 
-                    <h1 className="text-[28px] font-semibold tracking-tight">
+                    <h1 className="text-[28px] font-bold tracking-tight text-foreground">
                         Welcome
                     </h1>
 
@@ -114,47 +120,38 @@ export default function AuthPage() {
                     </p>
                 </header>
 
-                <section className="overflow-hidden rounded-2xl border bg-card shadow-sm">
+                <Card className="border-border/80 overflow-hidden rounded-2xl bg-card p-0 shadow-sm">
                     {!isVerifying && enabledTabs.length > 1 && (
-                        <div className="border-b p-2">
-                            <div
-                                role="tablist"
-                                aria-label="Authentication method"
-                                className="flex w-full gap-1"
+                        <div className="border-border/60 bg-muted/40 border-b p-1.5">
+                            <Tabs
+                                value={visibleActiveTab ?? undefined}
+                                onValueChange={handleTabChange}
+                                className="w-full"
                             >
-                                {enabledTabs.map((tab) => {
-                                    const active = visibleActiveTab === tab;
-
-                                    return (
-                                        <button
+                                <TabsList className="grid h-auto w-full auto-cols-fr grid-flow-col gap-1 bg-transparent p-0">
+                                    {enabledTabs.map((tab) => (
+                                        <TabsTrigger
                                             key={tab}
-                                            type="button"
-                                            role="tab"
-                                            aria-selected={active}
-                                            onClick={() => handleTabChange(tab)}
-                                            className={`flex h-10 flex-1 items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                                                active
-                                                    ? "bg-foreground text-background shadow-sm"
-                                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                            } `}
+                                            value={tab}
+                                            className="hover:bg-background/50 data-[state=active]:ring-border/40 flex h-10 items-center justify-center gap-2 rounded-xl text-sm font-medium text-muted-foreground transition-all duration-200 hover:text-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm data-[state=active]:ring-1"
                                         >
                                             <MaterialIcon
                                                 icon={tabIcons[tab]}
-                                                className="size-4"
+                                                className="text-[18px]"
                                             />
                                             {tabLabels[tab]}
-                                        </button>
-                                    );
-                                })}
-                            </div>
+                                        </TabsTrigger>
+                                    ))}
+                                </TabsList>
+                            </Tabs>
                         </div>
                     )}
 
-                    <div className="px-6 py-7 sm:px-8 sm:py-8">
+                    <CardContent className="px-6 py-7 sm:px-8 sm:py-8">
                         {isVerifying && (
                             <div className="space-y-6">
                                 <div>
-                                    <h2 className="text-lg font-semibold">
+                                    <h2 className="text-lg font-semibold text-foreground">
                                         Verify your account
                                     </h2>
 
@@ -166,7 +163,7 @@ export default function AuthPage() {
                                         .
                                     </p>
 
-                                    <p className="mt-2 break-all text-sm font-medium text-foreground">
+                                    <p className="bg-muted/60 mt-2 inline-block rounded-md px-2.5 py-1 font-mono text-sm font-semibold text-foreground">
                                         {verificationValue}
                                     </p>
                                 </div>
@@ -183,7 +180,7 @@ export default function AuthPage() {
                             tabs.email && (
                                 <div className="space-y-6">
                                     <div>
-                                        <h2 className="text-lg font-semibold">
+                                        <h2 className="text-lg font-semibold text-foreground">
                                             Continue with email
                                         </h2>
 
@@ -203,6 +200,17 @@ export default function AuthPage() {
                             visibleActiveTab === "phone" &&
                             tabs.phone && (
                                 <div className="space-y-6">
+                                    <div>
+                                        <h2 className="text-lg font-semibold text-foreground">
+                                            Continue with phone
+                                        </h2>
+
+                                        <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+                                            Enter your phone number to sign in
+                                            or register.
+                                        </p>
+                                    </div>
+
                                     <AuthPhoneForm
                                         onContinue={handlePhoneContinue}
                                     />
@@ -214,7 +222,7 @@ export default function AuthPage() {
                             tabs.password && (
                                 <div className="space-y-6">
                                     <div>
-                                        <h2 className="text-lg font-semibold">
+                                        <h2 className="text-lg font-semibold text-foreground">
                                             Sign in with password
                                         </h2>
 
@@ -231,8 +239,8 @@ export default function AuthPage() {
                             )}
 
                         {!isVerifying && visibleActiveTab === null && (
-                            <div className="py-4 text-center">
-                                <h2 className="text-lg font-semibold">
+                            <div className="py-6 text-center">
+                                <h2 className="text-lg font-semibold text-foreground">
                                     No sign-in method is available
                                 </h2>
 
@@ -242,24 +250,24 @@ export default function AuthPage() {
                                 </p>
                             </div>
                         )}
-                    </div>
-                </section>
+                    </CardContent>
+                </Card>
 
                 <p className="mt-6 text-center text-xs leading-5 text-muted-foreground">
                     By continuing, you agree to our{" "}
-                    <button
-                        type="button"
-                        className="font-medium text-foreground hover:underline"
+                    <Button
+                        variant="link"
+                        className="h-auto p-0 text-xs font-medium text-foreground underline-offset-4 hover:underline"
                     >
                         Terms
-                    </button>{" "}
+                    </Button>{" "}
                     and{" "}
-                    <button
-                        type="button"
-                        className="font-medium text-foreground hover:underline"
+                    <Button
+                        variant="link"
+                        className="h-auto p-0 text-xs font-medium text-foreground underline-offset-4 hover:underline"
                     >
                         Privacy Policy
-                    </button>
+                    </Button>
                     .
                 </p>
             </section>

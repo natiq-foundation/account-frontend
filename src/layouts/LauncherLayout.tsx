@@ -1,11 +1,12 @@
-import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Material } from "@yakad/symbols";
+
 import { useSettings } from "@/context/settingsContext";
 import ResponsiveMenu, {
     NavItem,
 } from "@/components/modules/nav/ResponsiveNav";
-import { Material } from "@yakad/symbols";
 
 export default function LauncherLayout() {
     const { t } = useTranslation();
@@ -37,6 +38,11 @@ export default function LauncherLayout() {
                     label={t("launcher.profile")}
                     icon={<Material icon="person" />}
                     to="/launcher/profile"
+                />
+                <NavItem
+                    label={t("launcher.security", "Security")}
+                    icon={<Material icon="security" />}
+                    to="/launcher/security"
                 />
                 <NavItem
                     label={t("launcher.settings")}

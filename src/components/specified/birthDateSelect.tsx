@@ -22,6 +22,11 @@ export default function BirthdayPicker({
     value,
     onChange,
 }: BirthdayPickerProps) {
+    const currentYear = new Date().getFullYear();
+
+    const startMonth = new Date(1900, 0, 1);
+    const endMonth = new Date(currentYear, 11, 31);
+
     return (
         <Popover>
             <PopoverTrigger asChild>
@@ -45,43 +50,10 @@ export default function BirthdayPicker({
                     selected={value}
                     onSelect={onChange}
                     captionLayout="dropdown"
-                    fromYear={1900}
-                    toYear={new Date().getFullYear()}
+                    startMonth={startMonth}
+                    endMonth={endMonth}
                     disabled={(date) => date > new Date()}
                     className="p-2"
-                    classNames={{
-                        months: "flex flex-col sm:flex-row gap-3",
-
-                        month: "space-y-3",
-
-                        caption:
-                            "flex justify-center pt-1 relative items-center",
-
-                        caption_label: "text-sm font-medium",
-
-                        nav: "flex items-center gap-1",
-
-                        nav_button:
-                            "size-7 bg-transparent p-0 opacity-70 hover:opacity-100",
-
-                        table: "w-full border-collapse",
-
-                        head_row: "flex",
-
-                        head_cell:
-                            "text-muted-foreground rounded-md w-8 font-normal text-xs",
-
-                        row: "flex w-full mt-1",
-
-                        cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20",
-
-                        day: "size-8 rounded-md text-sm hover:bg-accent hover:text-accent-foreground",
-
-                        day_selected:
-                            "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground",
-
-                        day_today: "bg-accent text-accent-foreground",
-                    }}
                 />
 
                 {value && (

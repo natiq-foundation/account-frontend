@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { getCountries } from "@yakad/lib";
-// import { Flag } from "@yakad/symbols";
+// import { Flag, Material, Spinner } from "@yakad/symbols";
 import { Link } from "react-router-dom";
 export function IntroSection() {
     return (
@@ -9,10 +9,12 @@ export function IntroSection() {
                 {getCountries().map((country) => (
                     <div key={country.alpha2Code} className="h-20 w-20">
                         {/* {country.name}
-                        <Flag code={country.alpha2Code} /> */}
+                        <Flag size={"extraLarge"} code={country.alpha2Code}/>
+                        <Spinner size={"extraLarge"} variant="scaleOut"/> 
+                        <Material icon="home" size={"extraLarge"}/> */}
                     </div>
                 ))}
-                <Button asChild>
+                <Button>
                     <Link to="/auth">Login</Link>
                 </Button>
                 <Button>
