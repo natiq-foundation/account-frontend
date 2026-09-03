@@ -1,22 +1,37 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 
-export type PhoneItem = {
-    id: string;
-    number: string;
-    isPrimary: boolean;
-    isVerified: boolean;
-};
+import { Check, Phone, Trash2 } from "lucide-react";
 
-type PhoneManagementDialogProps = {
-    isOpen: boolean;
-    onClose: () => void;
-    phones: PhoneItem[];
-    onAddPhone: (phone: string) => void;
-    onRemovePhone: (id: string) => void;
-    onSetPrimary: (id: string) => void;
-    onVerifyPhone: (id: string) => void;
-};
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export interface PhoneItem {
+    readonly id: string;
+    readonly number: string;
+    readonly isPrimary: boolean;
+    readonly isVerified: boolean;
+}
+
+export interface PhoneManagementDialogProps {
+    readonly isOpen: boolean;
+    readonly onClose: () => void;
+    readonly phones: readonly PhoneItem[];
+    readonly onAddPhone: (phone: string) => void;
+    readonly onRemovePhone: (id: string) => void;
+    readonly onSetPrimary: (id: string) => void;
+    readonly onVerifyPhone: (id: string) => void;
+}
 
 export const PhoneManagementDialog = ({
     isOpen,
@@ -27,13 +42,18 @@ export const PhoneManagementDialog = ({
     onSetPrimary,
     onVerifyPhone,
 }: PhoneManagementDialogProps) => {
-    const [newPhone, setNewPhone] = useState("");
-    const [error, setError] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+    const [newPhone, setNewPhone] = useState<string>("");
+    const [error, setError] = useState<string>("");
+    const [successMessage, setSuccessMessage] = useState<string>("");
 
-    if (!isOpen) return null;
+    const handleClose = () => {
+        setNewPhone("");
+        setError("");
+        setSuccessMessage("");
+        onClose();
+    };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
         setSuccessMessage("");
@@ -67,37 +87,32 @@ export const PhoneManagementDialog = ({
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm duration-200 animate-in fade-in">
-            <div
-                className="w-full max-w-lg overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl transition-all"
-                role="dialog"
-                aria-modal="true"
-            >
-                <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
-                    <div>
-                        <h2 className="text-lg font-semibold text-zinc-100">
-                            Manage Phone Numbers
-                        </h2>
-                        <p className="mt-0.5 text-xs text-zinc-400">
-                            Used for account recovery and two-step verification.
-                        </p>
+        <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+            <DialogContent className="max-w-lg border-zinc-800 bg-zinc-900 p-0 text-zinc-100 shadow-2xl">
+                <DialogHeader className="border-b border-zinc-800 px-6 py-4">
+                    <div className="flex items-center gap-2.5">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-800 text-zinc-300">
+                            <Phone className="h-4 w-4" />
+                        </div>
+                        <div>
+                            <DialogTitle className="text-lg font-semibold text-zinc-100">
+                                Manage Phone Numbers
+                            </DialogTitle>
+                            <DialogDescription className="mt-0.5 text-xs text-zinc-400">
+                                Used for account recovery and two-step
+                                verification.
+                            </DialogDescription>
+                        </div>
                     </div>
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="rounded-lg p-1.5 text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-100"
-                    >
-                        ✕
-                    </button>
-                </div>
+                </DialogHeader>
 
                 <div className="max-h-[75vh] space-y-6 overflow-y-auto px-6 py-5">
                     <form onSubmit={handleSubmit} className="space-y-3">
-                        <label className="block text-xs font-medium text-zinc-300">
+                        <Label className="block text-xs font-medium text-zinc-300">
                             Add new phone number
-                        </label>
+                        </Label>
                         <div className="flex gap-2">
-                            <input
+                            <Input
                                 type="tel"
                                 placeholder="+98 912 345 6789"
                                 dir="ltr"
@@ -106,21 +121,22 @@ export const PhoneManagementDialog = ({
                                     setNewPhone(e.target.value);
                                     if (error) setError("");
                                 }}
-                                className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+                                className="w-full rounded-xl border-zinc-700 bg-zinc-950 px-3.5 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus-visible:ring-1 focus-visible:ring-zinc-500"
                             />
-                            <button
+                            <Button
                                 type="submit"
                                 className="shrink-0 rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-950 transition hover:bg-zinc-200 active:scale-95"
                             >
                                 Add
-                            </button>
+                            </Button>
                         </div>
 
                         {error && (
                             <p className="text-xs text-rose-400">{error}</p>
                         )}
                         {successMessage && (
-                            <p className="text-xs text-emerald-400">
+                            <p className="flex items-center gap-1.5 text-xs text-emerald-400">
+                                <Check className="h-3.5 w-3.5" />
                                 {successMessage}
                             </p>
                         )}
@@ -144,7 +160,7 @@ export const PhoneManagementDialog = ({
                                     >
                                         <div className="flex items-center justify-between gap-2">
                                             <div className="min-w-0">
-                                                <div className="flex items-center gap-2">
+                                                <div className="flex flex-wrap items-center gap-2">
                                                     <span
                                                         dir="ltr"
                                                         className="font-mono text-sm font-medium text-zinc-200"
@@ -152,77 +168,79 @@ export const PhoneManagementDialog = ({
                                                         {phone.number}
                                                     </span>
                                                     {phone.isPrimary && (
-                                                        <span className="rounded-md border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-300">
+                                                        <Badge
+                                                            variant="secondary"
+                                                            className="border-zinc-700 bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-300 hover:bg-zinc-800"
+                                                        >
                                                             Primary
-                                                        </span>
+                                                        </Badge>
                                                     )}
                                                     {phone.isVerified ? (
-                                                        <span className="rounded-md border border-emerald-900/60 bg-emerald-950/40 px-1.5 py-0.5 text-[10px] font-medium text-emerald-400">
+                                                        <Badge
+                                                            variant="outline"
+                                                            className="border-emerald-900/60 bg-emerald-950/40 px-1.5 py-0.5 text-[10px] font-medium text-emerald-400 hover:bg-emerald-950/40"
+                                                        >
                                                             Verified
-                                                        </span>
+                                                        </Badge>
                                                     ) : (
-                                                        <span className="rounded-md border border-amber-900/60 bg-amber-950/40 px-1.5 py-0.5 text-[10px] font-medium text-amber-400">
+                                                        <Badge
+                                                            variant="outline"
+                                                            className="border-amber-900/60 bg-amber-950/40 px-1.5 py-0.5 text-[10px] font-medium text-amber-400 hover:bg-amber-950/40"
+                                                        >
                                                             Pending
-                                                        </span>
+                                                        </Badge>
                                                     )}
                                                 </div>
                                             </div>
 
                                             <div className="flex shrink-0 items-center gap-2">
                                                 {!phone.isVerified && (
-                                                    <button
+                                                    <Button
                                                         type="button"
+                                                        variant="link"
                                                         onClick={() =>
                                                             onVerifyPhone(
                                                                 phone.id,
                                                             )
                                                         }
-                                                        className="text-xs text-zinc-400 underline underline-offset-2 hover:text-zinc-200"
+                                                        className="h-auto p-0 text-xs text-zinc-400 underline underline-offset-2 hover:text-zinc-200"
                                                     >
                                                         Verify
-                                                    </button>
+                                                    </Button>
                                                 )}
 
                                                 {!phone.isPrimary &&
                                                     phone.isVerified && (
-                                                        <button
+                                                        <Button
                                                             type="button"
+                                                            variant="outline"
+                                                            size="sm"
                                                             onClick={() =>
                                                                 onSetPrimary(
                                                                     phone.id,
                                                                 )
                                                             }
-                                                            className="rounded-lg border border-zinc-700 px-2.5 py-1 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800 hover:text-zinc-100"
+                                                            className="h-7 rounded-lg border-zinc-700 bg-transparent px-2.5 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800 hover:text-zinc-100"
                                                         >
                                                             Make primary
-                                                        </button>
+                                                        </Button>
                                                     )}
 
                                                 {!phone.isPrimary && (
-                                                    <button
+                                                    <Button
                                                         type="button"
+                                                        variant="ghost"
+                                                        size="icon"
                                                         onClick={() =>
                                                             onRemovePhone(
                                                                 phone.id,
                                                             )
                                                         }
-                                                        className="rounded-lg p-1 text-zinc-500 transition hover:bg-rose-950/40 hover:text-rose-400"
+                                                        className="h-7 w-7 rounded-lg p-1 text-zinc-500 transition hover:bg-rose-950/40 hover:text-rose-400"
                                                         title="Remove phone"
                                                     >
-                                                        <svg
-                                                            className="h-4 w-4"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            stroke="currentColor"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth={2}
-                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                            />
-                                                        </svg>
-                                                    </button>
+                                                        <Trash2 className="h-4 w-4" />
+                                                    </Button>
                                                 )}
                                             </div>
                                         </div>
@@ -233,16 +251,17 @@ export const PhoneManagementDialog = ({
                     </div>
                 </div>
 
-                <div className="flex justify-end border-t border-zinc-800 bg-zinc-900/50 px-6 py-3.5">
-                    <button
+                <DialogFooter className="border-t border-zinc-800 bg-zinc-900/50 px-6 py-3.5 sm:justify-end">
+                    <Button
                         type="button"
-                        onClick={onClose}
-                        className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-800"
+                        variant="outline"
+                        onClick={handleClose}
+                        className="rounded-xl border-zinc-700 bg-transparent px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-800 hover:text-zinc-100"
                     >
                         Done
-                    </button>
-                </div>
-            </div>
-        </div>
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };

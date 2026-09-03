@@ -1,24 +1,38 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 
+import { Trash2, X } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+
 export type EmailItem = {
-    id: string;
-    address: string;
-    isPrimary: boolean;
-    isVerified: boolean;
-    notificationsEnabled: boolean;
+    readonly id: string;
+    readonly address: string;
+    readonly isPrimary: boolean;
+    readonly isVerified: boolean;
+    readonly notificationsEnabled: boolean;
 };
 
-type EmailManagementDialogProps = {
-    isOpen: boolean;
-    onClose: () => void;
-    emails: EmailItem[];
-    onAddEmail: (email: string) => void;
-    onRemoveEmail: (id: string) => void;
-    onSetPrimary: (id: string) => void;
-    onToggleNotifications: (id: string) => void;
-    onResendVerification: (id: string) => void;
-};
+export interface EmailManagementDialogProps {
+    readonly isOpen: boolean;
+    readonly onClose: () => void;
+    readonly emails: readonly EmailItem[];
+    readonly onAddEmail: (email: string) => void;
+    readonly onRemoveEmail: (id: string) => void;
+    readonly onSetPrimary: (id: string) => void;
+    readonly onToggleNotifications: (id: string) => void;
+    readonly onResendVerification: (id: string) => void;
+}
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const EmailManagementDialog = ({
     isOpen,
@@ -40,22 +54,27 @@ export const EmailManagementDialog = ({
         );
     }, [emails]);
 
-    if (!isOpen) return null;
+    useEffect(() => {
+        if (!isOpen) {
+            setError("");
+            setSuccessMessage("");
+            setNewEmail("");
+        }
+    }, [isOpen]);
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
         setSuccessMessage("");
 
         const trimmed = newEmail.trim().toLowerCase();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!trimmed) {
             setError("Please enter an email address.");
             return;
         }
 
-        if (!emailRegex.test(trimmed)) {
+        if (!EMAIL_REGEX.test(trimmed)) {
             setError("Please enter a valid email address.");
             return;
         }
@@ -75,53 +94,59 @@ export const EmailManagementDialog = ({
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm duration-200 animate-in fade-in">
-            <div
-                className="w-full max-w-lg overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl transition-all"
-                role="dialog"
-                aria-modal="true"
+        <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+            <DialogContent
+                showCloseButton={false}
+                className="max-w-lg overflow-hidden border-zinc-800 bg-zinc-900 p-0 text-zinc-100 shadow-2xl sm:rounded-2xl"
             >
-                {/* Header */}
-                <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
+                <DialogHeader className="flex flex-row items-center justify-between border-b border-zinc-800 px-6 py-4 text-left">
                     <div>
-                        <h2 className="text-lg font-semibold text-zinc-100">
+                        <DialogTitle className="text-lg font-semibold text-zinc-100">
                             Manage Email Addresses
-                        </h2>
-                        <p className="mt-0.5 text-xs text-zinc-400">
+                        </DialogTitle>
+                        <DialogDescription className="mt-0.5 text-xs text-zinc-400">
                             Add or remove emails and configure alerts.
-                        </p>
+                        </DialogDescription>
                     </div>
-                    <button
+                    <Button
                         type="button"
+                        variant="ghost"
+                        size="icon"
                         onClick={onClose}
-                        className="rounded-lg p-1.5 text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-100"
+                        aria-label="Close dialog"
+                        className="h-8 w-8 rounded-lg text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-100"
                     >
-                        ✕
-                    </button>
-                </div>
+                        <X className="h-4 w-4" />
+                    </Button>
+                </DialogHeader>
 
                 <div className="max-h-[75vh] space-y-6 overflow-y-auto px-6 py-5">
                     <form onSubmit={handleSubmit} className="space-y-3">
-                        <label className="block text-xs font-medium text-zinc-300">
+                        <label
+                            htmlFor="new-email-input"
+                            className="block text-xs font-medium text-zinc-300"
+                        >
                             Add new email address
                         </label>
                         <div className="flex gap-2">
-                            <input
+                            <Input
+                                id="new-email-input"
                                 type="email"
                                 placeholder="name@example.com"
                                 value={newEmail}
                                 onChange={(e) => {
                                     setNewEmail(e.target.value);
                                     if (error) setError("");
+                                    if (successMessage) setSuccessMessage("");
                                 }}
-                                className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+                                className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus-visible:border-zinc-500 focus-visible:ring-1 focus-visible:ring-zinc-500"
                             />
-                            <button
+                            <Button
                                 type="submit"
                                 className="shrink-0 rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-950 transition hover:bg-zinc-200 active:scale-95"
                             >
                                 Add
-                            </button>
+                            </Button>
                         </div>
 
                         {error && (
@@ -170,57 +195,50 @@ export const EmailManagementDialog = ({
 
                                         <div className="flex shrink-0 items-center gap-2">
                                             {!email.isVerified && (
-                                                <button
+                                                <Button
                                                     type="button"
+                                                    variant="link"
                                                     onClick={() =>
                                                         onResendVerification(
                                                             email.id,
                                                         )
                                                     }
-                                                    className="text-xs text-zinc-400 underline underline-offset-2 hover:text-zinc-200"
+                                                    className="h-auto p-0 text-xs text-zinc-400 underline underline-offset-2 hover:text-zinc-200"
                                                 >
                                                     Resend
-                                                </button>
+                                                </Button>
                                             )}
 
                                             {!email.isPrimary &&
                                                 email.isVerified && (
-                                                    <button
+                                                    <Button
                                                         type="button"
+                                                        variant="outline"
+                                                        size="sm"
                                                         onClick={() =>
                                                             onSetPrimary(
                                                                 email.id,
                                                             )
                                                         }
-                                                        className="rounded-lg border border-zinc-700 px-2.5 py-1 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800 hover:text-zinc-100"
+                                                        className="h-auto rounded-lg border border-zinc-700 px-2.5 py-1 text-xs font-medium text-zinc-300 transition hover:bg-zinc-800 hover:text-zinc-100"
                                                     >
                                                         Make primary
-                                                    </button>
+                                                    </Button>
                                                 )}
 
                                             {!email.isPrimary && (
-                                                <button
+                                                <Button
                                                     type="button"
+                                                    variant="ghost"
+                                                    size="icon"
                                                     onClick={() =>
                                                         onRemoveEmail(email.id)
                                                     }
-                                                    className="rounded-lg p-1 text-zinc-500 transition hover:bg-rose-950/40 hover:text-rose-400"
+                                                    className="h-7 w-7 rounded-lg p-1 text-zinc-500 transition hover:bg-rose-950/40 hover:text-rose-400"
                                                     title="Remove email"
                                                 >
-                                                    <svg
-                                                        className="h-4 w-4"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                        />
-                                                    </svg>
-                                                </button>
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
                                             )}
                                         </div>
                                     </div>
@@ -228,7 +246,7 @@ export const EmailManagementDialog = ({
                                     {email.isVerified && (
                                         <div className="mt-3 flex items-center justify-between border-t border-zinc-900 pt-2.5">
                                             <span className="text-xs text-zinc-400">
-                                                Receive optional security &
+                                                Receive optional security &amp;
                                                 account alerts
                                             </span>
                                             <button
@@ -265,15 +283,16 @@ export const EmailManagementDialog = ({
                 </div>
 
                 <div className="flex justify-end border-t border-zinc-800 bg-zinc-900/50 px-6 py-3.5">
-                    <button
+                    <Button
                         type="button"
+                        variant="outline"
                         onClick={onClose}
-                        className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-800"
+                        className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-800 hover:text-zinc-100"
                     >
                         Done
-                    </button>
+                    </Button>
                 </div>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     );
 };

@@ -1,12 +1,13 @@
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
-interface SecurityCardProps {
-    lastPasswordChange?: string;
-    is2FAEnabled?: boolean;
-    onChangePassword?: () => void;
-    onSetup2FA?: () => void;
-    onViewSessions?: () => void;
+export interface SecurityCardProps {
+    readonly lastPasswordChange?: string;
+    readonly is2FAEnabled?: boolean;
+    readonly onChangePassword?: () => void;
+    readonly onSetup2FA?: () => void;
+    readonly onViewSessions?: () => void;
 }
 
 export const SecurityCard = ({
@@ -18,7 +19,6 @@ export const SecurityCard = ({
 }: SecurityCardProps) => {
     return (
         <div className="w-full space-y-6 rounded-2xl border border-zinc-800/90 bg-zinc-950/80 p-5">
-            {/* 1. Password Section */}
             <div className="space-y-3">
                 <div className="space-y-1">
                     <h3 className="text-sm font-semibold text-zinc-100">
@@ -38,9 +38,8 @@ export const SecurityCard = ({
                 </Button>
             </div>
 
-            <div className="h-[1px] w-full bg-zinc-800/60" />
+            <Separator className="bg-zinc-800/60" />
 
-            {/* 2. Two-step verification */}
             <div className="space-y-3">
                 <div className="space-y-1">
                     <div className="flex items-center gap-2">
@@ -72,7 +71,7 @@ export const SecurityCard = ({
                 </Button>
             </div>
 
-            <div className="h-[1px] w-full bg-zinc-800/60" />
+            <Separator className="bg-zinc-800/60" />
 
             <div className="space-y-3">
                 <div className="space-y-1">

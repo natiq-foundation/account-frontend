@@ -1,16 +1,16 @@
-import type { ReactNode } from "react";
+import * as React from "react";
 
 interface SecuritySectionProps {
-    title: string;
-    description?: string;
-    children: ReactNode;
+    readonly title: string;
+    readonly description?: string;
+    readonly children: React.ReactNode;
 }
 
-export const SecuritySection = ({
+export const SecuritySection: React.FC<SecuritySectionProps> = ({
     title,
     description,
     children,
-}: SecuritySectionProps) => {
+}) => {
     return (
         <div className="space-y-2">
             <div>
