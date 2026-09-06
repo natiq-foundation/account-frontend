@@ -1,5 +1,3 @@
-// src/pages/settings/SecurityPage.tsx
-
 import { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
