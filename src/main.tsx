@@ -22,7 +22,6 @@ document.addEventListener(
     { passive: false },
 );
 
-// Prevent double-tap zoom
 let lastTouchEnd = 0;
 document.addEventListener(
     "touchend",
@@ -40,7 +39,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </React.StrictMode>,
 );
 
-// register service worker
 registerSW({
     onNeedRefresh() {
         console.log("New content available, refresh needed.");

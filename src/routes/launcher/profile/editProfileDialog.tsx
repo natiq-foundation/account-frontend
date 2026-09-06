@@ -380,8 +380,8 @@ export default function EditProfileDialog({
                         <Label>Birthday</Label>
 
                         <BirthdayPicker
-                            value={birthday}
-                            onChange={setBirthday}
+                        value={birthday}
+                        onChange={setBirthday}
                         />
                     </div>
 
