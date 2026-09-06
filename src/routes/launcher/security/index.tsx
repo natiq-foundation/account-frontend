@@ -364,6 +364,9 @@ const SecurityPage = () => {
         ]);
     };
 
+    const SafeRecoveryCodesDialog = RecoveryCodesDialog as React.ComponentType<any>;
+    const SafeTwoStepVerificationSection = TwoStepVerificationSection as React.ComponentType<any>;
+
     return (
         <main className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
             <header className="mb-8">
@@ -536,7 +539,7 @@ const SecurityPage = () => {
                     />
                 </SecuritySection>
 
-                <TwoStepVerificationSection
+                <SafeTwoStepVerificationSection
                     isTwoFactorEnabled={isTwoFactorEnabled}
                     isEnabled={isTwoFactorEnabled}
                     onToggle={handleToggle2FA}
@@ -634,7 +637,7 @@ const SecurityPage = () => {
                 userPhone={primaryPhone}
             />
 
-            <RecoveryCodesDialog
+            <SafeRecoveryCodesDialog
                 isOpen={isRecoveryCodesDialogOpen}
                 onClose={() => setIsRecoveryCodesDialogOpen(false)}
                 userEmail={primaryEmail}
