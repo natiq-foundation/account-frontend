@@ -2,14 +2,11 @@ import { useState } from "react";
 
 import { Material } from "@yakad/symbols";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-import { Button } from "@/components/ui/button";
-
-import { Card, CardContent } from "@/components/ui/card";
-
 import AvatarPreview from "@/components/specified/avatarPreview";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 interface ProfileHeaderProps {
     fullName: string;
     Username: string;

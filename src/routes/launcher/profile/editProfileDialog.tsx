@@ -1,26 +1,19 @@
-"use client";
-
 import { useEffect, useState } from "react";
+
 import { Check, ChevronDown, Search, X } from "lucide-react";
-import { Flag } from "@yakad/symbols";
+
 import { getCountries } from "@yakad/lib";
-
-import { validateProfile } from "@/lib/validation/profile";
-
-import BirthdayPicker from "@/components/specified/birthDateSelect";
-import AvatarUploader from "@/components/specified/avatar";
-
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
+import { Flag } from "@yakad/symbols";
 
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import AvatarUploader from "@/components/specified/avatar";
+import BirthdayPicker from "@/components/specified/birthDateSelect";
+
+import { validateProfile } from "@/lib/validation/profile";
 interface EditProfileDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
