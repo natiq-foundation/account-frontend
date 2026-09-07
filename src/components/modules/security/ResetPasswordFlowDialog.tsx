@@ -130,14 +130,19 @@ export const ResetPasswordFlowDialog = ({
         return () => clearInterval(intervalId);
     }, [step, timeLeft]);
 
-    useEffect(() => {
-        if (step === "otp") {
-            const timer = setTimeout(() => {
-                inputRefs.current[0]?.focus();
-            }, 100);
-            return () => clearTimeout(timer);
-        }
-    }, [step]);
+useEffect(() => {
+    if (step !== "otp") {
+        return;
+    }
+
+    const timer = setTimeout(() => {
+        inputRefs.current[0]?.focus();
+    }, 100);
+
+    return () => {
+        clearTimeout(timer);
+    };
+}, [step]);
 
     const formatTimer = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
