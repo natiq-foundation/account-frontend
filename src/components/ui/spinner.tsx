@@ -1,8 +1,13 @@
+import type { ComponentProps } from "react";
+
 import { Material } from "@yakad/symbols";
 
 import { cn } from "@/lib/utils";
 
-function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
+function Spinner({
+    className,
+    ...props
+}: ComponentProps<"span">) {
     return (
         <span
             role="status"
@@ -13,7 +18,10 @@ function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
             )}
             {...props}
         >
-            <Material icon="progress_activity" className="size-4" />
+            <Material
+                icon="progress_activity"
+                className="size-4"
+            />
         </span>
     );
 }

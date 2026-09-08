@@ -34,17 +34,25 @@ export default function BirthdayPicker({
                     type="button"
                     variant="outline"
                     className={cn(
-                        "w-full justify-start text-left font-normal",
+                        "h-11 w-full justify-start text-left font-normal",
                         !value && "text-muted-foreground",
                     )}
                 >
-                    <Material icon="calendar_month" className="mr-2 size-4" />
+                    <Material
+                        icon="calendar_month"
+                        className="mr-2 size-5"
+                    />
 
-                    {value ? format(value, "PPP") : "Select birthday"}
+                    {value
+                        ? format(value, "PPP")
+                        : "Select birthday"}
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent
+                className="w-auto p-0"
+                align="start"
+            >
                 <Calendar
                     mode="single"
                     selected={value}
@@ -53,7 +61,14 @@ export default function BirthdayPicker({
                     startMonth={startMonth}
                     endMonth={endMonth}
                     disabled={(date) => date > new Date()}
-                    className="p-2"
+                    className="p-3"
+                    classNames={{
+                        day: "size-11 rounded-xl text-lg font-semibold",
+                        selected:
+                            "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground",
+                        today:
+                            "bg-accent text-accent-foreground font-bold",
+                    }}
                 />
 
                 {value && (
@@ -61,10 +76,14 @@ export default function BirthdayPicker({
                         <Button
                             type="button"
                             variant="ghost"
-                            className="hover:bg-destructive/10 w-full justify-center text-destructive hover:text-destructive"
+                            className="w-full justify-center text-destructive hover:bg-destructive/10 hover:text-destructive"
                             onClick={() => onChange(undefined)}
                         >
-                            <Material icon="delete" className="mr-2 size-4" />
+                            <Material
+                                icon="delete"
+                                className="mr-2 size-5"
+                            />
+
                             Remove birthday
                         </Button>
                     </div>
